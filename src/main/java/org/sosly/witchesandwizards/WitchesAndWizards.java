@@ -1,5 +1,6 @@
 package org.sosly.witchesandwizards;
 
+import net.minecraft.client.gui.screens.MenuScreens;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.common.Mod;
@@ -9,6 +10,9 @@ import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.fml.loading.FMLPaths;
 import org.sosly.witchesandwizards.config.ClientConfig;
 import org.sosly.witchesandwizards.config.ConfigLoader;
+import org.sosly.witchesandwizards.gui.screen.FlowerCrownScreen;
+import org.sosly.witchesandwizards.item.ItemRegistry;
+import org.sosly.witchesandwizards.world.ContainerRegistry;
 
 @Mod(WitchesAndWizards.MOD_ID)
 public class WitchesAndWizards {
@@ -20,9 +24,12 @@ public class WitchesAndWizards {
 
         // Initialize Registries
         IEventBus modBus = FMLJavaModLoadingContext.get().getModEventBus();
+        ContainerRegistry.CONTAINERS.register(modBus);
+        ItemRegistry.ITEMS.register(modBus);
         modBus.addListener(WitchesAndWizards::clientSetup);
     }
 
     private static void clientSetup(FMLCommonSetupEvent event) {
+        MenuScreens.register(ContainerRegistry.FLOWER_CROWN.getType(), FlowerCrownScreen::new);
     }
 }
