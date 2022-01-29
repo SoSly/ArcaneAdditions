@@ -1,3 +1,6 @@
 {
-  "effect.wnw.ice_block": "Ice Block"
+  "effect.wnw.ice_block": "Ice Block",
+  "effect.wnw.ice_block-exhaustion": "Hypothermia",
+
+  "wnw:components/ice_block": "Ice Block"
 }

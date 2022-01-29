@@ -2,10 +2,14 @@ package org.sosly.witchesandwizards.effects.beneficial;
 
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectCategory;
+import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.AttributeMap;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.entity.player.Player;
+import org.sosly.witchesandwizards.effects.EffectRegistry;
+import org.sosly.witchesandwizards.effects.neutral.IceBlockExhaustionEffect;
 
 public class IceBlockEffect extends MobEffect {
     private static final int BASE_FREQUENCY = 20;
@@ -19,6 +23,9 @@ public class IceBlockEffect extends MobEffect {
     @Override
     public void addAttributeModifiers(LivingEntity entity, AttributeMap attributeMap, int amplifier) {
         entity.setInvulnerable(true);
+        if (entity instanceof Player) {
+            entity.setTicksFrozen(Integer.MAX_VALUE);
+        }
         super.addAttributeModifiers(entity, attributeMap, amplifier);
     }
 
@@ -42,6 +49,11 @@ public class IceBlockEffect extends MobEffect {
     @Override
     public void removeAttributeModifiers(LivingEntity entity, AttributeMap attributeMap, int amplifier) {
         entity.setInvulnerable(false);
+        if (entity instanceof Player) {
+            entity.setTicksFrozen(0);
+        }
+        MobEffectInstance cooldown = new MobEffectInstance(EffectRegistry.ICE_BLOCK_EXHAUSTION.get(), 600, 0);
+        entity.addEffect(cooldown);
         super.removeAttributeModifiers(entity, attributeMap, amplifier);
     }
 }

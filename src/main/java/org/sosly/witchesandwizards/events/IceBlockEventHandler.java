@@ -3,7 +3,8 @@ package org.sosly.witchesandwizards.events;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.event.TickEvent;
+import net.minecraftforge.event.entity.living.LivingEntityUseItemEvent;
 import net.minecraftforge.event.entity.living.LivingEvent;
 import net.minecraftforge.event.entity.player.AttackEntityEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
@@ -16,7 +17,7 @@ import org.sosly.witchesandwizards.effects.beneficial.IceBlockEffect;
 
 import java.util.Collection;
 
-@Mod.EventBusSubscriber(modid = WitchesAndWizards.MOD_ID, bus = Mod.EventBusSubscriber.Bus.FORGE, value = Dist.CLIENT)
+@Mod.EventBusSubscriber(modid = WitchesAndWizards.MOD_ID, bus = Mod.EventBusSubscriber.Bus.FORGE)
 class IceBlockEventHandler {
     @SubscribeEvent
     public static void onAttackEntity(AttackEntityEvent event) {
@@ -38,7 +39,7 @@ class IceBlockEventHandler {
             MobEffect effect = instance.getEffect();
             if (effect instanceof IceBlockEffect) {
                 entity.hasImpulse = false;
-                entity.setDeltaMovement(0d, -1000d, 0d);
+                entity.setDeltaMovement(0d, -2000d, 0d);
             }
         });
     }
