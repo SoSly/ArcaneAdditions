@@ -1,5 +1,6 @@
 package org.sosly.witchesandwizards;
 
+import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.common.Mod;
@@ -10,6 +11,7 @@ import net.minecraftforge.fml.loading.FMLPaths;
 import org.sosly.witchesandwizards.config.ClientConfig;
 import org.sosly.witchesandwizards.config.ConfigLoader;
 import org.sosly.witchesandwizards.effects.EffectRegistry;
+import org.sosly.witchesandwizards.events.EventRegistry;
 
 @Mod(WitchesAndWizards.MOD_ID)
 public class WitchesAndWizards {
@@ -23,6 +25,7 @@ public class WitchesAndWizards {
         IEventBus modBus = FMLJavaModLoadingContext.get().getModEventBus();
         EffectRegistry.EFFECTS.register(modBus);
         modBus.addListener(WitchesAndWizards::clientSetup);
+        EventRegistry.register();
     }
 
     private static void clientSetup(FMLCommonSetupEvent event) {

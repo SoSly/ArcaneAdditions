@@ -8,8 +8,10 @@ import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
 import org.sosly.witchesandwizards.WitchesAndWizards;
 import org.sosly.witchesandwizards.effects.beneficial.IceBlockEffect;
+import org.sosly.witchesandwizards.effects.neutral.IceBlockExhaustionEffect;
 
 public class EffectRegistry {
     public static final DeferredRegister<MobEffect> EFFECTS = DeferredRegister.create(ForgeRegistries.MOB_EFFECTS, WitchesAndWizards.MOD_ID);
     public static final RegistryObject<IceBlockEffect> ICE_BLOCK = EFFECTS.register("ice_block", IceBlockEffect::new);
+    public static final RegistryObject<IceBlockExhaustionEffect> ICE_BLOCK_EXHAUSTION = EFFECTS.register("ice_block-exhaustion", IceBlockExhaustionEffect::new);
 }
