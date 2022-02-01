@@ -24,12 +24,12 @@ A compatibility and expansion mod for Hexerei and Mana and Artifice.
     versionRange="[39,)"
     ordering="NONE"
     side="BOTH"
-[[dependencies.wnw]]
-    modId="hexerei"
-    mandatory=true
-    versionRange="[0.1,0.2)"
-    ordering="NONE"
-    sides="BOTH"
+# [[dependencies.wnw]]
+#     modId="hexerei"
+#     mandatory=true
+#     versionRange="[0.1,0.2)"
+#     ordering="NONE"
+#     sides="BOTH"
 [[dependencies.wnw]]
     modId="mna"
     mandatory=true
