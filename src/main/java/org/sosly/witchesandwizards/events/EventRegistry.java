@@ -1,5 +1,7 @@
 package org.sosly.witchesandwizards.events;
 
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.event.RenderLivingEvent;
 import net.minecraftforge.client.event.RenderPlayerEvent;
 import net.minecraftforge.common.MinecraftForge;
@@ -55,7 +57,7 @@ public class EventRegistry {
         }
 
         @SubscribeEvent
-        public static void onLivingUpdate(LivingAttackEvent event) {
+        public static void onLivingAttack(LivingAttackEvent event) {
             IceBlockEffect.handleRestrictedActions(event);
         }
 
@@ -89,6 +91,7 @@ public class EventRegistry {
             IceBlockEffect.handleRestrictedActions(event);
         }
 
+        @OnlyIn(Dist.CLIENT)
         @SubscribeEvent
         public static void onPostRenderLiving(RenderLivingEvent.Post event) {
             IceBlockEffect.handleRenderEvent(event);
