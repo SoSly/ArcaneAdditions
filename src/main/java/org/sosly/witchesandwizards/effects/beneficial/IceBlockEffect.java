@@ -1,21 +1,34 @@
 package org.sosly.witchesandwizards.effects.beneficial;
 
+import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.entity.SkeletonRenderer;
+import net.minecraft.core.BlockPos;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectCategory;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntityDimensions;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.IceBlock;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.event.RenderLivingEvent;
+import net.minecraftforge.client.model.ModelDataManager;
+import net.minecraftforge.client.model.data.IModelData;
 import net.minecraftforge.event.entity.living.LivingDamageEvent;
 import net.minecraftforge.event.entity.living.LivingEvent;
 import net.minecraftforge.event.entity.living.PotionEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.eventbus.api.Event;
+import net.minecraftforge.registries.ForgeRegistries;
+import org.sosly.witchesandwizards.client.entity.EntityRegistry;
+import org.sosly.witchesandwizards.client.entity.IceBlockEntity;
 import org.sosly.witchesandwizards.effects.EffectRegistry;
 import org.sosly.witchesandwizards.utils.World;
 
@@ -57,9 +70,16 @@ public class IceBlockEffect extends MobEffect {
         });
     }
 
+    @OnlyIn(Dist.CLIENT)
     public static void handleRenderEvent(RenderLivingEvent event) {
         runOnEffect(event, (instance, entity) -> {
-            // todo
+            IceBlockEntity ice = new IceBlockEntity(EntityRegistry.ICE_BLOCK.get(), entity.getLevel());
+            PoseStack stack = event.getPoseStack();
+            EntityDimensions dim = entity.getDimensions(entity.getPose());
+            stack.pushPose();
+            stack.scale(dim.width, dim.height/3.0f, dim.width);
+            Minecraft.getInstance().getEntityRenderDispatcher().render(ice, -0.5f, 0, -0.5f, 0, event.getPartialTick(), stack, event.getMultiBufferSource(), event.getPackedLight());
+            stack.popPose();
         });
     }
 
