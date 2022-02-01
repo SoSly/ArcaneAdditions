@@ -1,9 +1,9 @@
 {
 	"credit": "Made with Blockbench",
 	"textures": {
-		"0": "ice",
-		"1": "blue_ice",
-		"particle": "ice"
+		"0": "wnw:ice",
+		"1": "wnw:blue_ice",
+		"particle": "wnw:ice"
 	},
 	"elements": [
 		{
@@ -169,7 +169,6 @@
 			}
 		}
 	],
-	"display": {},
 	"groups": [
 		{
 			"name": "Ice Block",

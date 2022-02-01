@@ -1,15 +1,25 @@
 package org.sosly.witchesandwizards.effects.beneficial;
 
+import net.minecraft.client.Minecraft;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectCategory;
 import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.ai.attributes.AttributeMap;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
+import net.minecraftforge.client.event.RenderLivingEvent;
+import net.minecraftforge.event.entity.living.LivingDamageEvent;
+import net.minecraftforge.event.entity.living.LivingEvent;
+import net.minecraftforge.event.entity.living.PotionEvent;
+import net.minecraftforge.event.entity.player.PlayerEvent;
+import net.minecraftforge.event.entity.player.PlayerInteractEvent;
+import net.minecraftforge.eventbus.api.Event;
 import org.sosly.witchesandwizards.effects.EffectRegistry;
-import org.sosly.witchesandwizards.effects.neutral.IceBlockExhaustionEffect;
+import org.sosly.witchesandwizards.utils.World;
+
+import java.util.Collection;
 
 public class IceBlockEffect extends MobEffect {
     private static final int BASE_FREQUENCY = 20;
@@ -21,18 +31,9 @@ public class IceBlockEffect extends MobEffect {
     }
 
     @Override
-    public void addAttributeModifiers(LivingEntity entity, AttributeMap attributeMap, int amplifier) {
-        entity.setInvulnerable(true);
-        if (entity instanceof Player) {
-            entity.setTicksFrozen(Integer.MAX_VALUE);
-        }
-        super.addAttributeModifiers(entity, attributeMap, amplifier);
-    }
-
-    @Override
     public void applyEffectTick(LivingEntity entity, int amplifier) {
         if (entity.getHealth() < entity.getMaxHealth()) {
-            entity.heal(1.0F);
+            entity.heal(1.0f);
         }
     }
 
@@ -46,14 +47,94 @@ public class IceBlockEffect extends MobEffect {
         }
     }
 
-    @Override
-    public void removeAttributeModifiers(LivingEntity entity, AttributeMap attributeMap, int amplifier) {
-        entity.setInvulnerable(false);
-        if (entity instanceof Player) {
+    public static void handleDamageEvents(LivingDamageEvent event) {
+        if (Minecraft.getInstance().level.isClientSide) return;
+
+        runOnEffect(event, (instance, entity) -> {
+            event.setCanceled(true);
+            event.setAmount(0f);
+            event.setResult(Event.Result.DENY);
+        });
+    }
+
+    public static void handleRenderEvent(RenderLivingEvent event) {
+        runOnEffect(event, (instance, entity) -> {
+            // todo
+        });
+    }
+
+    public static void handleRestrictedActions(LivingEvent event) {
+        runOnEffect(event, (instance, entity) -> {
+            if (event.isCancelable()) event.setCanceled(true);
+            if (event instanceof PlayerInteractEvent) ((PlayerInteractEvent)event).setResult(Event.Result.DENY);
+            if (event instanceof PlayerEvent.HarvestCheck) ((PlayerEvent.HarvestCheck)event).setCanHarvest(false);
+            if (event instanceof LivingEvent.LivingJumpEvent) {
+                entity.hasImpulse = false;
+                entity.setDeltaMovement(0d, -2000d, 0d);
+            }
+        });
+    }
+
+    public static void onEffectAdded(PotionEvent event) {
+        runOnEffect(event, (instance, entity) -> {
+            syncEffect(entity, instance, true);
+            entity.setNoActionTime(Integer.MAX_VALUE);
+            entity.setTicksFrozen(Integer.MAX_VALUE);
+        });
+    }
+
+    public static void onEffectRemoved(PotionEvent event) {
+        runOnEffect(event, (instance, entity) -> {
+            syncEffect(entity, instance, false);
+            entity.setNoActionTime(0);
             entity.setTicksFrozen(0);
+
+            Minecraft.getInstance().execute(() -> {
+                MobEffectInstance cooldown = new MobEffectInstance(EffectRegistry.ICE_BLOCK_EXHAUSTION.get(), 600, 0);
+                entity.addEffect(cooldown);
+            });
+        });
+    }
+
+    private static void runOnEffect(Event event, EffectRegistry.ILivingMobEffectInstanceHandler handler) {
+        LivingEntity entity;
+
+        if (event instanceof LivingEvent) {
+            entity = (LivingEntity)((LivingEvent)event).getEntity();
+        } else if (event instanceof RenderLivingEvent) {
+            entity = ((RenderLivingEvent)event).getEntity();
+        } else {
+            return; // not sure how we got here but let's bail out just in case.
         }
-        MobEffectInstance cooldown = new MobEffectInstance(EffectRegistry.ICE_BLOCK_EXHAUSTION.get(), 600, 0);
-        entity.addEffect(cooldown);
-        super.removeAttributeModifiers(entity, attributeMap, amplifier);
+
+        if (event instanceof PotionEvent.PotionAddedEvent) {
+            MobEffectInstance instance = ((PotionEvent)event).getPotionEffect();
+            MobEffect effect = instance.getEffect();
+            if (effect instanceof IceBlockEffect) {
+                EffectRegistry.handle(handler, instance, entity);
+            }
+        } else {
+            Collection<MobEffectInstance> effects = entity.getActiveEffects();
+            effects.forEach(instance -> {
+                MobEffect effect = instance.getEffect();
+                if (effect instanceof IceBlockEffect) {
+                    EffectRegistry.handle(handler, instance, entity);
+                }
+            });
+        }
+    }
+
+    private static void syncEffect(LivingEntity entity, MobEffectInstance instance, boolean add) {
+        // Only player entities have their potion effects synced.  We need to sync non-player entities, too, so that we
+        // are able to render the effect in the overworld.
+        if (!(entity instanceof Player)) {
+            LivingEntity levelEntity = (LivingEntity)World.getLevelEntity(entity);
+            if (levelEntity != null) {
+                Minecraft.getInstance().execute(() -> {
+                    if (add) levelEntity.forceAddEffect(instance, (Entity)null);
+                    else levelEntity.removeEffect(instance.getEffect());
+                });
+            }
+        }
     }
 }
