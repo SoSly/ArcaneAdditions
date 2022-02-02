@@ -3,40 +3,34 @@ loaderVersion="[39,)" #mandatory This is typically bumped every Minecraft versio
 license="All rights reserved"
 
 [[mods]] #mandatory
-modId="wnw"
+modId="advancedarcana"
 version="${file.jarVersion}"
-displayName="Witches and Wizards"
+displayName="Advanced Arcana"
 # A URL to query for updates for this mod. See the JSON update specification https://mcforge.readthedocs.io/en/latest/gettingstarted/autoupdate/
 #updateJSONURL="https://change.me.example.invalid/updates.json" #optional
 # A URL for the "homepage" for this mod, displayed in the mod UI
 #displayURL="https://change.me.to.your.mods.homepage.example.invalid/" #optional
 # A file name (in the root of the mod JAR) containing a logo for display
-logoFile="wnw.png" #optional
+logoFile="advancedarcana.png" #optional
 # A text field displayed in the mod UI
-credits="Thanks to BluSunrize of Immersive Engineering for his wonderful examples of how to create item containers." #optional
+#credits="" #optional
 authors="nivthefox, anomalagous"
 description='''
-A compatibility and expansion mod for Hexerei and Mana and Artifice.
+A wealth of new magical mysteries for the Mana and Artifice mod.
 '''
-[[dependencies.wnw]]
+[[dependencies.advancedarcana]]
     modId="forge"
     mandatory=true
     versionRange="[39,)"
     ordering="NONE"
     side="BOTH"
-[[dependencies.wnw]]
+[[dependencies.advancedarcana]]
     modId="bmorph"
     mandatory=true
     versionRange="[1.18.1-2.0.1,1.18.1-3.0.0)"
     ordering="NONE"
     sides="BOTH"
-# [[dependencies.wnw]]
-#     modId="hexerei"
-#     mandatory=true
-#     versionRange="[0.1,0.2)"
-#     ordering="NONE"
-#     sides="BOTH"
-[[dependencies.wnw]]
+[[dependencies.advancedarcana]]
     modId="mna"
     mandatory=true
     versionRange="[1.7,1.8)"
