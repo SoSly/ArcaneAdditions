@@ -1,0 +1,10 @@
+{
+  "effect.advancedarcana.ice_block": "Ice Block",
+  "effect.advancedarcana.ice_block-exhaustion": "Hypothermia",
+  "effect.advancedarcana.polymorph": "Polymorph",
+
+  "advancedarcana:components/ice_block": "Ice Block",
+  "advancedarcana:components/polymorph": "Polymorph",
+  "advancedarcana:components/polymorph.nonphylactery": "I need a filled Crystal Phylactery in my other hand to cast this spell.",
+  "advancedarcana:components/polymorph.notallowed": "I cannot polymorph into a monster."
+}
