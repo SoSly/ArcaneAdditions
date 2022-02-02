@@ -139,6 +139,8 @@ repositories {
 dependencies {
     minecraft 'net.minecraftforge:forge:1.18.1-39.0.59'
 
+    implementation fg.deobf("curse.maven:budschies-morph-mod-${budschies_projectId}:${budschies_fileId}")
+
     implementation fg.deobf("curse.maven:curios-${curios_projectId}:${curios_fileId}")
 
     implementation fg.deobf("curse.maven:geckolib-${geckolib_projectId}:${geckolib_fileId}")
@@ -170,9 +172,10 @@ jar.finalizedBy('reobfJar')
 // publish.dependsOn('reobfJar')
 
 def curseRelations = {
+    requiredDependency 'budschies-morph-mod'
     requiredDependency 'curios'
     requiredDependency 'geckolib'
-    requiredDependency 'hexerei'
+//    requiredDependency 'hexerei'
     requiredDependency 'mana-and-artifice'
 }
 

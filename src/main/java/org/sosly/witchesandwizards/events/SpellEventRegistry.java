@@ -13,8 +13,9 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import org.sosly.witchesandwizards.WitchesAndWizards;
 import org.sosly.witchesandwizards.effects.beneficial.IceBlockEffect;
+import org.sosly.witchesandwizards.effects.neutral.PolymorphEffect;
 
-public class EventRegistry {
+public class SpellEventRegistry {
     public static void register() {
         MinecraftForge.EVENT_BUS.register(EventHandler.class);
     }
@@ -24,31 +25,37 @@ public class EventRegistry {
         @SubscribeEvent
         public static void onBlockInteract(PlayerInteractEvent.RightClickBlock event) {
             IceBlockEffect.handleRestrictedActions(event);
+            PolymorphEffect.handleRestrictedActions(event);
         }
 
         @SubscribeEvent
         public static void onBreakingBlock(PlayerEvent.BreakSpeed event) {
             IceBlockEffect.handleRestrictedActions(event);
+            PolymorphEffect.handleRestrictedActions(event);
         }
 
         @SubscribeEvent
         public static void onDamage(LivingDamageEvent event) {
             IceBlockEffect.handleDamageEvents(event);
+            PolymorphEffect.onDamage(event);
         }
 
         @SubscribeEvent
         public static void onEntityInteract(PlayerInteractEvent.EntityInteract event) {
             IceBlockEffect.handleRestrictedActions(event);
+            PolymorphEffect.handleRestrictedActions(event);
         }
 
         @SubscribeEvent
         public static void onHarvest(PlayerEvent.HarvestCheck event) {
             IceBlockEffect.handleRestrictedActions(event);
+            PolymorphEffect.handleRestrictedActions(event);
         }
 
         @SubscribeEvent
         public static void onItemInteract(PlayerInteractEvent.RightClickItem event) {
             IceBlockEffect.handleRestrictedActions(event);
+            PolymorphEffect.handleRestrictedActions(event);
         }
 
         @SubscribeEvent
@@ -84,11 +91,13 @@ public class EventRegistry {
         @SubscribeEvent
         public static void onPotionRemoved(PotionEvent.PotionRemoveEvent event) {
             IceBlockEffect.onEffectRemoved(event);
+            PolymorphEffect.onEffectRemoved(event);
         }
 
         @SubscribeEvent
         public static void onPlayerAttack(AttackEntityEvent event) {
             IceBlockEffect.handleRestrictedActions(event);
+            PolymorphEffect.handleRestrictedActions(event);
         }
 
         @OnlyIn(Dist.CLIENT)
