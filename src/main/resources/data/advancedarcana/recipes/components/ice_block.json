@@ -1,7 +1,7 @@
 {
   "type": "mna:component",
   "tier": 3,
-  "output": "advancedarcana:ice_block",
+  "output": "advancedarcana:components/ice_block",
   "items":
   [
     "forge:obsidian",
