@@ -1,0 +1,51 @@
+{
+  "IceBlock": {
+    "index": 2,
+    "category": "sorcery",
+    "sections": [
+      {
+        "type": "title",
+        "value": "[NC] Ice Block"
+      },
+      {
+        "type": "text",
+        "json": {
+          "text": "I can draw on the powers of ice to temporarily protect my target and restore their vitality.  While they do become immune, it is unfortunate that they also become incapable of action."
+        }
+      }
+    ],
+    "related_recipes": [
+      {
+        "type": "spell_part",
+        "location": "wnw:components/ice_block"
+      }
+    ]
+  },
+  "Polymorph": {
+    "index": 2,
+    "category": "sorcery",
+    "sections": [
+      {
+        "type": "title",
+        "value": "[NC] Polymorph"
+      },
+      {
+        "type": "text",
+        "json": {
+          "text": "I can draw upon the changeable nature of water to alter my own fundamental form.  I will first need to fill a Crystal Phylactery with the essence of a creature I want to become.  Then, I hold the spell in one hand and the phylactery in the other.  This will determine what shape I take on."
+        }
+      }
+    ],
+    "related_recipes": [
+      {
+        "type": "spell_part",
+        "location": "wnw:components/polymorph"
+      },
+      {
+        "type": "manaweaving_altar",
+        "location": "mna:manaweaving/crystal_phylactery"
+      }
+    ]
+  },
+  "version": "1.0.0a"
+}
