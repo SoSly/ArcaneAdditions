@@ -53,7 +53,7 @@ public class IceBlockEffect extends MobEffect {
     }
 
     public static void handleDamageEvents(LivingDamageEvent event) {
-        if (Minecraft.getInstance().level.isClientSide) return;
+        if (event.getEntity().level.isClientSide()) return;
 
         runOnEffect(event, (instance, entity) -> {
             event.setCanceled(true);

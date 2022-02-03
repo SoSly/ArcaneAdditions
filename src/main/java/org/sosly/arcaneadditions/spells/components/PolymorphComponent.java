@@ -21,15 +21,19 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.effect.MobEffectInstance;
-import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.Mob;
-import net.minecraft.world.entity.MobCategory;
+import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
+import net.minecraftforge.network.PacketDistributor;
 import net.minecraftforge.registries.ForgeRegistries;
+import org.sosly.arcaneadditions.capabilities.*;
+import org.sosly.arcaneadditions.capabilities.polymorph.IPolymorphCapability;
+import org.sosly.arcaneadditions.capabilities.polymorph.PolymorphProvider;
 import org.sosly.arcaneadditions.config.*;
 import org.sosly.arcaneadditions.effects.EffectRegistry;
+import org.sosly.arcaneadditions.networking.PacketHandler;
+import org.sosly.arcaneadditions.networking.messages.clientbound.SyncPolymorphCapabilitiesToClient;
 
 import java.util.*;
 import java.util.concurrent.atomic.*;
@@ -42,40 +46,50 @@ public class PolymorphComponent extends SpellEffect {
     }
 
     @Override
-    public ComponentApplicationResult ApplyEffect(SpellSource source, SpellTarget target, IModifiedSpellPart<SpellEffect> iModifiedSpellPart, SpellContext spellContext) {
-        if (!source.isPlayerCaster() || !(target.getEntity() instanceof Player) || source.getCaster() != target.getLivingEntity()) {
+    public ComponentApplicationResult ApplyEffect(SpellSource caster, SpellTarget target, IModifiedSpellPart<SpellEffect> iModifiedSpellPart, SpellContext spellContext) {
+        if (!caster.isPlayerCaster() || !target.isLivingEntity() || !(target.getEntity() instanceof Player)) {
             return ComponentApplicationResult.FAIL;
         }
 
+        LivingEntity targetEntity = target.getLivingEntity();
+
         // Demorph
-        if (target.isLivingEntity() && target.getLivingEntity().getEffect(EffectRegistry.POLYMORPH.get()) != null) {
-            target.getLivingEntity().removeEffect(EffectRegistry.POLYMORPH.get());
+        if (targetEntity.getEffect(EffectRegistry.POLYMORPH.get()) != null) {
+            targetEntity.removeEffect(EffectRegistry.POLYMORPH.get());
             return ComponentApplicationResult.SUCCESS;
         }
 
-        Level level = target.getLivingEntity().getLevel();
+        Level level = targetEntity.getLevel();
         if (!level.isClientSide()) {
-            ItemStack phylactery = source.getHand() == InteractionHand.MAIN_HAND ? target.getLivingEntity().getOffhandItem() : target.getLivingEntity().getMainHandItem();
+            ItemStack phylactery = caster.getHand() == InteractionHand.MAIN_HAND ? targetEntity.getOffhandItem() : targetEntity.getMainHandItem();
 
             if (!PhylacteryStaffItem.isFilled(phylactery)) {
-                source.getCaster().sendMessage(new TranslatableComponent("arcaneadditions:components/polymorph.nonphylactery"), Util.NIL_UUID);
+                caster.getCaster().sendMessage(new TranslatableComponent("arcaneadditions:components/polymorph.nonphylactery"), Util.NIL_UUID);
                 return ComponentApplicationResult.NOT_PRESENT;
             }
 
             EntityType<? extends Mob> type = PhylacteryStaffItem.getEntityType(phylactery);
             if (type == null) {
-                source.getCaster().sendMessage(new TranslatableComponent("arcaneadditions:components/polymorph.nonphylactery"), Util.NIL_UUID);
+                caster.getCaster().sendMessage(new TranslatableComponent("arcaneadditions:components/polymorph.nonphylactery"), Util.NIL_UUID);
                 return ComponentApplicationResult.NOT_PRESENT;
             } else if (!isFormAllowed(type, iModifiedSpellPart)) {
-                source.getCaster().sendMessage(new TranslatableComponent("arcaneadditions:components/polymorph.notallowed"), Util.NIL_UUID);
+                caster.getCaster().sendMessage(new TranslatableComponent("arcaneadditions:components/polymorph.notallowed"), Util.NIL_UUID);
                 return ComponentApplicationResult.FAIL;
             }
+
+            targetEntity.getCapability(PolymorphProvider.POLYMORPH).ifPresent(polymorph -> {
+                polymorph.setCaster(caster.getPlayer());
+                polymorph.setComplexity(spellContext.getSpell().getComplexity());
+                polymorph.setHealth(targetEntity.getHealth());
+                PacketHandler.network.send(PacketDistributor.PLAYER.with(() -> (ServerPlayer)targetEntity), new SyncPolymorphCapabilitiesToClient(polymorph));
+            });
 
             CompoundTag nbt = new CompoundTag();
             MorphUtil.morphToServer(Optional.of(MorphManagerHandlers.FALLBACK.createMorph(ForgeRegistries.ENTITIES.getValue(type.getRegistryName()), nbt, null, true)), Optional.empty(), (ServerPlayer)target.getEntity());
             MobEffectInstance instance = new MobEffectInstance(EffectRegistry.POLYMORPH.get(), Integer.MAX_VALUE);
             instance.setNoCounter(true);
-            target.getLivingEntity().addEffect(instance);
+            targetEntity.addEffect(instance);
+            targetEntity.setHealth(targetEntity.getMaxHealth());
             return ComponentApplicationResult.SUCCESS;
         }
         return ComponentApplicationResult.FAIL;

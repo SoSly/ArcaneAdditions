@@ -1,17 +1,33 @@
 package org.sosly.arcaneadditions.events;
 
+import net.minecraft.world.entity.player.Player;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.event.RenderLivingEvent;
+import net.minecraftforge.event.*;
 import net.minecraftforge.event.entity.living.*;
 import net.minecraftforge.event.entity.player.AttackEntityEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.common.*;
+import org.sosly.arcaneadditions.*;
+import org.sosly.arcaneadditions.capabilities.polymorph.IPolymorphCapability;
+import org.sosly.arcaneadditions.capabilities.polymorph.PolymorphProvider;
 import org.sosly.arcaneadditions.effects.beneficial.IceBlockEffect;
 import org.sosly.arcaneadditions.effects.neutral.PolymorphEffect;
 
+import javax.swing.text.html.parser.*;
+
+@Mod.EventBusSubscriber(modid = ArcaneAdditions.MOD_ID, bus = Mod.EventBusSubscriber.Bus.FORGE)
 public class SpellEventRegistry {
+    @SubscribeEvent
+    public static void onAttachCapability(AttachCapabilitiesEvent<?> event) {
+        if (event.getObject() instanceof Player) {
+            event.addCapability(IPolymorphCapability.POLYMORPH_CAPABILITY, new PolymorphProvider());
+        }
+    }
+
     @SubscribeEvent
     public static void onBlockInteract(PlayerInteractEvent.RightClickBlock event) {
         IceBlockEffect.handleRestrictedActions(event);
