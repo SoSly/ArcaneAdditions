@@ -20,8 +20,8 @@ apply plugin: 'maven-publish'
 apply plugin: "com.matthewprenger.cursegradle" // Required for CurseGradle
 
 version = '0.1.0'
-group = 'org.sosly.advancedarcana' // http://maven.apache.org/guides/mini/guide-naming-conventions.html
-archivesBaseName = 'advancedarcana'
+group = 'org.sosly.arcaneadditions' // http://maven.apache.org/guides/mini/guide-naming-conventions.html
+archivesBaseName = 'arcaneadditions'
 
 // Mojang ships Java 17 to end users in 1.18+, so your mod should target Java 17.
 java.toolchain.languageVersion = JavaLanguageVersion.of(17)
@@ -113,10 +113,10 @@ minecraft {
             property 'forge.logging.console.level', 'debug'
 
             // Specify the modid for data generation, where to output the resulting resource, and where to look for existing resources.
-            args '--mod', 'advancedarcana', '--all', '--output', file('src/generated/resources/'), '--existing', file('src/main/resources/')
+            args '--mod', 'arcaneadditions', '--all', '--output', file('src/generated/resources/'), '--existing', file('src/main/resources/')
 
             mods {
-                advancedarcana {
+                arcaneadditions {
                     source sourceSets.main
                 }
             }
@@ -154,7 +154,7 @@ dependencies {
 jar {
     manifest {
         attributes([
-                "Specification-Title"     : "Witches and Wizards",
+                "Specification-Title"     : "Arcane Additions",
                 "Specification-Vendor"    : "nivthefox",
                 "Specification-Version"   : "1", // We are version 1 of ourselves
                 "Implementation-Title"    : project.name,
