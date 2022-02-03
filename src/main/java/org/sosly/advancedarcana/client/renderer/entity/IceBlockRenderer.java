@@ -14,11 +14,11 @@ import org.sosly.advancedarcana.client.model.IceBlockModel;
 
 public class IceBlockRenderer extends EntityRenderer<IceBlockEntity> {
     public static final ResourceLocation ICE_TEXTURE = new ResourceLocation("minecraft", "textures/block/ice.png");
-    private final IceBlockModel MODEL;
+    private final IceBlockModel model;
 
     public IceBlockRenderer(EntityRendererProvider.Context context) {
         super(context);
-        this.MODEL = new IceBlockModel(Minecraft.getInstance().getEntityModels().bakeLayer(IceBlockModel.LAYER_LOCATION));
+        this.model = new IceBlockModel(Minecraft.getInstance().getEntityModels().bakeLayer(IceBlockModel.LAYER_LOCATION));
     }
 
     @Override
@@ -31,7 +31,7 @@ public class IceBlockRenderer extends EntityRenderer<IceBlockEntity> {
         RenderType rendertype = RenderType.entityTranslucent(ICE_TEXTURE);
         VertexConsumer consumer = pBuffer.getBuffer(rendertype);
         
-        MODEL.renderToBuffer(pMatrixStack, consumer, pPackedLight, OverlayTexture.NO_OVERLAY, 1, 1, 1, 1);
+        model.renderToBuffer(pMatrixStack, consumer, pPackedLight, OverlayTexture.NO_OVERLAY, 1, 1, 1, 1);
         super.render(pEntity, pEntityYaw, pPartialTicks, pMatrixStack, pBuffer, pPackedLight);
     }
 }

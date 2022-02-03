@@ -13,6 +13,6 @@ public class RendererRegistry {
     @OnlyIn(Dist.CLIENT)
     @SubscribeEvent
     public static void registerEntityRenderers(FMLClientSetupEvent event) {
-        EntityRenderers.register((EntityType) EntityRegistry.ICE_BLOCK.get(), IceBlockRenderer::new);
+        EntityRenderers.register(EntityRegistry.ICE_BLOCK.get(), IceBlockRenderer::new);
     }
 }

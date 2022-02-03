@@ -144,7 +144,7 @@ public class IceBlockEffect extends MobEffect {
             LivingEntity levelEntity = (LivingEntity)World.getLevelEntity(entity);
             if (levelEntity != null) {
                 Minecraft.getInstance().execute(() -> {
-                    if (add) levelEntity.forceAddEffect(instance, (Entity)null);
+                    if (add) levelEntity.forceAddEffect(instance, entity);
                     else levelEntity.removeEffect(instance.getEffect());
                 });
             }

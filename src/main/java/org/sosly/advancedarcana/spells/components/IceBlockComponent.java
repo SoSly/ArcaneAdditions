@@ -19,7 +19,7 @@ import org.sosly.advancedarcana.effects.EffectRegistry;
 public class IceBlockComponent extends SpellEffect {
 
     public IceBlockComponent(ResourceLocation registryName, ResourceLocation guiIcon) {
-        super(registryName, guiIcon, new AttributeValuePair(Attribute.DURATION, 10.0F, 15.0F, 480.0F, 15.0F, 4.0F));
+        super(registryName, guiIcon, new AttributeValuePair(Attribute.DURATION, 10.0F, 2.0F, 30.0F, 2.0F, 2.0F));
     }
 
     @Override

@@ -6,5 +6,5 @@
   "advancedarcana:components/ice_block": "Ice Block",
   "advancedarcana:components/polymorph": "Polymorph",
   "advancedarcana:components/polymorph.nonphylactery": "I need a filled Crystal Phylactery in my other hand to cast this spell.",
-  "advancedarcana:components/polymorph.notallowed": "I cannot polymorph into a monster."
+  "advancedarcana:components/polymorph.notallowed": "This spell seems to lack the power to become such a creature."
 }
