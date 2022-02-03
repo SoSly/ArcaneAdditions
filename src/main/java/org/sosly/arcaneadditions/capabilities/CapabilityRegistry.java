@@ -5,11 +5,13 @@ import net.minecraftforge.eventbus.api.*;
 import net.minecraftforge.fml.common.*;
 import org.sosly.arcaneadditions.*;
 import org.sosly.arcaneadditions.capabilities.polymorph.IPolymorphCapability;
+import org.sosly.arcaneadditions.capabilities.treestride.ITreestrideCapability;
 
 @Mod.EventBusSubscriber(modid = ArcaneAdditions.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class CapabilityRegistry {
     @SubscribeEvent
     public void registerCapabilities(RegisterCapabilitiesEvent event) {
         event.register(IPolymorphCapability.class);
+        event.register(ITreestrideCapability.class);
     }
 }
