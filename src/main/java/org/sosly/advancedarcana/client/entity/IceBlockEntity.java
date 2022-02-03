@@ -12,19 +12,13 @@ public class IceBlockEntity extends Entity {
     }
 
     @Override
-    protected void defineSynchedData() {
-
-    }
+    protected void defineSynchedData() {}
 
     @Override
-    protected void readAdditionalSaveData(CompoundTag pCompound) {
-
-    }
+    protected void readAdditionalSaveData(CompoundTag pCompound) {}
 
     @Override
-    protected void addAdditionalSaveData(CompoundTag pCompound) {
-
-    }
+    protected void addAdditionalSaveData(CompoundTag pCompound) {}
 
     @Override
     public Packet<?> getAddEntityPacket() {

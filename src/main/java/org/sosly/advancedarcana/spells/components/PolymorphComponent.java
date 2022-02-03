@@ -4,6 +4,7 @@ import com.google.common.collect.ImmutableList;
 import com.mna.api.affinity.Affinity;
 import com.mna.api.sound.SFX;
 import com.mna.api.spells.ComponentApplicationResult;
+import com.mna.api.spells.attributes.*;
 import com.mna.api.spells.base.IModifiedSpellPart;
 import com.mna.api.spells.parts.SpellEffect;
 import com.mna.api.spells.targeting.SpellContext;
@@ -27,15 +28,17 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.registries.ForgeRegistries;
+import org.sosly.advancedarcana.config.*;
 import org.sosly.advancedarcana.effects.EffectRegistry;
 
-import java.util.Optional;
+import java.util.*;
+import java.util.concurrent.atomic.*;
 
 public class PolymorphComponent extends SpellEffect {
-    private final ImmutableList<MobCategory> ALLOWED_CATEGORIES = ImmutableList.of(MobCategory.CREATURE, MobCategory.WATER_CREATURE, MobCategory.AMBIENT, MobCategory.WATER_AMBIENT);
+    private final ImmutableList<MobCategory> ALLOWED_NO_MAGNITUDE = ImmutableList.of(MobCategory.CREATURE, MobCategory.AMBIENT);
 
     public PolymorphComponent(ResourceLocation registryName, ResourceLocation guiIcon) {
-        super(registryName, guiIcon);
+        super(registryName, guiIcon, new AttributeValuePair(Attribute.MAGNITUDE, 1.0F, 1.0F, 4.0F, 1.0F, 25.0F));
     }
 
     @Override
@@ -63,7 +66,7 @@ public class PolymorphComponent extends SpellEffect {
             if (type == null) {
                 source.getCaster().sendMessage(new TranslatableComponent("advancedarcana:components/polymorph.nonphylactery"), Util.NIL_UUID);
                 return ComponentApplicationResult.NOT_PRESENT;
-            } else if (!ALLOWED_CATEGORIES.contains(type.getCategory())) {
+            } else if (!isFormAllowed(type, iModifiedSpellPart)) {
                 source.getCaster().sendMessage(new TranslatableComponent("advancedarcana:components/polymorph.notallowed"), Util.NIL_UUID);
                 return ComponentApplicationResult.FAIL;
             }
@@ -76,6 +79,22 @@ public class PolymorphComponent extends SpellEffect {
             return ComponentApplicationResult.SUCCESS;
         }
         return ComponentApplicationResult.FAIL;
+    }
+
+    private boolean isFormAllowed(EntityType<? extends Mob> type, IModifiedSpellPart<SpellEffect> iModifiedSpellPart) {
+        AtomicBoolean allowed = new AtomicBoolean(false);
+        AtomicInteger tier = new AtomicInteger();
+        AtomicReference<Float> magnitude = new AtomicReference<>(iModifiedSpellPart.getValue(Attribute.MAGNITUDE));
+        SpellsConfig.ALLOWED_POLYMORPHS.get().forEach(tierList -> {
+            tier.getAndIncrement();
+
+            if (tierList.contains(Objects.requireNonNull(type.getRegistryName()).toString())) {
+                if (magnitude.get() >= tier.get()) {
+                    allowed.set(true);
+                }
+            }
+        });
+        return allowed.get();
     }
 
     @Override
