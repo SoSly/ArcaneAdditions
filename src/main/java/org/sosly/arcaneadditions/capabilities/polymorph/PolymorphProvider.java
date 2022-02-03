@@ -12,8 +12,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 public class PolymorphProvider implements ICapabilitySerializable<Tag> {
-    public static final Capability<IPolymorphCapability> POLYMORPH = CapabilityManager.get(new CapabilityToken<>() {
-    });
+    public static final Capability<IPolymorphCapability> POLYMORPH = CapabilityManager.get(new CapabilityToken<>() {});
     private final LazyOptional<IPolymorphCapability> holder = LazyOptional.of(PolymorphCapability::new);
 
     @Override

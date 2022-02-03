@@ -1,6 +1,7 @@
 package org.sosly.arcaneadditions.events;
 
 import net.minecraft.client.model.EntityModel;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraftforge.api.distmarker.Dist;
@@ -16,8 +17,12 @@ import net.minecraftforge.fml.common.*;
 import org.sosly.arcaneadditions.*;
 import org.sosly.arcaneadditions.capabilities.polymorph.IPolymorphCapability;
 import org.sosly.arcaneadditions.capabilities.polymorph.PolymorphProvider;
+import org.sosly.arcaneadditions.capabilities.treestride.ITreestrideCapability;
+import org.sosly.arcaneadditions.capabilities.treestride.TreestrideProvider;
 import org.sosly.arcaneadditions.effects.beneficial.IceBlockEffect;
 import org.sosly.arcaneadditions.effects.neutral.PolymorphEffect;
+
+import java.util.logging.Level;
 
 @Mod.EventBusSubscriber(modid = ArcaneAdditions.MOD_ID, bus = Mod.EventBusSubscriber.Bus.FORGE)
 public class SpellEventRegistry {
@@ -25,6 +30,10 @@ public class SpellEventRegistry {
     public static void onAttachCapability(AttachCapabilitiesEvent<?> event) {
         if (event.getObject() instanceof Player) {
             event.addCapability(IPolymorphCapability.POLYMORPH_CAPABILITY, new PolymorphProvider());
+        }
+
+        if (event.getObject() instanceof ServerLevel) {
+            event.addCapability(ITreestrideCapability.TREESTRIDE_CAPABILITY, new TreestrideProvider());
         }
     }
 
