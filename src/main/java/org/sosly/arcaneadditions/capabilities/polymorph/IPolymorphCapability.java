@@ -9,16 +9,15 @@ import java.lang.ref.WeakReference;
 import java.util.UUID;
 
 public interface IPolymorphCapability {
-    public static final ResourceLocation POLYMORPH_CAPABILITY = RLoc.create("polymorph");
+    ResourceLocation POLYMORPH_CAPABILITY = RLoc.create("polymorph");
 
-    public WeakReference<Player> getCaster(Level value);
-    public UUID getCasterUUID();
-    public float getComplexity();
-    public float getHealth();
-    public void setCaster(Player value);
-    public void setCasterUUID(UUID value);
-    public void setComplexity(float value);
-    public void setHealth(float value);
-
-    public void reset();
+    WeakReference<Player> getCaster(Level value);
+    UUID getCasterUUID();
+    float getComplexity();
+    float getHealth();
+    void setCaster(Player value);
+    void setCasterUUID(UUID value);
+    void setComplexity(float value);
+    void setHealth(float value);
+    void reset();
 }

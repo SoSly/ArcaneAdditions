@@ -7,6 +7,7 @@ import net.minecraft.client.model.geom.ModelLayerLocation;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.PartPose;
 import net.minecraft.client.model.geom.builders.*;
+import org.jetbrains.annotations.NotNull;
 import org.sosly.arcaneadditions.client.entity.IceBlockEntity;
 import org.sosly.arcaneadditions.utils.RLoc;
 
@@ -38,7 +39,7 @@ public class IceBlockModel<T extends IceBlockEntity> extends EntityModel<T> {
     }
 
     @Override
-    public void renderToBuffer(PoseStack pPoseStack, VertexConsumer pBuffer, int pPackedLight, int pPackedOverlay, float pRed, float pGreen, float pBlue, float pAlpha) {
+    public void renderToBuffer(@NotNull PoseStack pPoseStack, @NotNull VertexConsumer pBuffer, int pPackedLight, int pPackedOverlay, float pRed, float pGreen, float pBlue, float pAlpha) {
         bone.render(pPoseStack, pBuffer, pPackedLight, pPackedOverlay, 1, 1, 1, 1);
     }
 }

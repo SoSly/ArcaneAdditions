@@ -9,25 +9,27 @@ import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.resources.ResourceLocation;
+import org.jetbrains.annotations.NotNull;
 import org.sosly.arcaneadditions.client.entity.IceBlockEntity;
 import org.sosly.arcaneadditions.client.model.IceBlockModel;
 
 public class IceBlockRenderer extends EntityRenderer<IceBlockEntity> {
     public static final ResourceLocation ICE_TEXTURE = new ResourceLocation("minecraft", "textures/block/ice.png");
-    private final IceBlockModel model;
+    private final IceBlockModel<IceBlockEntity> model;
 
     public IceBlockRenderer(EntityRendererProvider.Context context) {
         super(context);
-        this.model = new IceBlockModel(Minecraft.getInstance().getEntityModels().bakeLayer(IceBlockModel.LAYER_LOCATION));
+        this.model = new IceBlockModel<>(Minecraft.getInstance().getEntityModels().bakeLayer(IceBlockModel.LAYER_LOCATION));
     }
 
     @Override
-    public ResourceLocation getTextureLocation(IceBlockEntity pEntity) {
+    @NotNull
+    public ResourceLocation getTextureLocation(@NotNull IceBlockEntity pEntity) {
         return ICE_TEXTURE;
     }
 
     @Override
-    public void render(IceBlockEntity pEntity, float pEntityYaw, float pPartialTicks, PoseStack pMatrixStack, MultiBufferSource pBuffer, int pPackedLight) {
+    public void render(@NotNull IceBlockEntity pEntity, float pEntityYaw, float pPartialTicks, @NotNull PoseStack pMatrixStack, MultiBufferSource pBuffer, int pPackedLight) {
         RenderType rendertype = RenderType.entityTranslucent(ICE_TEXTURE);
         VertexConsumer consumer = pBuffer.getBuffer(rendertype);
         

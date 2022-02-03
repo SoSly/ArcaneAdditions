@@ -17,7 +17,7 @@ import java.util.Optional;
 import java.util.function.Supplier;
 
 public class SyncPolymorphCapabilitiesToClient extends BaseMessage {
-    private IPolymorphCapability cap;
+    private final IPolymorphCapability cap;
 
     public SyncPolymorphCapabilitiesToClient() {
         this.cap = new PolymorphCapability();

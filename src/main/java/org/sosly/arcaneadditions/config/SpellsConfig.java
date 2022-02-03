@@ -9,8 +9,8 @@ import java.util.*;
 public class SpellsConfig {
     public static ForgeConfigSpec CONFIG;
 
-    public static ForgeConfigSpec.BooleanValue ALLOW_SPELLCASTING_WHILE_POLYMORPHED;
-    public static ForgeConfigSpec.ConfigValue<List<? extends List<String>>> POLYMORPH_TIERS;
+    public static final ForgeConfigSpec.BooleanValue ALLOW_SPELLCASTING_WHILE_POLYMORPHED;
+    public static final ForgeConfigSpec.ConfigValue<List<? extends List<String>>> POLYMORPH_TIERS;
 
     static {
         ForgeConfigSpec.Builder builder = new ForgeConfigSpec.Builder();

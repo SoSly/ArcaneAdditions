@@ -16,6 +16,8 @@ import net.minecraft.sounds.SoundEvent;
 import net.minecraft.world.effect.MobEffectInstance;
 import org.sosly.arcaneadditions.effects.EffectRegistry;
 
+import java.util.Objects;
+
 public class IceBlockComponent extends SpellEffect {
 
     public IceBlockComponent(ResourceLocation registryName, ResourceLocation guiIcon) {
@@ -24,7 +26,7 @@ public class IceBlockComponent extends SpellEffect {
 
     @Override
     public ComponentApplicationResult ApplyEffect(SpellSource source, SpellTarget target, IModifiedSpellPart<SpellEffect> mods, SpellContext context) {
-        if (target.isLivingEntity() && target.getLivingEntity().getEffect(EffectRegistry.ICE_BLOCK_EXHAUSTION.get()) == null && target.getLivingEntity().getEffect(EffectRegistry.ICE_BLOCK.get()) == null) {
+        if (target.isLivingEntity() && Objects.requireNonNull(target.getLivingEntity()).getEffect(EffectRegistry.ICE_BLOCK_EXHAUSTION.get()) == null && target.getLivingEntity().getEffect(EffectRegistry.ICE_BLOCK.get()) == null) {
             target.getLivingEntity().addEffect(new MobEffectInstance(EffectRegistry.ICE_BLOCK.get(), (int)mods.getValue(Attribute.DURATION) * 20, 0));
             return ComponentApplicationResult.SUCCESS;
         }

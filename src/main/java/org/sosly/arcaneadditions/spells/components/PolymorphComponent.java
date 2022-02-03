@@ -1,6 +1,5 @@
 package org.sosly.arcaneadditions.spells.components;
 
-import com.google.common.collect.ImmutableList;
 import com.mna.api.affinity.Affinity;
 import com.mna.api.sound.SFX;
 import com.mna.api.spells.ComponentApplicationResult;
@@ -27,8 +26,6 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.network.PacketDistributor;
 import net.minecraftforge.registries.ForgeRegistries;
-import org.sosly.arcaneadditions.capabilities.*;
-import org.sosly.arcaneadditions.capabilities.polymorph.IPolymorphCapability;
 import org.sosly.arcaneadditions.capabilities.polymorph.PolymorphProvider;
 import org.sosly.arcaneadditions.config.*;
 import org.sosly.arcaneadditions.effects.EffectRegistry;
@@ -39,7 +36,6 @@ import java.util.*;
 import java.util.concurrent.atomic.*;
 
 public class PolymorphComponent extends SpellEffect {
-    private final ImmutableList<MobCategory> ALLOWED_NO_MAGNITUDE = ImmutableList.of(MobCategory.CREATURE, MobCategory.AMBIENT);
 
     public PolymorphComponent(ResourceLocation registryName, ResourceLocation guiIcon) {
         super(registryName, guiIcon, new AttributeValuePair(Attribute.MAGNITUDE, 1.0F, 1.0F, 4.0F, 1.0F, 25.0F));
@@ -47,7 +43,7 @@ public class PolymorphComponent extends SpellEffect {
 
     @Override
     public ComponentApplicationResult ApplyEffect(SpellSource caster, SpellTarget target, IModifiedSpellPart<SpellEffect> iModifiedSpellPart, SpellContext spellContext) {
-        if (!caster.isPlayerCaster() || !target.isLivingEntity() || !(target.getEntity() instanceof Player)) {
+        if (!caster.isPlayerCaster() || target.getLivingEntity() == null || !(target.getEntity() instanceof Player)) {
             return ComponentApplicationResult.FAIL;
         }
 
@@ -62,18 +58,19 @@ public class PolymorphComponent extends SpellEffect {
         Level level = targetEntity.getLevel();
         if (!level.isClientSide()) {
             ItemStack phylactery = caster.getHand() == InteractionHand.MAIN_HAND ? targetEntity.getOffhandItem() : targetEntity.getMainHandItem();
+            ServerPlayer casterPlayer = (ServerPlayer)Objects.requireNonNull(caster.getCaster());
 
             if (!PhylacteryStaffItem.isFilled(phylactery)) {
-                caster.getCaster().sendMessage(new TranslatableComponent("arcaneadditions:components/polymorph.nonphylactery"), Util.NIL_UUID);
+                casterPlayer.sendMessage(new TranslatableComponent("arcaneadditions:components/polymorph.nonphylactery"), Util.NIL_UUID);
                 return ComponentApplicationResult.NOT_PRESENT;
             }
 
             EntityType<? extends Mob> type = PhylacteryStaffItem.getEntityType(phylactery);
             if (type == null) {
-                caster.getCaster().sendMessage(new TranslatableComponent("arcaneadditions:components/polymorph.nonphylactery"), Util.NIL_UUID);
+                casterPlayer.sendMessage(new TranslatableComponent("arcaneadditions:components/polymorph.nonphylactery"), Util.NIL_UUID);
                 return ComponentApplicationResult.NOT_PRESENT;
             } else if (!isFormAllowed(type, iModifiedSpellPart)) {
-                caster.getCaster().sendMessage(new TranslatableComponent("arcaneadditions:components/polymorph.notallowed"), Util.NIL_UUID);
+                casterPlayer.sendMessage(new TranslatableComponent("arcaneadditions:components/polymorph.notallowed"), Util.NIL_UUID);
                 return ComponentApplicationResult.FAIL;
             }
 

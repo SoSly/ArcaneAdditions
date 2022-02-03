@@ -5,29 +5,21 @@ import com.mna.capabilities.playerdata.magic.PlayerMagicProvider;
 import com.mna.items.sorcery.ItemSpell;
 import com.mna.spells.crafting.SpellRecipe;
 import de.budschie.bmorph.morph.MorphUtil;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.EffectInstance;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.server.MinecraftServer;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectCategory;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.AirItem;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.ItemStack;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.event.entity.living.LivingDamageEvent;
-import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import net.minecraftforge.event.entity.living.LivingEvent;
 import net.minecraftforge.event.entity.living.PotionEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.eventbus.api.Event;
-import net.minecraftforge.fml.DistExecutor;
+import org.jetbrains.annotations.NotNull;
 import org.sosly.arcaneadditions.capabilities.polymorph.PolymorphProvider;
 import org.sosly.arcaneadditions.config.SpellsConfig;
 import org.sosly.arcaneadditions.effects.EffectRegistry;
@@ -36,17 +28,14 @@ import org.sosly.arcaneadditions.spells.components.PolymorphComponent;
 import java.lang.ref.WeakReference;
 import java.util.*;
 import java.util.concurrent.atomic.AtomicBoolean;
-import java.util.concurrent.atomic.AtomicReference;
 
 public class PolymorphEffect extends MobEffect {
-    private final int MANA_COST_FREQUENCY = 20;
-
     public PolymorphEffect() {
         super(MobEffectCategory.NEUTRAL, 0);
     }
 
     @Override
-    public void applyEffectTick(LivingEntity entity, int amplifier) {
+    public void applyEffectTick(@NotNull LivingEntity entity, int amplifier) {
         if (!(entity instanceof Player)) return; // for now, we can't affect non-players
 
         entity.getCapability(PolymorphProvider.POLYMORPH).ifPresent(polymorph -> {
@@ -71,8 +60,7 @@ public class PolymorphEffect extends MobEffect {
 
     public static void handleRestrictedActions(LivingEvent event) {
         runOnEffect(event, (instance, entity) -> {
-            if (!(entity instanceof Player)) return; // for now, we can't affect non-players
-            Player caster = (Player)entity;
+            if (!(entity instanceof Player caster)) return; // for now, we can't affect non-players
 
             ItemStack stack = entity.getMainHandItem();
 
@@ -80,25 +68,30 @@ public class PolymorphEffect extends MobEffect {
             if (stack.getItem() instanceof AirItem || stack.getItem() instanceof BlockItem) return;
 
             // If the item is a spell, check if it's polymorph for ending the effect.
-            if (stack.getItem() instanceof ItemSpell) {
+            if (stack.getItem() instanceof ItemSpell spellItem) {
                 if (SpellsConfig.ALLOW_SPELLCASTING_WHILE_POLYMORPHED.get()) return;
 
-                ItemSpell spellItem = (ItemSpell)stack.getItem();
                 SpellRecipe recipe = SpellRecipe.fromNBT(spellItem.getSpellCompound(stack, caster));
                 AtomicBoolean isPolymorph = new AtomicBoolean(false);
-                recipe.getComponents().stream().forEach(component -> {
+                recipe.getComponents().forEach(component -> {
                     if (component.getPart() instanceof PolymorphComponent) {
                         isPolymorph.set(true);
                     }
                 });
-                if (isPolymorph.get() == true) return;
+                if (isPolymorph.get()) return;
             }
 
             // Otherwise, cancel the action.
-            if (event.isCancelable() && stack != null) event.setCanceled(true);
+            if (event.isCancelable()) event.setCanceled(true);
             if (event instanceof PlayerInteractEvent) event.setResult(Event.Result.DENY);
             if (event instanceof PlayerEvent.HarvestCheck) ((PlayerEvent.HarvestCheck)event).setCanHarvest(false);
         });
+    }
+
+    @Override
+    public boolean isDurationEffectTick(int durationTicks, int amplifier) {
+        int MANA_COST_FREQUENCY = 20;
+        return durationTicks % MANA_COST_FREQUENCY == 0;
     }
 
     public static void onDamage(LivingDamageEvent event) {
@@ -110,14 +103,6 @@ public class PolymorphEffect extends MobEffect {
                 event.setCanceled(true);
                 entity.removeEffect(EffectRegistry.POLYMORPH.get());
             }
-        });
-    }
-
-    public static void onDeath(LivingDeathEvent event) {
-        runOnEffect(event, (instance, entity) -> {
-            if (!(entity instanceof Player)) return; // for now, we can't affect non-players
-            event.setCanceled(true);
-            entity.removeEffect(EffectRegistry.POLYMORPH.get());
         });
     }
 
@@ -154,10 +139,5 @@ public class PolymorphEffect extends MobEffect {
                 EffectRegistry.handle(handler, instance, entity);
             }
         }
-    }
-
-    @Override
-    public boolean isDurationEffectTick(int durationTicks, int amplifier) {
-        return durationTicks % MANA_COST_FREQUENCY == 0;
     }
 }

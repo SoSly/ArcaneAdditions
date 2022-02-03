@@ -1,5 +1,7 @@
 package org.sosly.arcaneadditions.events;
 
+import net.minecraft.client.model.EntityModel;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
@@ -16,8 +18,6 @@ import org.sosly.arcaneadditions.capabilities.polymorph.IPolymorphCapability;
 import org.sosly.arcaneadditions.capabilities.polymorph.PolymorphProvider;
 import org.sosly.arcaneadditions.effects.beneficial.IceBlockEffect;
 import org.sosly.arcaneadditions.effects.neutral.PolymorphEffect;
-
-import javax.swing.text.html.parser.*;
 
 @Mod.EventBusSubscriber(modid = ArcaneAdditions.MOD_ID, bus = Mod.EventBusSubscriber.Bus.FORGE)
 public class SpellEventRegistry {
@@ -108,7 +108,7 @@ public class SpellEventRegistry {
 
     @OnlyIn(Dist.CLIENT)
     @SubscribeEvent
-    public static void onPostRenderLiving(RenderLivingEvent.Post event) {
+    public static <E extends LivingEntity, M extends EntityModel<E>> void onPostRenderLiving(RenderLivingEvent.Post<E, M> event) {
         IceBlockEffect.handleRenderEvent(event);
     }
 }
