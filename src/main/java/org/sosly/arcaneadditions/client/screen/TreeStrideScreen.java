@@ -28,8 +28,7 @@ import org.sosly.arcaneadditions.networking.messages.serverbound.RequestSyncTree
 import org.sosly.arcaneadditions.networking.messages.serverbound.TreeStridePlayer;
 import org.sosly.arcaneadditions.utils.RLoc;
 
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class TreeStrideScreen extends AbstractContainerScreen<TreeStrideMenu> {
@@ -42,7 +41,7 @@ public class TreeStrideScreen extends AbstractContainerScreen<TreeStrideMenu> {
         this.leftPos = 0;
         this.topPos = 0;
         this.imageWidth = 176;
-        this.imageHeight = 180;
+        this.imageHeight = 150;
     }
 
     @Override
@@ -51,11 +50,20 @@ public class TreeStrideScreen extends AbstractContainerScreen<TreeStrideMenu> {
             Map<BlockPos, String> destinations = treestride.getPlayerDestinations(Minecraft.getInstance().player);
             if (destinations != null) {
                 AtomicInteger topPos = new AtomicInteger();
-                destinations.forEach((pos, name) -> {
-                    topPos.addAndGet(18);
-                    addRenderableWidget(new ExtendedButton(this.leftPos + 7, this.topPos + topPos.get(), 140, 16, new TextComponent(name), btn -> this.teleportPlayer(pos, name)));
-                    addRenderableWidget(new ExtendedButton(this.leftPos + 152, this.topPos + topPos.get(), 16, 16, new TextComponent("X"), btn -> this.deleteDestination(pos, name)));
-                });
+
+                destinations.entrySet()
+                    .stream()
+                    .sorted(Map.Entry.<BlockPos, String>comparingByValue())
+                    .forEach(destination -> {
+                        topPos.addAndGet(18);
+                        addRenderableWidget(new ExtendedButton(this.leftPos + 7, this.topPos + topPos.get(), 140, 16, new TextComponent(destination.getValue()), btn -> this.teleportPlayer(destination.getKey(), destination.getValue())));
+                        addRenderableWidget(new ExtendedButton(this.leftPos + 152, this.topPos + topPos.get(), 16, 16, new TextComponent("X"), btn -> this.deleteDestination(destination.getKey(), destination.getValue())));
+                    });
+
+                if (destinations.size() >= 7) {
+                    this.createDestinationBox.visible = false;
+                    this.createDestinationButton.visible = false;
+                }
             }
         });
 
@@ -65,13 +73,14 @@ public class TreeStrideScreen extends AbstractContainerScreen<TreeStrideMenu> {
 
     @Override
     public void init() {
-        super.init();
         PacketHandler.network.sendToServer(new RequestSyncTreeStrideCapabilitiesFromServer());
+        super.init();
+
         this.createDestinationBox = addRenderableWidget(new EditBox(this.font, this.leftPos + 15,
-                this.topPos + 150, 100, 15, this.createDestinationBox,
+                this.topPos + 126, 100, 15, this.createDestinationBox,
                 new TextComponent("New Destination")));
         this.createDestinationButton = addRenderableWidget(new ExtendedButton(this.leftPos + 120,
-                this.topPos + 150, 40, 16, new TextComponent("Save"),
+                this.topPos + 126, 40, 16, new TextComponent("Save"),
                 btn -> this.handleNewDestination()));
     }
 
