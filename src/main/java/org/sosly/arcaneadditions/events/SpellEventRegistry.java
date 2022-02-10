@@ -1,9 +1,17 @@
+/*
+ *   Arcane Additions Copyright (c)  2022, Kevin Kragenbrink <kevin@writh.net>
+ *           This program comes with ABSOLUTELY NO WARRANTY; for details see <https://www.gnu.org/licenses/gpl-3.0.html>.
+ *           This is free software, and you are welcome to redistribute it under certain
+ *           conditions; detailed at https://www.gnu.org/licenses/gpl-3.0.html
+ */
+
 package org.sosly.arcaneadditions.events;
 
 import net.minecraft.client.model.EntityModel;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.level.Level;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.event.RenderLivingEvent;
@@ -12,6 +20,7 @@ import net.minecraftforge.event.entity.living.*;
 import net.minecraftforge.event.entity.player.AttackEntityEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
+import net.minecraftforge.event.world.BlockEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.*;
 import org.sosly.arcaneadditions.*;
@@ -22,8 +31,6 @@ import org.sosly.arcaneadditions.capabilities.treestride.TreestrideProvider;
 import org.sosly.arcaneadditions.effects.beneficial.IceBlockEffect;
 import org.sosly.arcaneadditions.effects.neutral.PolymorphEffect;
 
-import java.util.logging.Level;
-
 @Mod.EventBusSubscriber(modid = ArcaneAdditions.MOD_ID, bus = Mod.EventBusSubscriber.Bus.FORGE)
 public class SpellEventRegistry {
     @SubscribeEvent
@@ -32,7 +39,7 @@ public class SpellEventRegistry {
             event.addCapability(IPolymorphCapability.POLYMORPH_CAPABILITY, new PolymorphProvider());
         }
 
-        if (event.getObject() instanceof ServerLevel) {
+        if (event.getObject() instanceof Level) {
             event.addCapability(ITreestrideCapability.TREESTRIDE_CAPABILITY, new TreestrideProvider());
         }
     }

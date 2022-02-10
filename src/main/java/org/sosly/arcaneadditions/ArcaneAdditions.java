@@ -1,3 +1,10 @@
+/*
+ *   Arcane Additions Copyright (c)  2022, Kevin Kragenbrink <kevin@writh.net>
+ *           This program comes with ABSOLUTELY NO WARRANTY; for details see <https://www.gnu.org/licenses/gpl-3.0.html>.
+ *           This is free software, and you are welcome to redistribute it under certain
+ *           conditions; detailed at https://www.gnu.org/licenses/gpl-3.0.html
+ */
+
 package org.sosly.arcaneadditions;
 
 import com.mna.api.guidebook.RegisterGuidebooksEvent;
@@ -16,6 +23,7 @@ import net.minecraftforge.fml.loading.FMLPaths;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.sosly.arcaneadditions.client.entity.EntityRegistry;
+import org.sosly.arcaneadditions.client.menu.MenuRegistry;
 import org.sosly.arcaneadditions.client.renderer.RendererRegistry;
 import org.sosly.arcaneadditions.config.ConfigLoader;
 import org.sosly.arcaneadditions.config.SpellsConfig;
@@ -25,7 +33,7 @@ import org.sosly.arcaneadditions.utils.RLoc;
 @Mod(org.sosly.arcaneadditions.ArcaneAdditions.MOD_ID)
 public class ArcaneAdditions {
     public static final String MOD_ID = "arcaneadditions";
-    public static final Logger LOGGER = LogManager.getLogger();
+    public static final Logger LOGGER = LogManager.getLogger(ArcaneAdditions.class);
     public static ArcaneAdditions instance;
     public ISidedProxy proxy;
 
@@ -38,6 +46,7 @@ public class ArcaneAdditions {
         IEventBus modBus = FMLJavaModLoadingContext.get().getModEventBus();
         EffectRegistry.EFFECTS.register(modBus);
         EntityRegistry.ENTITY_TYPES.register(modBus);
+        MenuRegistry.MENUS.register(modBus);
         MinecraftForge.EVENT_BUS.register(this);
 
         DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () -> {

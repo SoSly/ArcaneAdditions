@@ -1,8 +1,4 @@
 /*
- *   Arcane Additions Copyright (c)  2022, Kevin Kragenbrink <kevin@writh.net>
- *           This program comes with ABSOLUTELY NO WARRANTY; for details see <https://www.gnu.org/licenses/>.
- *           This is free software, and you are welcome to redistribute it under certain
- *           conditions; detailed at https://www.gnu.org/licenses/
  */
 
 package org.sosly.arcaneadditions.capabilities.treestride;
@@ -10,17 +6,24 @@ package org.sosly.arcaneadditions.capabilities.treestride;
 import net.minecraft.core.BlockPos;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.entity.player.Player;
 import org.sosly.arcaneadditions.utils.RLoc;
 
+import javax.annotation.Nullable;
 import java.util.Map;
 import java.util.UUID;
 
 public interface ITreestrideCapability {
     ResourceLocation TREESTRIDE_CAPABILITY = RLoc.create("treestride");
 
-    void addDestination(ServerPlayer player, String name, BlockPos pos);
+    void addDestination(Player player, String name, BlockPos pos);
     void addDestination(UUID uuid, String name, BlockPos pos);
-    void removeDestination(BlockPos pos);
-    Map<BlockPos, String> getPlayerDestinations(ServerPlayer player);
+    void clearCurrentPosition(ServerPlayer player);
+    Map<BlockPos, String> getPlayerDestinations(Player player);
     Map<UUID, Map<BlockPos, String>> getAllDestinations();
+    @Nullable BlockPos getCurrentPosition(ServerPlayer player);
+    void removeDestination(BlockPos pos);
+    void removeDestination(ServerPlayer player, BlockPos pos);
+    void reset();
+    void setCurrentPosition(ServerPlayer player, BlockPos pos);
 }

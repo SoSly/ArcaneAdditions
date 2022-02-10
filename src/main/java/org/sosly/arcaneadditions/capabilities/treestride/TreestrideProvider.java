@@ -1,8 +1,4 @@
 /*
- *   Arcane Additions Copyright (c)  2022, Kevin Kragenbrink <kevin@writh.net>
- *           This program comes with ABSOLUTELY NO WARRANTY; for details see <https://www.gnu.org/licenses/>.
- *           This is free software, and you are welcome to redistribute it under certain
- *           conditions; detailed at https://www.gnu.org/licenses/
  */
 
 package org.sosly.arcaneadditions.capabilities.treestride;
@@ -34,6 +30,10 @@ public class TreestrideProvider implements ICapabilitySerializable<Tag> {
     @Override
     public Tag serializeNBT() {
         ITreestrideCapability instance = this.holder.orElse(new TreestrideCapability());
+        return TreestrideProvider.serializeNBT(instance);
+    }
+
+    public static Tag serializeNBT(ITreestrideCapability instance) {
         CompoundTag nbt = new CompoundTag();
 
         AtomicInteger playerCount = new AtomicInteger(0);
@@ -44,8 +44,8 @@ public class TreestrideProvider implements ICapabilitySerializable<Tag> {
             playerData.forEach((pos, name) -> {
                 CompoundTag destNBT = new CompoundTag();
                 destNBT.putInt("x", pos.getX());
-                destNBT.putInt("y", pos.getX());
-                destNBT.putInt("z", pos.getX());
+                destNBT.putInt("y", pos.getY());
+                destNBT.putInt("z", pos.getZ());
                 destNBT.putString("name", name);
                 int index = destinationCount.getAndIncrement();
                 playerNBT.put(Integer.toString(index), destNBT);

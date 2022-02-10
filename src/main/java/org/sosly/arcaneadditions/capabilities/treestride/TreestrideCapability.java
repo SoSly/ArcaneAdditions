@@ -1,27 +1,23 @@
 /*
- *   Arcane Additions Copyright (c)  2022, Kevin Kragenbrink <kevin@writh.net>
- *           This program comes with ABSOLUTELY NO WARRANTY; for details see <https://www.gnu.org/licenses/>.
- *           This is free software, and you are welcome to redistribute it under certain
- *           conditions; detailed at https://www.gnu.org/licenses/
  */
 
 package org.sosly.arcaneadditions.capabilities.treestride;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.entity.player.Player;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Set;
-import java.util.UUID;
+import javax.annotation.Nullable;
+import java.util.*;
 
 
 public class TreestrideCapability implements ITreestrideCapability {
-    Map<BlockPos, Set<UUID>> blocksToPlayers = new HashMap<>();
-    Map<UUID, Map<BlockPos, String>> playersToBlocks = new HashMap<>();
+    final Map<BlockPos, Set<UUID>> blocksToPlayers = new HashMap<>();
+    final Map<UUID, Map<BlockPos, String>> playersToBlocks = new HashMap<>();
+    final Map<ServerPlayer, BlockPos> playerPositions = new HashMap<>();
 
     @Override
-    public void addDestination(ServerPlayer player, String name, BlockPos pos) {
+    public void addDestination(Player player, String name, BlockPos pos) {
         UUID uuid = player.getUUID();
         this.addDestination(uuid, name, pos);
     }
@@ -30,8 +26,8 @@ public class TreestrideCapability implements ITreestrideCapability {
     public void addDestination(UUID uuid, String name, BlockPos pos) {
         synchronizeDataMaps(uuid, pos);
 
-        Set<UUID> blockData = blocksToPlayers.getOrDefault(pos, Set.of());
-        Map<BlockPos, String> playerData = playersToBlocks.getOrDefault(uuid, null);
+        Set<UUID> blockData = getBlocksToPlayers(pos);
+        Map<BlockPos, String> playerData = getPlayersToBlocks(uuid);
 
         blockData.add(uuid);
         blocksToPlayers.put(pos, blockData);
@@ -40,11 +36,16 @@ public class TreestrideCapability implements ITreestrideCapability {
     }
 
     @Override
+    public void clearCurrentPosition(ServerPlayer player) {
+        playerPositions.remove(player);
+    }
+
+    @Override
     public void removeDestination(BlockPos pos) {
-        Set<UUID> blockData = blocksToPlayers.getOrDefault(pos, Set.of());
+        Set<UUID> blockData = getBlocksToPlayers(pos);
 
         for (UUID uuid : blockData) {
-            Map<BlockPos, String> playerData = playersToBlocks.getOrDefault(uuid, null);
+            Map<BlockPos, String> playerData = getPlayersToBlocks(uuid);
             if (playerData.isEmpty()) continue;
             playerData.remove(pos);
         }
@@ -53,13 +54,47 @@ public class TreestrideCapability implements ITreestrideCapability {
     }
 
     @Override
-    public Map<BlockPos, String> getPlayerDestinations(ServerPlayer player) {
+    public void removeDestination(ServerPlayer player, BlockPos pos) {
+        UUID uuid = player.getUUID();
+        Set<UUID> blockData = getBlocksToPlayers(pos);
+        blockData.remove(uuid);
+        Map<BlockPos, String> playerData = getPlayersToBlocks(uuid);
+        playerData.remove(pos);
+    }
+
+    @Override
+    public void reset() {
+        blocksToPlayers.clear();
+        playersToBlocks.clear();
+    }
+
+    @Override
+    public void setCurrentPosition(ServerPlayer player, BlockPos pos) {
+        playerPositions.put(player, pos);
+    }
+
+    @Override
+    public Map<BlockPos, String> getPlayerDestinations(Player player) {
         return playersToBlocks.get(player.getUUID());
     }
 
     @Override
     public Map<UUID, Map<BlockPos, String>> getAllDestinations() {
         return playersToBlocks;
+    }
+
+    @Override
+    @Nullable
+    public BlockPos getCurrentPosition(ServerPlayer player) {
+        return playerPositions.getOrDefault(player, null);
+    }
+
+    private Set<UUID> getBlocksToPlayers(BlockPos pos) {
+        return blocksToPlayers.getOrDefault(pos, new HashSet<>());
+    }
+
+    private Map<BlockPos, String> getPlayersToBlocks(UUID uuid) {
+        return playersToBlocks.getOrDefault(uuid, new HashMap<>());
     }
 
     /**
@@ -69,9 +104,8 @@ public class TreestrideCapability implements ITreestrideCapability {
      * with the bad information to ensure synchronization.
      */
     private void synchronizeDataMaps(UUID uuid, BlockPos pos) {
-        Set<UUID> blockData = blocksToPlayers.getOrDefault(pos, Set.of());
-        Map<BlockPos, String> playerData = playersToBlocks.getOrDefault(uuid, null);
-
+        Set<UUID> blockData = getBlocksToPlayers(pos);
+        Map<BlockPos, String> playerData = getPlayersToBlocks(uuid);
         if (blockData.contains(uuid) && !playerData.containsKey(pos)) {
             blockData.remove(uuid);
             blocksToPlayers.put(pos, blockData);

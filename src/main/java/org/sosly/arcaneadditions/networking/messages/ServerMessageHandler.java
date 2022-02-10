@@ -1,3 +1,4 @@
+
 /*
  *   Arcane Additions Copyright (c)  2022, Kevin Kragenbrink <kevin@writh.net>
  *           This program comes with ABSOLUTELY NO WARRANTY; for details see <https://www.gnu.org/licenses/gpl-3.0.html>.
@@ -13,13 +14,13 @@ import net.minecraftforge.network.NetworkEvent;
 import org.apache.logging.log4j.Logger;
 import org.sosly.arcaneadditions.ArcaneAdditions;
 
-public class ClientMessageHandler {
+public class ServerMessageHandler {
     public static <T extends BaseMessage> boolean validateBasics(T message, NetworkEvent.Context ctx) {
         LogicalSide sideReceived = ctx.getDirection().getReceptionSide();
         ctx.setPacketHandled(true);
         Logger var10000;
         String var10001;
-        if (sideReceived != LogicalSide.CLIENT) {
+        if (sideReceived != LogicalSide.SERVER) {
             var10000 = ArcaneAdditions.LOGGER;
             var10001 = message.getClass().getName();
             var10000.error(var10001 + " received on wrong side: " + sideReceived);
