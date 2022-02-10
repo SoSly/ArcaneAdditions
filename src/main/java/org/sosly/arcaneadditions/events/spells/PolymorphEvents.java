@@ -97,11 +97,12 @@ public class PolymorphEvents {
                 MorphUtil.morphToClient(Optional.empty(), Optional.empty(), new ArrayList<>(), (Player) entity);
             } else {
                 MorphUtil.morphToServer(Optional.empty(), Optional.empty(), (Player) entity);
+
+                entity.getCapability(PolymorphProvider.POLYMORPH).ifPresent(polymorph -> {
+                    entity.setHealth(polymorph.getHealth());
+                    polymorph.reset();
+                });
             }
-            entity.getCapability(PolymorphProvider.POLYMORPH).ifPresent(polymorph -> {
-                entity.setHealth(polymorph.getHealth());
-                polymorph.reset();
-            });
         });
     }
 
