@@ -47,5 +47,27 @@
       }
     ]
   },
+  "Tree Stride": {
+    "index": 2,
+    "category": "sorcery",
+    "sections": [
+      {
+        "type": "title",
+        "value": "[AA] Tree Stride"
+      },
+      {
+        "type": "text",
+        "json": {
+          "text": "I can swiftly transport myself through trees, traveling along the roots to other destinations within the world."
+        }
+      }
+    ],
+    "related_recipes": [
+      {
+        "type": "spell_part",
+        "location": "arcaneadditions:components/tree_stride"
+      }
+    ]
+  },
   "version": "1.0.0a"
 }
