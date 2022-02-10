@@ -18,6 +18,7 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.level.block.IceBlock;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.event.RenderLivingEvent;
@@ -151,7 +152,7 @@ public class IceBlockEffect extends MobEffect {
             LivingEntity levelEntity = (LivingEntity)World.getLevelEntity(entity);
             if (levelEntity != null) {
                 if (add) levelEntity.forceAddEffect(instance, entity);
-                else levelEntity.removeEffect(instance.getEffect());
+                else levelEntity.removeEffectNoUpdate(instance.getEffect());
             }
         }
     }
