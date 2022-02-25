@@ -1,0 +1,27 @@
+{
+  "type": "mna:component",
+  "tier": 4,
+  "output": "arcaneadditions:components/tree_stride",
+  "items":
+  [
+    "minecraft:oak_log",
+    "minecraft:dark_oak_log",
+    "minecraft:acacia_log",
+    "minecraft:spruce_log",
+    "minecraft:birch_log",
+    "minecraft:ender_eye",
+    "minecraft:oak_leaves",
+    "minecraft:dark_oak_leaves",
+    "minecraft:acacia_leaves",
+    "minecraft:spruce_leaves",
+    "minecraft:birch_leaves"
+  ],
+  "patterns":
+  [
+    "mna:manaweave_patterns/knot",
+    "mna:manaweave_patterns/knot2",
+    "mna:manaweave_patterns/knot3",
+    "mna:manaweave_patterns/knot4",
+    "mna:manaweave_patterns/slash"
+  ]
+}
