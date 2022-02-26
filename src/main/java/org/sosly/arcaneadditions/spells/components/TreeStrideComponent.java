@@ -62,7 +62,7 @@ public class TreeStrideComponent extends SpellEffect {
 
         level.getCapability(TreestrideProvider.TREESTRIDE).ifPresent(treestride -> treestride.setCurrentPosition(caster, root));
 
-        MenuProvider container = new SimpleMenuProvider(TreeStrideMenu::new, new TextComponent("Tree Stride")); // todo
+        MenuProvider container = new SimpleMenuProvider(TreeStrideMenu::new, new TextComponent("Tree Stride"));
         NetworkHooks.openGui(caster, container);
 
         return ComponentApplicationResult.SUCCESS;

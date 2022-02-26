@@ -1,0 +1,5 @@
+# Blender MTL File: 'soulsearchers_lens.blend'
+# Material Count: 1
+
+newmtl MAIN
+map_Kd arcaneadditions:item/soulsearchers_lens

@@ -1,4 +1,30 @@
 {
+  "Soulsearcher's Lens": {
+    "index": "2",
+    "category": "artifice",
+    "sections": [
+      {
+        "type": "title",
+        "value": "[AA] Soul Searcher's Lens"
+      },
+      {
+        "type": "text",
+        "json": {
+          "text": "It may be possible for me to attain the essentia needed to fill a Crystal Phylactery without causing harm to the subject.  It will, however, require a crystals of exceptional purity."
+        }
+      }
+    ],
+    "related_recipes": [
+      {
+        "type": "manaweaving_altar",
+        "location": "mna:manaweaving/crystal_phylactery"
+      },
+      {
+        "type": "manaweaving_altar",
+        "location": "arcaneadditions:manaweaving/soulsearchers_lens"
+      }
+    ]
+  },
   "IceBlock": {
     "index": 2,
     "category": "sorcery",

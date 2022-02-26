@@ -1,12 +1,20 @@
 {
+  "arcaneadditions:components/ice_block": "Ice Block",
+  "arcaneadditions:components/polymorph": "Polymorph",
+  "arcaneadditions:components/polymorph.nonphylactery": "I need a filled Crystal Phylactery in my other hand to cast this spell.",
+  "arcaneadditions:components/polymorph.notallowed": "This spell seems to lack the power to become such a creature.",
+  "arcaneadditions:components/tree_stride": "Tree Stride",
+
   "effect.arcaneadditions.ice_block": "Ice Block",
   "effect.arcaneadditions.ice_block-exhaustion": "Hypothermia",
   "effect.arcaneadditions.polymorph": "Polymorph",
   "effect.arcaneadditions.tree_stride": "Tree Stride",
 
-  "arcaneadditions:components/ice_block": "Ice Block",
-  "arcaneadditions:components/polymorph": "Polymorph",
-  "arcaneadditions:components/polymorph.nonphylactery": "I need a filled Crystal Phylactery in my other hand to cast this spell.",
-  "arcaneadditions:components/polymorph.notallowed": "This spell seems to lack the power to become such a creature.",
-  "arcaneadditions:components/tree_stride": "Tree Stride"
+  "item.arcaneadditions.soulsearchers_lens": "Soul Searcher's Lens",
+  "item.arcaneadditions.soulsearchers_lens.confusion": "You peer through the lens at the creature, but to no particular effect. You will need to learn more before you continue.",
+  "item.arcaneadditions.soulsearchers_lens.distance": "I must stay near the creature if I intend to study it.",
+  "item.arcaneadditions.soulsearchers_lens.experience": "I lack the required experience to study this creature.",
+  "item.arcaneadditions.soulsearchers_lens.nonphylactery": "I need an empty or partially filled relevant Crystal Phylactery in my other hand to study this creature.",
+
+  "itemGroup.arcaneadditions": "Arcane Additions"
 }

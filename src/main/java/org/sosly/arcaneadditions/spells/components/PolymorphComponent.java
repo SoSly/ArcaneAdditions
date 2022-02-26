@@ -103,7 +103,7 @@ public class PolymorphComponent extends SpellEffect {
         AtomicBoolean allowed = new AtomicBoolean(false);
         AtomicInteger tier = new AtomicInteger();
         AtomicReference<Float> magnitude = new AtomicReference<>(iModifiedSpellPart.getValue(Attribute.MAGNITUDE));
-        SpellsConfig.POLYMORPH_TIERS.get().forEach(tierList -> {
+        ServerConfig.POLYMORPH_TIERS.get().forEach(tierList -> {
             tier.getAndIncrement();
 
             if (tierList.contains(Objects.requireNonNull(type.getRegistryName()).toString())) {

@@ -13,8 +13,12 @@ import net.minecraftforge.fml.common.Mod;
 import java.util.*;
 
 @Mod.EventBusSubscriber
-public class SpellsConfig {
+public class ServerConfig {
     public static ForgeConfigSpec CONFIG;
+
+    public static final ForgeConfigSpec.ConfigValue<Integer> SOULSEARCHERS_LENS_HEALTH_PER_LEVEL;
+    public static final ForgeConfigSpec.ConfigValue<Integer> SOULSEARCHERS_LENS_MAX_DISTANCE;
+    public static final ForgeConfigSpec.ConfigValue<List<String>> SOULSEARCHERS_LENS_CREATURE_MODIFIERS;
 
     public static final ForgeConfigSpec.BooleanValue ALLOW_SPELLCASTING_WHILE_POLYMORPHED;
     public static final ForgeConfigSpec.ConfigValue<List<? extends List<String>>> POLYMORPH_TIERS;
@@ -22,9 +26,21 @@ public class SpellsConfig {
     static {
         ForgeConfigSpec.Builder builder = new ForgeConfigSpec.Builder();
 
+        builder.push("arcaneadditions:items/soulsearchers_lens");
+        SOULSEARCHERS_LENS_CREATURE_MODIFIERS = builder.comment("An (optional) list of modifiers for specific creatures heawlth values for determinign the XP required to study that creature")
+            .translation("config.arcaneadditions.soulsearchers_lens_creature_modifiers")
+            .define("creatureModifiers", Arrays.asList("minecraft:villager,1.5"));
+        SOULSEARCHERS_LENS_HEALTH_PER_LEVEL = builder.comment("For every multiple of this number that a creature has in max health, the player must spend a level to progress their phylactery progress.")
+            .translation("config.arcaneadditions.soulsearchers_lens_health_per_level")
+            .define("healthPerLevel", 10);
+        SOULSEARCHERS_LENS_MAX_DISTANCE = builder.comment("This setting determines how many blocks away the player can be as they continue to study their target.")
+            .translation("config.arcaneadditions.soulsearchers_lens_max_distance")
+            .define("maxDistance", 5);
+        builder.pop();
+
         builder.push("arcaneadditions:components/polymorph");
         ALLOW_SPELLCASTING_WHILE_POLYMORPHED = builder.comment("Disabling this setting prevents players from casting spells while polymorphed")
-            .translation("arcaneadditions.spells-config.allow_spellcasting_while_polymorphed")
+            .translation("config.arcaneadditions.allow_spellcasting_while_polymorphed")
             .define("allowSpellcasting", true);
 
         List<List<String>> morphTiers = Arrays.asList(
@@ -39,6 +55,6 @@ public class SpellsConfig {
             .defineList("morphTiers", morphTiers, it -> it instanceof List);
 
         builder.pop();
-        SpellsConfig.CONFIG = builder.build();
+        ServerConfig.CONFIG = builder.build();
     }
 }

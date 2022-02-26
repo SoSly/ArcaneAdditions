@@ -26,8 +26,9 @@ import org.sosly.arcaneadditions.client.entity.EntityRegistry;
 import org.sosly.arcaneadditions.client.menu.MenuRegistry;
 import org.sosly.arcaneadditions.client.renderer.RendererRegistry;
 import org.sosly.arcaneadditions.config.ConfigLoader;
-import org.sosly.arcaneadditions.config.SpellsConfig;
+import org.sosly.arcaneadditions.config.ServerConfig;
 import org.sosly.arcaneadditions.effects.EffectRegistry;
+import org.sosly.arcaneadditions.items.ItemRegistry;
 import org.sosly.arcaneadditions.utils.RLoc;
 
 @Mod(org.sosly.arcaneadditions.ArcaneAdditions.MOD_ID)
@@ -38,14 +39,15 @@ public class ArcaneAdditions {
     public ISidedProxy proxy;
 
     public ArcaneAdditions() {
-        ModLoadingContext.get().registerConfig(ModConfig.Type.CLIENT, SpellsConfig.CONFIG);
-        ConfigLoader.loadConfig(SpellsConfig.CONFIG, FMLPaths.CONFIGDIR.get().resolve("arcaneadditions-client.toml"));
+        ModLoadingContext.get().registerConfig(ModConfig.Type.CLIENT, ServerConfig.CONFIG);
+        ConfigLoader.loadConfig(ServerConfig.CONFIG, FMLPaths.CONFIGDIR.get().resolve("arcaneadditions-server.toml"));
         instance = this;
 
         // Initialize Registries
         IEventBus modBus = FMLJavaModLoadingContext.get().getModEventBus();
         EffectRegistry.EFFECTS.register(modBus);
         EntityRegistry.ENTITY_TYPES.register(modBus);
+        ItemRegistry.ITEMS.register(modBus);
         MenuRegistry.MENUS.register(modBus);
         MinecraftForge.EVENT_BUS.register(this);
 

@@ -30,7 +30,7 @@ import net.minecraftforge.fml.common.Mod;
 import org.sosly.arcaneadditions.ArcaneAdditions;
 import org.sosly.arcaneadditions.capabilities.polymorph.IPolymorphCapability;
 import org.sosly.arcaneadditions.capabilities.polymorph.PolymorphProvider;
-import org.sosly.arcaneadditions.config.SpellsConfig;
+import org.sosly.arcaneadditions.config.ServerConfig;
 import org.sosly.arcaneadditions.effects.EffectRegistry;
 import org.sosly.arcaneadditions.effects.neutral.PolymorphEffect;
 import org.sosly.arcaneadditions.spells.components.PolymorphComponent;
@@ -122,7 +122,7 @@ public class PolymorphEvents {
 
             // If the item is a spell, check if it's polymorph for ending the effect.
             if (stack.getItem() instanceof ItemSpell spellItem) {
-                if (SpellsConfig.ALLOW_SPELLCASTING_WHILE_POLYMORPHED.get()) return;
+                if (ServerConfig.ALLOW_SPELLCASTING_WHILE_POLYMORPHED.get()) return;
 
                 SpellRecipe recipe = SpellRecipe.fromNBT(spellItem.getSpellCompound(stack, caster));
                 AtomicBoolean isPolymorph = new AtomicBoolean(false);

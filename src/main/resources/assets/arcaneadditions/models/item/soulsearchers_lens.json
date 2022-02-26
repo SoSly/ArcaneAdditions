@@ -1,0 +1,19 @@
+{
+  "parent": "forge:item/default",
+  "loader": "forge:composite",
+  "parts": {
+    "crystal": {
+      "loader": "forge:obj",
+      "detectCullableFaces": true,
+      "diffuseLighting": true,
+      "flip-v": true,
+      "ambientToFullbright": false,
+      "model": "arcaneadditions:models/item/obj/soulsearchers_lens.obj"
+    }
+  },
+  "dissplay": {
+    "gui": {
+      "rotation": [0, 0, -45]
+    }
+  }
+}
