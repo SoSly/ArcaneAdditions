@@ -150,6 +150,8 @@ dependencies {
 
     implementation fg.deobf("curse.maven:geckolib-${geckolib_projectId}:${geckolib_fileId}")
 
+    implementation fg.deobf("curse.maven:jei-${jei_projectId}:${jei_fileId}")
+
     implementation fg.deobf("curse.maven:mana-and-artifice-${mna_projectId}:${mna_fileId}")
 }
 
@@ -178,6 +180,7 @@ def curseRelations = {
     requiredDependency 'budschies-morph-mod'
     requiredDependency 'curios'
     requiredDependency 'geckolib'
+    optionalDependency 'jei'
     requiredDependency 'mana-and-artifice'
 }
 
