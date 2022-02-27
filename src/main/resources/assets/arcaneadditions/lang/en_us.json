@@ -1,14 +1,16 @@
 {
   "arcaneadditions:components/ice_block": "Ice Block",
+  "arcaneadditions:components/path": "Path",
+  "arcaneadditions:components/plow": "Plow",
   "arcaneadditions:components/polymorph": "Polymorph",
   "arcaneadditions:components/polymorph.nonphylactery": "I need a filled Crystal Phylactery in my other hand to cast this spell.",
   "arcaneadditions:components/polymorph.notallowed": "This spell seems to lack the power to become such a creature.",
+  "arcaneadditions:components/strip": "Strip",
   "arcaneadditions:components/tree_stride": "Tree Stride",
 
   "effect.arcaneadditions.ice_block": "Ice Block",
   "effect.arcaneadditions.ice_block-exhaustion": "Hypothermia",
   "effect.arcaneadditions.polymorph": "Polymorph",
-  "effect.arcaneadditions.tree_stride": "Tree Stride",
 
   "item.arcaneadditions.soulsearchers_lens": "Soul Searcher's Lens",
   "item.arcaneadditions.soulsearchers_lens.confusion": "You peer through the lens at the creature, but to no particular effect. You will need to learn more before you continue.",

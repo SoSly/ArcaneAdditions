@@ -124,11 +124,12 @@ public class PolymorphEvents {
             if (stack.getItem() instanceof ItemSpell spellItem) {
                 if (ServerConfig.ALLOW_SPELLCASTING_WHILE_POLYMORPHED.get()) return;
 
+                // Todo: Reaching into Mithion's code like this is not advisable.  He may have an API to make this easier
                 SpellRecipe recipe = SpellRecipe.fromNBT(spellItem.getSpellCompound(stack, caster));
                 AtomicBoolean isPolymorph = new AtomicBoolean(false);
                 recipe.getComponents().forEach(component -> {
                     if (component.getPart() instanceof PolymorphComponent) {
-                        isPolymorph.set(true);
+                        isPolymorph.set(true); // todo: We should probably also make sure that the spell is going to affect the target in question.
                     }
                 });
                 if (isPolymorph.get()) return;

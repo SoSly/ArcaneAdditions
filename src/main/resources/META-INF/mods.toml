@@ -13,7 +13,7 @@ displayName="Arcane Additions"
 # A file name (in the root of the mod JAR) containing a logo for display
 logoFile="arcane-additions.png" #optional
 # A text field displayed in the mod UI
-credits="Thanks to Joefoxe of Hexerei for inspiring me to start modding, and to Mithion for making my minecraft experience magical.  Thanks to NotNova for their incredible pixel art."
+credits="Thanks to Joefoxe of Hexerei for inspiring me to start modding, and to Mithion for making my minecraft experience magical.  Thanks to NotNova for their incredible pixel art and to Aranai for models and textures."
 authors="nivthefox, anomalagous"
 description='''
 A wealth of new magical mysteries for the Mana and Artifice mod.'''

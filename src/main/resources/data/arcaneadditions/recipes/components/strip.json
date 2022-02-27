@@ -1,0 +1,15 @@
+{
+  "type": "mna:component",
+  "tier": 1,
+  "output": "arcaneadditions:components/strip",
+  "items": [
+    "forge:logs",
+    "minecraft:stone_axe",
+    "minecraft:stone_axe"
+  ],
+  "patterns": [
+    "mna:manaweave_patterns/slash",
+    "mna:manaweave_patterns/backslash",
+    "mna:manaweave_patterns/triangle"
+  ]
+}

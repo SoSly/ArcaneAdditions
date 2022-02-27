@@ -47,6 +47,50 @@
       }
     ]
   },
+  "Path": {
+    "index": 2,
+    "category": "sorcery",
+    "sections": [
+      {
+        "type": "title",
+        "value": "[AA] Path"
+      },
+      {
+        "type": "text",
+        "json": {
+          "text": "The earth bends before me as I walk, forging a path wherever I go."
+        }
+      }
+    ],
+    "related_recipes": [
+      {
+        "type": "spell_part",
+        "location": "arcaneadditions:components/path"
+      }
+    ]
+  },
+  "Plow": {
+    "index": 2,
+    "category": "sorcery",
+    "sections": [
+      {
+        "type": "title",
+        "value": "[AA] Plow"
+      },
+      {
+        "type": "text",
+        "json": {
+          "text": "I can call upon running water to prepare the soil for harvesting."
+        }
+      }
+    ],
+    "related_recipes": [
+      {
+        "type": "spell_part",
+        "location": "arcaneadditions:components/plow"
+      }
+    ]
+  },
   "Polymorph": {
     "index": 2,
     "category": "sorcery",
@@ -70,6 +114,28 @@
       {
         "type": "manaweaving_altar",
         "location": "mna:manaweaving/crystal_phylactery"
+      }
+    ]
+  },
+  "Strip": {
+    "index": 2,
+    "category": "sorcery",
+    "sections": [
+      {
+        "type": "title",
+        "value": "[AA] Strip"
+      },
+      {
+        "type": "text",
+        "json": {
+          "text": "I can call upon the wind to strip the bark from trees and logs."
+        }
+      }
+    ],
+    "related_recipes": [
+      {
+        "type": "spell_part",
+        "location": "arcaneadditions:components/path"
       }
     ]
   },
