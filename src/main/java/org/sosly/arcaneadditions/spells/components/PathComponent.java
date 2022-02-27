@@ -19,12 +19,15 @@ import com.mna.api.spells.targeting.SpellTarget;
 import net.minecraft.core.BlockPos;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvent;
-import net.minecraft.world.item.ShovelItem;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.EntityBlock;
 import net.minecraft.world.level.block.state.BlockState;
+import org.sosly.arcaneadditions.compat.Grass_Slabs.DummyPathableBlockProxy;
+import org.sosly.arcaneadditions.compat.Grass_Slabs.IPathableBlockProxy;
 
 public class PathComponent extends SpellEffect {
+    public static IPathableBlockProxy proxy = new DummyPathableBlockProxy();
+
     public PathComponent(ResourceLocation registryName, ResourceLocation guiIcon) {
         super(registryName, guiIcon);
     }
@@ -37,11 +40,11 @@ public class PathComponent extends SpellEffect {
             BlockState state = level.getBlockState(target.getBlock());
 
             if (!context.getWorld().isEmptyBlock(target.getBlock()) && context.getWorld().getFluidState(target.getBlock()).isEmpty() && !(state.getBlock() instanceof EntityBlock)) {
-                BlockState state1 = ShovelItem.getShovelPathingState(state);
+                BlockState state1 = PathComponent.proxy.getPathingState(level, pos, state);
 
                 if (state1 != null && level.isEmptyBlock(pos.above())) {
                     if (!level.isClientSide) {
-                        level.setBlock(pos, state1, 11);
+                        PathComponent.proxy.setBlock(level, pos, state1);
                     }
                 }
             }
@@ -68,6 +71,10 @@ public class PathComponent extends SpellEffect {
     @Override
     public int requiredXPForRote() {
         return 100;
+    }
+
+    public static void setProxy(IPathableBlockProxy proxy) {
+        PathComponent.proxy = proxy;
     }
 
     @Override

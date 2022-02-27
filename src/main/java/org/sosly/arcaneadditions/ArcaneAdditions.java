@@ -8,8 +8,6 @@
 package org.sosly.arcaneadditions;
 
 import com.mna.api.guidebook.RegisterGuidebooksEvent;
-import com.mna.tools.ISidedProxy;
-import com.mna.tools.proxy.ClientProxy;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.IEventBus;
@@ -18,6 +16,7 @@ import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.config.ModConfig;
+import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.fml.loading.FMLPaths;
 import org.apache.logging.log4j.LogManager;
@@ -25,13 +24,16 @@ import org.apache.logging.log4j.Logger;
 import org.sosly.arcaneadditions.client.entity.EntityRegistry;
 import org.sosly.arcaneadditions.client.menu.MenuRegistry;
 import org.sosly.arcaneadditions.client.renderer.RendererRegistry;
+import org.sosly.arcaneadditions.compat.CompatRegistry;
 import org.sosly.arcaneadditions.config.ConfigLoader;
 import org.sosly.arcaneadditions.config.ServerConfig;
 import org.sosly.arcaneadditions.effects.EffectRegistry;
+import org.sosly.arcaneadditions.client.ClientProxy;
+import org.sosly.arcaneadditions.client.ISidedProxy;
 import org.sosly.arcaneadditions.items.ItemRegistry;
 import org.sosly.arcaneadditions.utils.RLoc;
 
-@Mod(org.sosly.arcaneadditions.ArcaneAdditions.MOD_ID)
+@Mod(ArcaneAdditions.MOD_ID)
 public class ArcaneAdditions {
     public static final String MOD_ID = "arcaneadditions";
     public static final Logger LOGGER = LogManager.getLogger(ArcaneAdditions.class);
@@ -50,6 +52,7 @@ public class ArcaneAdditions {
         ItemRegistry.ITEMS.register(modBus);
         MenuRegistry.MENUS.register(modBus);
         MinecraftForge.EVENT_BUS.register(this);
+        modBus.addListener(ArcaneAdditions::setup);
 
         DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () -> {
             modBus.register(RendererRegistry.class);
@@ -61,5 +64,9 @@ public class ArcaneAdditions {
     public void onRegisterGuidebooks(RegisterGuidebooksEvent event) {
         event.getRegistry().addGuidebookPath(RLoc.create("guide"));
         org.sosly.arcaneadditions.ArcaneAdditions.LOGGER.info("arcaneadditions: guide registered");
+    }
+
+    private static void setup(FMLCommonSetupEvent event) {
+        CompatRegistry.registerCompats();
     }
 }

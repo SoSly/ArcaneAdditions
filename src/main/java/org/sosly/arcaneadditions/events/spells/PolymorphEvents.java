@@ -7,6 +7,8 @@
 
 package org.sosly.arcaneadditions.events.spells;
 
+import com.mna.api.ManaAndArtificeMod;
+import com.mna.api.spells.base.ISpellDefinition;
 import com.mna.items.sorcery.ItemSpell;
 import com.mna.spells.crafting.SpellRecipe;
 import de.budschie.bmorph.morph.MorphUtil;
@@ -124,8 +126,7 @@ public class PolymorphEvents {
             if (stack.getItem() instanceof ItemSpell spellItem) {
                 if (ServerConfig.ALLOW_SPELLCASTING_WHILE_POLYMORPHED.get()) return;
 
-                // Todo: Reaching into Mithion's code like this is not advisable.  He may have an API to make this easier
-                SpellRecipe recipe = SpellRecipe.fromNBT(spellItem.getSpellCompound(stack, caster));
+                ISpellDefinition recipe = ManaAndArtificeMod.getSpellHelper().parseSpellDefinition(stack);
                 AtomicBoolean isPolymorph = new AtomicBoolean(false);
                 recipe.getComponents().forEach(component -> {
                     if (component.getPart() instanceof PolymorphComponent) {

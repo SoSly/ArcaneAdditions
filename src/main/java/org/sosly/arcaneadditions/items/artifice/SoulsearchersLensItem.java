@@ -45,7 +45,6 @@ public class SoulsearchersLensItem extends AdditionalTieredItem {
     private static final Lazy<ItemCrystalPhylactery> CrystalPhylactery = Lazy.of(() -> (ItemCrystalPhylactery)ForgeRegistries.ITEMS.getValue(new ResourceLocation("mna:crystal_phylactery")));
     private static final Lazy<PhylacteryStaffItem> StaffPhylactery = Lazy.of(() -> (PhylacteryStaffItem)ForgeRegistries.ITEMS.getValue(new ResourceLocation("mna:staff_phylactery")));
 
-
     public SoulsearchersLensItem() {
         super(new Properties());
     }
