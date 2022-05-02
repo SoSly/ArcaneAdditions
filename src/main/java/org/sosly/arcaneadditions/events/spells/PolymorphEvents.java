@@ -10,7 +10,6 @@ package org.sosly.arcaneadditions.events.spells;
 import com.mna.api.ManaAndArtificeMod;
 import com.mna.api.spells.base.ISpellDefinition;
 import com.mna.items.sorcery.ItemSpell;
-import com.mna.spells.crafting.SpellRecipe;
 import de.budschie.bmorph.morph.MorphUtil;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectInstance;
