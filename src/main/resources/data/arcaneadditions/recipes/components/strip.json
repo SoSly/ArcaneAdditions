@@ -3,7 +3,7 @@
   "tier": 1,
   "output": "arcaneadditions:components/strip",
   "items": [
-    "forge:logs",
+    "minecraft:logs",
     "minecraft:stone_axe",
     "minecraft:stone_axe"
   ],
