@@ -53,9 +53,6 @@ public class TreeStrideComponent extends SpellEffect {
             return ComponentApplicationResult.FAIL;
         }
 
-        ITreestrideCapability cap = level.getCapability(TreestrideProvider.TREESTRIDE).orElse(null);
-        Map<BlockPos, String> destinations = cap.getPlayerDestinations(player);
-
         Set<BlockPos> roots = TreeFinder.getRootBlocks(level, pos, blockPos -> TreeFinder.isBlockALog(level, blockPos));
         BlockPos root = findRootBlock(roots, pos);
         ServerPlayer caster = (ServerPlayer)spellSource.getPlayer();
