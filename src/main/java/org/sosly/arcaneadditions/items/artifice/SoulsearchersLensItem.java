@@ -7,9 +7,9 @@
 
 package org.sosly.arcaneadditions.items.artifice;
 
+import com.mna.api.entities.construct.IConstruct;
 import com.mna.api.ManaAndArtificeMod;
 import com.mna.api.sound.SFX;
-import com.mna.entities.constructs.animated.EntityAnimatedConstruct;
 import com.mna.items.sorcery.ItemCrystalPhylactery;
 import com.mna.items.sorcery.PhylacteryStaffItem;
 import com.mna.sound.ItemInUseLoopingSound;
@@ -69,7 +69,7 @@ public class SoulsearchersLensItem extends AdditionalTieredItem {
 
     @Override
     public InteractionResult interactLivingEntity(@NotNull ItemStack item, Player player, @NotNull LivingEntity target, @NotNull InteractionHand hand) {
-        if (target instanceof Mob && !(target instanceof EntityAnimatedConstruct)) {
+        if (target instanceof Mob && !(target instanceof IConstruct)) {
             item.getOrCreateTag().putInt("target", target.getId());
             item.getOrCreateTag().putString("hand", hand.toString());
             return InteractionResult.PASS;
