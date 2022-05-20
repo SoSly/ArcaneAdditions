@@ -7,16 +7,15 @@
 
 package org.sosly.arcaneadditions.events.spells;
 
-import com.mojang.blaze3d.vertex.PoseStack;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.model.EntityModel;
+import com.mna.api.ManaAndArtificeMod;
+import com.mna.api.spells.base.ISpellDefinition;
+import com.mna.items.sorcery.ItemSpell;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectInstance;
-import net.minecraft.world.entity.EntityDimensions;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
+import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.client.event.RenderLivingEvent;
 import net.minecraftforge.event.entity.living.*;
 import net.minecraftforge.event.entity.player.AttackEntityEvent;
@@ -26,13 +25,16 @@ import net.minecraftforge.eventbus.api.Event;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import org.sosly.arcaneadditions.ArcaneAdditions;
-import org.sosly.arcaneadditions.client.entity.EntityRegistry;
 import org.sosly.arcaneadditions.client.entity.IceBlockEntity;
+import org.sosly.arcaneadditions.config.ServerConfig;
 import org.sosly.arcaneadditions.effects.EffectRegistry;
 import org.sosly.arcaneadditions.effects.beneficial.IceBlockEffect;
+import org.sosly.arcaneadditions.spells.components.IceBlockComponent;
+import org.sosly.arcaneadditions.spells.components.PolymorphComponent;
 import org.sosly.arcaneadditions.utils.World;
 
 import java.util.Collection;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 @Mod.EventBusSubscriber(modid = ArcaneAdditions.MOD_ID, bus = Mod.EventBusSubscriber.Bus.FORGE)
 public class IceBlockEvents {
@@ -122,8 +124,7 @@ public class IceBlockEvents {
             entity.setNoActionTime(0);
             entity.setTicksFrozen(0);
 
-            MobEffectInstance cooldown = new MobEffectInstance(EffectRegistry.ICE_BLOCK_EXHAUSTION.get(), 600, 0);
-            entity.addEffect(cooldown);
+            removeIceBlockEntity(entity);
         });
     }
 
@@ -141,9 +142,20 @@ public class IceBlockEvents {
             entity.setNoActionTime(0);
             entity.setTicksFrozen(0);
 
-            MobEffectInstance cooldown = new MobEffectInstance(EffectRegistry.ICE_BLOCK_EXHAUSTION.get(), 600, 0);
-            entity.addEffect(cooldown);
+            removeIceBlockEntity(entity);
         });
+    }
+
+    private static void removeIceBlockEntity(LivingEntity entity) {
+        int iceBlockEntityId = entity.getPersistentData().getInt(IceBlockComponent.ICEBLOCK_ENTITY_ID);
+        IceBlockEntity iceBlock = (IceBlockEntity)entity.getLevel().getEntity(iceBlockEntityId);
+        if (iceBlock != null) {
+            iceBlock.remove(Entity.RemovalReason.DISCARDED);
+            entity.getPersistentData().remove(IceBlockComponent.ICEBLOCK_ENTITY_ID);
+        }
+
+        MobEffectInstance cooldown = new MobEffectInstance(EffectRegistry.ICE_BLOCK_EXHAUSTION.get(), 600, 0);
+        entity.addEffect(cooldown);
     }
 
     @SubscribeEvent
@@ -151,22 +163,22 @@ public class IceBlockEvents {
         handleRestrictedActions(event);
     }
 
-    @OnlyIn(Dist.CLIENT)
-    @SubscribeEvent
-    public static <E extends LivingEntity, M extends EntityModel<E>> void onPostRenderLiving(RenderLivingEvent.Post<E, M> event) {
-        runOnEffect(event, (instance, entity) -> {
-            IceBlockEntity ice = new IceBlockEntity(EntityRegistry.ICE_BLOCK.get(), entity.getLevel());
-            PoseStack stack = event.getPoseStack();
-            EntityDimensions dim = entity.getDimensions(entity.getPose());
-            stack.pushPose();
-            stack.scale(dim.width, dim.height/3.0f, dim.width);
-            Minecraft.getInstance().getEntityRenderDispatcher().render(ice, -0.5f, 0, -0.5f, 0, event.getPartialTick(), stack, event.getMultiBufferSource(), event.getPackedLight());
-            stack.popPose();
-        });
-    }
-
     private static void handleRestrictedActions(LivingEvent event) {
         runOnEffect(event, (instance, entity) -> {
+            ItemStack stack = entity.getMainHandItem();
+
+            // If the item is a spell, check if it's ice block for ending the effect.
+            if (stack.getItem() instanceof ItemSpell) {
+                ISpellDefinition recipe = ManaAndArtificeMod.getSpellHelper().parseSpellDefinition(stack);
+                AtomicBoolean isIceBlock = new AtomicBoolean(false);
+                recipe.getComponents().forEach(component -> {
+                    if (component.getPart() instanceof IceBlockComponent) {
+                        isIceBlock.set(true); // todo: We should probably also make sure that the spell is going to affect the target in question.
+                    }
+                });
+                if (isIceBlock.get()) return;
+            }
+
             if (event.isCancelable()) event.setCanceled(true);
             if (event instanceof PlayerInteractEvent) event.setResult(Event.Result.DENY);
             if (event instanceof PlayerEvent.HarvestCheck) ((PlayerEvent.HarvestCheck)event).setCanHarvest(false);

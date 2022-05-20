@@ -41,7 +41,7 @@ public class ArcaneAdditions {
     public ISidedProxy proxy;
 
     public ArcaneAdditions() {
-        ModLoadingContext.get().registerConfig(ModConfig.Type.CLIENT, ServerConfig.CONFIG);
+        ModLoadingContext.get().registerConfig(ModConfig.Type.SERVER, ServerConfig.CONFIG);
         ConfigLoader.loadConfig(ServerConfig.CONFIG, FMLPaths.CONFIGDIR.get().resolve("arcaneadditions-server.toml"));
         instance = this;
 

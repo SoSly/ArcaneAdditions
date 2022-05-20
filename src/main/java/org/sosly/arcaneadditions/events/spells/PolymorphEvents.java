@@ -122,7 +122,7 @@ public class PolymorphEvents {
             if (stack.getItem() instanceof AirItem || stack.getItem() instanceof BlockItem) return;
 
             // If the item is a spell, check if it's polymorph for ending the effect.
-            if (stack.getItem() instanceof ItemSpell spellItem) {
+            if (stack.getItem() instanceof ItemSpell) {
                 if (ServerConfig.ALLOW_SPELLCASTING_WHILE_POLYMORPHED.get()) return;
 
                 ISpellDefinition recipe = ManaAndArtificeMod.getSpellHelper().parseSpellDefinition(stack);

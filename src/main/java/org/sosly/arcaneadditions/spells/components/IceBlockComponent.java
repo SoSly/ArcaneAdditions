@@ -21,11 +21,17 @@ import com.mna.api.spells.targeting.SpellTarget;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.level.Level;
+import org.sosly.arcaneadditions.client.entity.EntityRegistry;
+import org.sosly.arcaneadditions.client.entity.IceBlockEntity;
 import org.sosly.arcaneadditions.effects.EffectRegistry;
 
 import java.util.Objects;
 
 public class IceBlockComponent extends SpellEffect {
+    public static String ICEBLOCK_ENTITY_ID = "arcaneadditions:iceblock-entity";
 
     public IceBlockComponent(ResourceLocation registryName, ResourceLocation guiIcon) {
         super(registryName, guiIcon, new AttributeValuePair(Attribute.DURATION, 10.0F, 2.0F, 30.0F, 2.0F, 2.0F));
@@ -35,9 +41,30 @@ public class IceBlockComponent extends SpellEffect {
     public ComponentApplicationResult ApplyEffect(SpellSource source, SpellTarget target, IModifiedSpellPart<SpellEffect> mods, SpellContext context) {
         if (target.isLivingEntity() && Objects.requireNonNull(target.getLivingEntity()).getEffect(EffectRegistry.ICE_BLOCK_EXHAUSTION.get()) == null && target.getLivingEntity().getEffect(EffectRegistry.ICE_BLOCK.get()) == null) {
             target.getLivingEntity().addEffect(new MobEffectInstance(EffectRegistry.ICE_BLOCK.get(), (int)mods.getValue(Attribute.DURATION) * 20, 0));
+
+            Level level = context.getWorld();
+            IceBlockEntity iceBlock = EntityRegistry.ICE_BLOCK.get().create(level);
+            LivingEntity caster = source.getCaster();
+            if (iceBlock != null && caster != null) {
+
+                double x = caster.getX() - 0.5f;
+                double y = caster.getY();
+                double z = caster.getZ() - 0.5f;
+                iceBlock.setPos(x, y, z);
+                if (target.isEntity() && target.getEntity() != null) {
+                    Entity targetEntity = target.getEntity();
+                    iceBlock.setXRot(targetEntity.getXRot());
+                    iceBlock.setYRot(targetEntity.getYRot());
+                    iceBlock.getPersistentData().putInt(ICEBLOCK_ENTITY_ID, targetEntity.getId());
+                    targetEntity.getPersistentData().putInt(ICEBLOCK_ENTITY_ID, iceBlock.getId());
+                }
+                iceBlock.setNoGravity(true);
+                iceBlock.setInvulnerable(true);
+                level.addFreshEntity(iceBlock);
+            }
+
             return ComponentApplicationResult.SUCCESS;
         }
-
         return ComponentApplicationResult.FAIL;
     }
 

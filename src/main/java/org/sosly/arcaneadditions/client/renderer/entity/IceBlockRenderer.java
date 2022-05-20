@@ -16,9 +16,12 @@ import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntityDimensions;
 import org.jetbrains.annotations.NotNull;
 import org.sosly.arcaneadditions.client.entity.IceBlockEntity;
 import org.sosly.arcaneadditions.client.model.IceBlockModel;
+import org.sosly.arcaneadditions.spells.components.IceBlockComponent;
 
 public class IceBlockRenderer extends EntityRenderer<IceBlockEntity> {
     public static final ResourceLocation ICE_TEXTURE = new ResourceLocation("minecraft", "textures/block/ice.png");
@@ -39,7 +42,7 @@ public class IceBlockRenderer extends EntityRenderer<IceBlockEntity> {
     public void render(@NotNull IceBlockEntity pEntity, float pEntityYaw, float pPartialTicks, @NotNull PoseStack pMatrixStack, MultiBufferSource pBuffer, int pPackedLight) {
         RenderType rendertype = RenderType.entityTranslucent(ICE_TEXTURE);
         VertexConsumer consumer = pBuffer.getBuffer(rendertype);
-        
+
         model.renderToBuffer(pMatrixStack, consumer, pPackedLight, OverlayTexture.NO_OVERLAY, 1, 1, 1, 1);
         super.render(pEntity, pEntityYaw, pPartialTicks, pMatrixStack, pBuffer, pPackedLight);
     }
