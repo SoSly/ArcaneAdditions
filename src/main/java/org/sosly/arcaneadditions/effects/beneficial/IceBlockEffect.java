@@ -9,9 +9,12 @@ package org.sosly.arcaneadditions.effects.beneficial;
 
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectCategory;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.level.Level;
+import org.sosly.arcaneadditions.spells.components.IceBlockComponent;
 
 public class IceBlockEffect extends MobEffect {
     private static final int BASE_FREQUENCY = 20;
@@ -24,6 +27,20 @@ public class IceBlockEffect extends MobEffect {
 
     @Override
     public void applyEffectTick(LivingEntity entity, int amplifier) {
+        Level level = entity.getLevel();
+        int iceBlocKID = entity.getPersistentData().getInt(IceBlockComponent.ICEBLOCK_ENTITY_ID);
+        Entity iceBlock = level.getEntity(iceBlocKID);
+
+        if (iceBlock != null) {
+            double x = entity.getX() - 0.5f;
+            double y = entity.getY();
+            double z = entity.getZ() - 0.5f;
+
+            iceBlock.setPos(x, y, z);
+            iceBlock.setXRot(entity.getXRot());
+            iceBlock.setYRot(entity.getYRot());
+        }
+
         if (entity.getHealth() < entity.getMaxHealth()) {
             entity.heal(1.0f);
         }

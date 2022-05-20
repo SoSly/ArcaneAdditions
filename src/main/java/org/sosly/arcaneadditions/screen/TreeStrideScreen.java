@@ -5,7 +5,7 @@
  *           conditions; detailed at https://www.gnu.org/licenses/gpl-3.0.html
  */
 
-package org.sosly.arcaneadditions.client.screen;
+package org.sosly.arcaneadditions.screen;
 
 import com.mojang.blaze3d.platform.InputConstants;
 import com.mojang.blaze3d.systems.RenderSystem;
@@ -20,7 +20,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraftforge.client.gui.widget.ExtendedButton;
 import org.sosly.arcaneadditions.capabilities.treestride.TreestrideProvider;
-import org.sosly.arcaneadditions.client.menu.TreeStrideMenu;
+import org.sosly.arcaneadditions.menu.TreeStrideMenu;
 import org.sosly.arcaneadditions.networking.PacketHandler;
 import org.sosly.arcaneadditions.networking.messages.serverbound.NewTreeStrideDestination;
 import org.sosly.arcaneadditions.networking.messages.serverbound.RemoveTreeStrideDestination;

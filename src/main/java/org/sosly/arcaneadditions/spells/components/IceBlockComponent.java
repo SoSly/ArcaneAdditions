@@ -24,8 +24,8 @@ import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.level.Level;
-import org.sosly.arcaneadditions.client.entity.EntityRegistry;
-import org.sosly.arcaneadditions.client.entity.IceBlockEntity;
+import org.sosly.arcaneadditions.entities.EntityRegistry;
+import org.sosly.arcaneadditions.entities.IceBlockEntity;
 import org.sosly.arcaneadditions.effects.EffectRegistry;
 
 import java.util.Objects;
@@ -46,11 +46,6 @@ public class IceBlockComponent extends SpellEffect {
             IceBlockEntity iceBlock = EntityRegistry.ICE_BLOCK.get().create(level);
             LivingEntity caster = source.getCaster();
             if (iceBlock != null && caster != null) {
-
-                double x = caster.getX() - 0.5f;
-                double y = caster.getY();
-                double z = caster.getZ() - 0.5f;
-                iceBlock.setPos(x, y, z);
                 if (target.isEntity() && target.getEntity() != null) {
                     Entity targetEntity = target.getEntity();
                     iceBlock.setXRot(targetEntity.getXRot());

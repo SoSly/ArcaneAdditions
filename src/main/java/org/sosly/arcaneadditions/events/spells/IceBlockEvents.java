@@ -25,12 +25,10 @@ import net.minecraftforge.eventbus.api.Event;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import org.sosly.arcaneadditions.ArcaneAdditions;
-import org.sosly.arcaneadditions.client.entity.IceBlockEntity;
-import org.sosly.arcaneadditions.config.ServerConfig;
+import org.sosly.arcaneadditions.entities.IceBlockEntity;
 import org.sosly.arcaneadditions.effects.EffectRegistry;
 import org.sosly.arcaneadditions.effects.beneficial.IceBlockEffect;
 import org.sosly.arcaneadditions.spells.components.IceBlockComponent;
-import org.sosly.arcaneadditions.spells.components.PolymorphComponent;
 import org.sosly.arcaneadditions.utils.World;
 
 import java.util.Collection;

@@ -11,7 +11,6 @@ import com.mna.api.spells.parts.SpellEffect;
 import com.mna.api.spells.targeting.SpellContext;
 import com.mna.api.spells.targeting.SpellSource;
 import com.mna.api.spells.targeting.SpellTarget;
-import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.TextComponent;
 import net.minecraft.resources.ResourceLocation;
@@ -21,12 +20,10 @@ import net.minecraft.world.MenuProvider;
 import net.minecraft.world.SimpleMenuProvider;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.network.NetworkHooks;
-import org.sosly.arcaneadditions.capabilities.treestride.ITreestrideCapability;
 import org.sosly.arcaneadditions.capabilities.treestride.TreestrideProvider;
-import org.sosly.arcaneadditions.client.menu.TreeStrideMenu;
+import org.sosly.arcaneadditions.menu.TreeStrideMenu;
 import org.sosly.arcaneadditions.utils.TreeFinder;
 
-import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.atomic.AtomicReference;
 

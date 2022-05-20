@@ -5,14 +5,23 @@
  *           conditions; detailed at https://www.gnu.org/licenses/gpl-3.0.html
  */
 
-package org.sosly.arcaneadditions.client;
+package org.sosly.arcaneadditions.utils;
 
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.world.entity.player.Player;
 import org.jetbrains.annotations.Nullable;
-import org.sosly.arcaneadditions.compat.Grass_Slabs.IPathableBlockProxy;
 
-public interface ISidedProxy {
-    @Nullable Player getClientPlayer();
-    @Nullable ClientLevel getClientWorld();
+public class ClientProxy implements ISidedProxy {
+    private final Minecraft mc = Minecraft.getInstance();
+
+    @Override
+    public @Nullable Player getClientPlayer() {
+        return this.mc.player;
+    }
+
+    @Override
+    public @Nullable ClientLevel getClientWorld() {
+        return this.mc.level;
+    }
 }
