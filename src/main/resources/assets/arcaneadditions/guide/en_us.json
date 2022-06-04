@@ -1,11 +1,11 @@
 {
   "Soulsearcher's Lens": {
-    "index": "2",
+    "index": 1,
     "category": "artifice",
     "sections": [
       {
         "type": "title",
-        "value": "[AA] Soul Searcher's Lens"
+        "value": "Soul Searcher's Lens"
       },
       {
         "type": "text",
@@ -25,13 +25,13 @@
       }
     ]
   },
-  "IceBlock": {
+  "Component: Ice Block": {
     "index": 2,
     "category": "sorcery",
     "sections": [
       {
         "type": "title",
-        "value": "[AA] Ice Block"
+        "value": "Ice Block"
       },
       {
         "type": "text",
@@ -47,13 +47,13 @@
       }
     ]
   },
-  "Path": {
+  "Component: Path": {
     "index": 2,
     "category": "sorcery",
     "sections": [
       {
         "type": "title",
-        "value": "[AA] Path"
+        "value": "Path"
       },
       {
         "type": "text",
@@ -69,13 +69,13 @@
       }
     ]
   },
-  "Plow": {
+  "Component: Plow": {
     "index": 2,
     "category": "sorcery",
     "sections": [
       {
         "type": "title",
-        "value": "[AA] Plow"
+        "value": "Plow"
       },
       {
         "type": "text",
@@ -91,13 +91,13 @@
       }
     ]
   },
-  "Polymorph": {
+  "Component: Polymorph": {
     "index": 2,
     "category": "sorcery",
     "sections": [
       {
         "type": "title",
-        "value": "[AA] Polymorph"
+        "value": "Polymorph"
       },
       {
         "type": "text",
@@ -117,13 +117,13 @@
       }
     ]
   },
-  "Strip": {
+  "Component: Strip": {
     "index": 2,
     "category": "sorcery",
     "sections": [
       {
         "type": "title",
-        "value": "[AA] Strip"
+        "value": "Strip"
       },
       {
         "type": "text",
@@ -139,13 +139,13 @@
       }
     ]
   },
-  "Tree Stride": {
+  "Component: Tree Stride": {
     "index": 2,
     "category": "sorcery",
     "sections": [
       {
         "type": "title",
-        "value": "[AA] Tree Stride"
+        "value": "Tree Stride"
       },
       {
         "type": "text",
