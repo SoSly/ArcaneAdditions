@@ -3,12 +3,18 @@
 package org.sosly.arcaneadditions.utils;
 
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Holder;
+import net.minecraft.core.Registry;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.Tag;
+import net.minecraft.tags.TagKey;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.LeavesBlock;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraftforge.common.data.ForgeRegistryTagsProvider;
 import net.minecraftforge.event.TagsUpdatedEvent;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -28,13 +34,17 @@ import java.util.stream.Stream;
 // and credit him instead of developing our own algorithm for this.
 @Mod.EventBusSubscriber(modid = ArcaneAdditions.MOD_ID, bus = Mod.EventBusSubscriber.Bus.FORGE)
 public class TreeFinder {
-    public static Tag<Block> logs;
-    public static Tag<Block> leaves;
+    public static Iterable<Holder<Block>> logs;
+    public static Iterable<Holder<Block>> leaves;
 
     @SubscribeEvent(priority = EventPriority.LOWEST)
     public static void onTagsUpdated(TagsUpdatedEvent event) {
-        leaves = event.getTagManager().getOrEmpty(ForgeRegistries.Keys.BLOCKS).getTagOrEmpty(new ResourceLocation("arcaneadditions:leaves"));
-        logs = event.getTagManager().getOrEmpty(ForgeRegistries.Keys.BLOCKS).getTagOrEmpty(new ResourceLocation("arcaneadditions:trunks"));
+        TagKey<Block> leavesTag = BlockTags.create(new ResourceLocation("arcaneadditions:leaves"));
+        TagKey<Block> trunksTag = BlockTags.create(new ResourceLocation("arcaneadditions:trunks"));
+
+
+        leaves = event.getTagManager().registryOrThrow(Registry.BLOCK_REGISTRY).getTagOrEmpty(leavesTag);
+        logs = event.getTagManager().registryOrThrow(Registry.BLOCK_REGISTRY).getTagOrEmpty(trunksTag);
     }
 
     public static Set<BlockPos> getConnectedBlocks(Collection<BlockPos> startingPoints, Function<BlockPos, Stream<BlockPos>> searchOffsetsSupplier, int maxNumBlocks, AtomicInteger iterationCounter) {
@@ -72,7 +82,7 @@ public class TreeFinder {
         AtomicBoolean overrideHasLeaves = new AtomicBoolean(inHasLeaves.get());
         boolean valueToOverrideHasLeaves = inHasLeaves.get();
 
-        int maxNumTreeBlocks = 500; // todo
+        int maxNumTreeBlocks = 64; // todo make this a configuration value
 
         AtomicBoolean trueHasLeaves = new AtomicBoolean(false);
         Set<BlockPos> supportedBlocks = getConnectedBlocks(
@@ -107,7 +117,13 @@ public class TreeFinder {
     }
 
     public static boolean isBlockALog(BlockState blockState) {
-        return logs.contains(blockState.getBlock());
+        AtomicBoolean isLog = new AtomicBoolean(false);
+        logs.forEach(log -> {
+            if (blockState.getBlock().getRegistryName() != null && log.is(blockState.getBlock().getRegistryName())) {
+                isLog.set(true);
+            }
+        });
+        return isLog.get();
     }
 
     public static boolean isBlockALog(Level level, BlockPos pos) {
@@ -119,7 +135,15 @@ public class TreeFinder {
     }
 
     public static boolean isBlockLeaves(BlockState blockState) {
-        if (leaves.contains(blockState.getBlock())) {
+        AtomicBoolean isLeaves = new AtomicBoolean(false);
+
+        leaves.forEach(log -> {
+            if (blockState.getBlock().getRegistryName() != null && log.is(blockState.getBlock().getRegistryName())) {
+                isLeaves.set(true);
+            }
+        });
+
+        if (isLeaves.get()) {
             return !blockState.hasProperty(LeavesBlock.PERSISTENT) || !blockState.getValue(LeavesBlock.PERSISTENT);
         } else {
             return false;
