@@ -49,13 +49,15 @@ public class PlowComponent extends SpellEffect {
 
             if (!context.getWorld().isEmptyBlock(target.getBlock()) && context.getWorld().getFluidState(target.getBlock()).isEmpty() && !(state.getBlock() instanceof EntityBlock)) {
                 Pair<Predicate<SpellBlockContext>, Consumer<SpellBlockContext>> pair = TILLABLES.get(state.getBlock());
-                Predicate<SpellBlockContext> predicate = pair.getFirst();
-                Consumer<SpellBlockContext> consumer = pair.getSecond();
-                SpellBlockContext sbx = new SpellBlockContext(level, block);
+                if (pair != null) {
+                    Predicate<SpellBlockContext> predicate = pair.getFirst();
+                    Consumer<SpellBlockContext> consumer = pair.getSecond();
+                    SpellBlockContext sbx = new SpellBlockContext(level, block);
 
-                if (predicate.test(sbx)) {
-                    if (!level.isClientSide) {
-                        consumer.accept(sbx);
+                    if (predicate.test(sbx)) {
+                        if (!level.isClientSide) {
+                            consumer.accept(sbx);
+                        }
                     }
                 }
             }
