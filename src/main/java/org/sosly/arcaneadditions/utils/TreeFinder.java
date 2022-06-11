@@ -37,6 +37,8 @@ public class TreeFinder {
     public static Iterable<Holder<Block>> logs;
     public static Iterable<Holder<Block>> leaves;
 
+    private static int maxNumTreeBlocks = 64; // todo make this a configuration value
+
     @SubscribeEvent(priority = EventPriority.LOWEST)
     public static void onTagsUpdated(TagsUpdatedEvent event) {
         TagKey<Block> leavesTag = BlockTags.create(new ResourceLocation("arcaneadditions:leaves"));
@@ -82,8 +84,6 @@ public class TreeFinder {
         AtomicBoolean overrideHasLeaves = new AtomicBoolean(inHasLeaves.get());
         boolean valueToOverrideHasLeaves = inHasLeaves.get();
 
-        int maxNumTreeBlocks = 64; // todo make this a configuration value
-
         AtomicBoolean trueHasLeaves = new AtomicBoolean(false);
         Set<BlockPos> supportedBlocks = getConnectedBlocks(
                 Collections.singletonList(blockPos),
@@ -110,7 +110,7 @@ public class TreeFinder {
         Set<BlockPos> supportingBlocks = getConnectedBlocks(
                 Collections.singletonList(blockPos),
                 somePos -> BlockNeighbors.BELOW.asStream(somePos).filter(logCondition),
-                Integer.MAX_VALUE
+                maxNumTreeBlocks
         );
 
         return supportingBlocks;
