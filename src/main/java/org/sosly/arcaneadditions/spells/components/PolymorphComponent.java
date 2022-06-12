@@ -127,7 +127,7 @@ public class PolymorphComponent extends SpellEffect {
 
     @Override
     public float initialComplexity() {
-        return 50;
+        return 50.0f;
     }
 
     @Override

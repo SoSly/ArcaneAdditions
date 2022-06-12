@@ -8,9 +8,9 @@
     "minecraft:honey_bottle",
     "minecraft:bone",
     "minecraft:string",
-    "minecraft:fish",
-    "mna:water_mote",
-    "mna:diamond"
+    "minecraft:cod",
+    "minecraft:diamond",
+    "mna:mote_water"
   ],
   "patterns":
   [
