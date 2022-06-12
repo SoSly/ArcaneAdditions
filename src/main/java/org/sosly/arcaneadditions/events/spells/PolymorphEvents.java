@@ -27,13 +27,16 @@ import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.eventbus.api.Event;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.ModList;
 import net.minecraftforge.fml.common.Mod;
 import org.sosly.arcaneadditions.ArcaneAdditions;
 import org.sosly.arcaneadditions.capabilities.polymorph.IPolymorphCapability;
 import org.sosly.arcaneadditions.capabilities.polymorph.PolymorphProvider;
+import org.sosly.arcaneadditions.compat.BMorph.BMorphRegistryEntries;
+import org.sosly.arcaneadditions.compat.CompatModIDs;
 import org.sosly.arcaneadditions.config.ServerConfig;
 import org.sosly.arcaneadditions.effects.EffectRegistry;
-import org.sosly.arcaneadditions.effects.neutral.PolymorphEffect;
+import org.sosly.arcaneadditions.effects.beneficial.PolymorphEffect;
 import org.sosly.arcaneadditions.spells.components.PolymorphComponent;
 
 import java.util.ArrayList;
@@ -45,7 +48,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
 public class PolymorphEvents {
     @SubscribeEvent
     public static void onAttachCapability(AttachCapabilitiesEvent<?> event) {
-        if (event.getObject() instanceof Player) {
+        if (event.getObject() instanceof Player && ModList.get().isLoaded(CompatModIDs.BMORPH)) {
             event.addCapability(IPolymorphCapability.POLYMORPH_CAPABILITY, new PolymorphProvider());
         }
     }
@@ -68,7 +71,7 @@ public class PolymorphEvents {
             float amount = event.getAmount();
             if (entity.getHealth() - amount <= 0) {
                 event.setCanceled(true);
-                entity.removeEffect(EffectRegistry.POLYMORPH.get());
+                entity.removeEffect(BMorphRegistryEntries.POLYMORPH_EFFECT);
             }
         });
     }

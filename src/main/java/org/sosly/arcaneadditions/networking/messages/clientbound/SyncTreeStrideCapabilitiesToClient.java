@@ -8,24 +8,16 @@
 package org.sosly.arcaneadditions.networking.messages.clientbound;
 
 import com.mna.network.messages.BaseMessage;
-import net.minecraft.client.Minecraft;
-import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.FriendlyByteBuf;
-import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.common.util.LogicalSidedProvider;
 import net.minecraftforge.fml.LogicalSide;
 import net.minecraftforge.network.NetworkEvent;
 import org.sosly.arcaneadditions.ArcaneAdditions;
-import org.sosly.arcaneadditions.capabilities.polymorph.IPolymorphCapability;
-import org.sosly.arcaneadditions.capabilities.polymorph.PolymorphCapability;
-import org.sosly.arcaneadditions.capabilities.polymorph.PolymorphProvider;
 import org.sosly.arcaneadditions.capabilities.treestride.ITreestrideCapability;
-import org.sosly.arcaneadditions.capabilities.treestride.TreestrideCapability;
 import org.sosly.arcaneadditions.capabilities.treestride.TreestrideProvider;
 import org.sosly.arcaneadditions.networking.messages.ClientMessageHandler;
-import org.sosly.arcaneadditions.spells.components.TreeStrideComponent;
 
 import java.util.Optional;
 import java.util.function.Supplier;

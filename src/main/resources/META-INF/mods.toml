@@ -24,12 +24,6 @@ A wealth of new magical mysteries for the Mana and Artifice mod.'''
     ordering="NONE"
     side="BOTH"
 [[dependencies.arcaneadditions]]
-    modId="bmorph"
-    mandatory=true
-    versionRange="[1.18.2-1.0.1,1.19)"
-    ordering="NONE"
-    sides="BOTH"
-[[dependencies.arcaneadditions]]
     modId="mna"
     mandatory=true
     versionRange="[1.7.1,1.8)"

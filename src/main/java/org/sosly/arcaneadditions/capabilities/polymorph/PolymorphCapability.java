@@ -9,6 +9,7 @@ package org.sosly.arcaneadditions.capabilities.polymorph;
 
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
+import org.sosly.arcaneadditions.capabilities.polymorph.IPolymorphCapability;
 
 import java.lang.ref.WeakReference;
 import java.util.UUID;

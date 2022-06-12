@@ -10,7 +10,8 @@ package org.sosly.arcaneadditions.spells.components;
 import com.mna.api.affinity.Affinity;
 import com.mna.api.sound.SFX;
 import com.mna.api.spells.ComponentApplicationResult;
-import com.mna.api.spells.attributes.*;
+import com.mna.api.spells.attributes.Attribute;
+import com.mna.api.spells.attributes.AttributeValuePair;
 import com.mna.api.spells.base.IModifiedSpellPart;
 import com.mna.api.spells.parts.SpellEffect;
 import com.mna.api.spells.targeting.SpellContext;
@@ -20,27 +21,32 @@ import com.mna.items.sorcery.PhylacteryStaffItem;
 import de.budschie.bmorph.morph.MorphManagerHandlers;
 import de.budschie.bmorph.morph.MorphUtil;
 import net.minecraft.Util;
-import net.minecraft.nbt.*;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.effect.MobEffectInstance;
-import net.minecraft.world.entity.*;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.network.PacketDistributor;
 import net.minecraftforge.registries.ForgeRegistries;
 import org.sosly.arcaneadditions.capabilities.polymorph.PolymorphProvider;
-import org.sosly.arcaneadditions.config.*;
-import org.sosly.arcaneadditions.effects.EffectRegistry;
+import org.sosly.arcaneadditions.compat.BMorph.BMorphRegistryEntries;
+import org.sosly.arcaneadditions.config.ServerConfig;
 import org.sosly.arcaneadditions.networking.PacketHandler;
 import org.sosly.arcaneadditions.networking.messages.clientbound.SyncPolymorphCapabilitiesToClient;
 
-import java.util.*;
-import java.util.concurrent.atomic.*;
+import java.util.Objects;
+import java.util.Optional;
+import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.concurrent.atomic.AtomicInteger;
+import java.util.concurrent.atomic.AtomicReference;
 
 public class PolymorphComponent extends SpellEffect {
 
@@ -57,8 +63,8 @@ public class PolymorphComponent extends SpellEffect {
         LivingEntity targetEntity = target.getLivingEntity();
 
         // Demorph
-        if (targetEntity.getEffect(EffectRegistry.POLYMORPH.get()) != null) {
-            targetEntity.removeEffect(EffectRegistry.POLYMORPH.get());
+        if (targetEntity.getEffect(BMorphRegistryEntries.POLYMORPH_EFFECT) != null) {
+            targetEntity.removeEffect(BMorphRegistryEntries.POLYMORPH_EFFECT);
             return ComponentApplicationResult.SUCCESS;
         }
 
@@ -90,7 +96,7 @@ public class PolymorphComponent extends SpellEffect {
 
             CompoundTag nbt = new CompoundTag();
             MorphUtil.morphToServer(Optional.of(MorphManagerHandlers.FALLBACK.createMorph(ForgeRegistries.ENTITIES.getValue(type.getRegistryName()), nbt, null, true)), Optional.empty(), (ServerPlayer)target.getEntity());
-            MobEffectInstance instance = new MobEffectInstance(EffectRegistry.POLYMORPH.get(), Integer.MAX_VALUE);
+            MobEffectInstance instance = new MobEffectInstance(BMorphRegistryEntries.POLYMORPH_EFFECT, Integer.MAX_VALUE);
             instance.setNoCounter(true);
             targetEntity.addEffect(instance);
             targetEntity.setHealth(targetEntity.getMaxHealth());

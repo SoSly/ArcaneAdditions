@@ -9,6 +9,7 @@ package org.sosly.arcaneadditions.compat;
 
 import net.minecraftforge.fml.ModList;
 import org.sosly.arcaneadditions.ArcaneAdditions;
+import org.sosly.arcaneadditions.compat.BMorph.BMorphCompat;
 import org.sosly.arcaneadditions.compat.Grass_Slabs.GrassSlabCompat;
 
 import java.util.HashMap;
@@ -21,6 +22,7 @@ public class CompatRegistry {
     private static final Map<String, Supplier<Callable<ICompat>>> compatFactories = new HashMap<>();
 
     static {
+        compatFactories.put(CompatModIDs.BMORPH, () -> BMorphCompat::new);
         compatFactories.put(CompatModIDs.GRASS_SLABS, () -> GrassSlabCompat::new);
     }
 

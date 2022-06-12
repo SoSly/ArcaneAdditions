@@ -5,7 +5,7 @@
  *           conditions; detailed at https://www.gnu.org/licenses/gpl-3.0.html
  */
 
-package org.sosly.arcaneadditions.effects.neutral;
+package org.sosly.arcaneadditions.effects.beneficial;
 
 import com.mna.api.capabilities.resource.ICastingResource;
 import com.mna.capabilities.playerdata.magic.PlayerMagicProvider;
@@ -15,7 +15,7 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import org.jetbrains.annotations.NotNull;
 import org.sosly.arcaneadditions.capabilities.polymorph.PolymorphProvider;
-import org.sosly.arcaneadditions.effects.EffectRegistry;
+import org.sosly.arcaneadditions.compat.BMorph.BMorphRegistryEntries;
 
 import java.lang.ref.WeakReference;
 import java.util.Objects;
@@ -34,14 +34,14 @@ public class PolymorphEffect extends MobEffect {
             WeakReference<Player> caster = polymorph.getCaster(entity.getLevel());
 
             if (caster == null) {
-                entity.removeEffect(EffectRegistry.POLYMORPH.get());
+                entity.removeEffect(BMorphRegistryEntries.POLYMORPH_EFFECT);
                 return;
             }
 
             Objects.requireNonNull(caster.get()).getCapability(PlayerMagicProvider.MAGIC, null).ifPresent(magic -> {
                 ICastingResource resource = magic.getCastingResource();
                 if (resource.getAmount() < complexity) {
-                    entity.removeEffect(EffectRegistry.POLYMORPH.get());
+                    entity.removeEffect(BMorphRegistryEntries.POLYMORPH_EFFECT);
                 } else {
                     resource.consume(complexity);
                 }

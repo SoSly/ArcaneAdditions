@@ -17,6 +17,8 @@ import net.minecraftforge.common.capabilities.ICapabilitySerializable;
 import net.minecraftforge.common.util.LazyOptional;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import org.sosly.arcaneadditions.capabilities.polymorph.IPolymorphCapability;
+import org.sosly.arcaneadditions.capabilities.polymorph.PolymorphCapability;
 
 public class PolymorphProvider implements ICapabilitySerializable<Tag> {
     public static final Capability<IPolymorphCapability> POLYMORPH = CapabilityManager.get(new CapabilityToken<>() {});
