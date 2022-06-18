@@ -11,14 +11,20 @@ import com.mna.api.affinity.Affinity;
 import com.mna.api.sound.SFX;
 import com.mna.api.spells.ComponentApplicationResult;
 import com.mna.api.spells.SpellPartTags;
+import com.mna.api.spells.attributes.Attribute;
+import com.mna.api.spells.attributes.AttributeValuePair;
 import com.mna.api.spells.base.IModifiedSpellPart;
 import com.mna.api.spells.parts.SpellEffect;
 import com.mna.api.spells.targeting.SpellContext;
 import com.mna.api.spells.targeting.SpellSource;
 import com.mna.api.spells.targeting.SpellTarget;
+import com.mna.effects.EffectInit;
 import net.minecraft.core.BlockPos;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvent;
+import net.minecraft.world.effect.MobEffect;
+import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.EntityBlock;
 import net.minecraft.world.level.block.state.BlockState;
@@ -29,7 +35,7 @@ public class PathComponent extends SpellEffect {
     public static IPathableBlockProxy proxy = new DummyPathableBlockProxy();
 
     public PathComponent(ResourceLocation registryName, ResourceLocation guiIcon) {
-        super(registryName, guiIcon);
+        super(registryName, guiIcon, new AttributeValuePair(Attribute.DURATION, 30.0F, 30.0F, 600.0F, 30.0F, 10.0F));
     }
 
     @Override
@@ -48,6 +54,15 @@ public class PathComponent extends SpellEffect {
                     }
                 }
             }
+        }
+
+        // Pilgrim's Step when cast on self
+        LivingEntity targetEntity = target.getLivingEntity();
+        LivingEntity casterEntity = caster.getCaster();
+        if (targetEntity != null && targetEntity.equals(casterEntity)) {
+            casterEntity.addEffect(new MobEffectInstance(EffectInit.PILGRIM.get(), (int)mods.getValue(Attribute.DURATION)*20, 0, false, false));
+
+            return ComponentApplicationResult.SUCCESS;
         }
 
         return ComponentApplicationResult.FAIL;
