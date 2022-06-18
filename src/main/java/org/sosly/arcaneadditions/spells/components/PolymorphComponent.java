@@ -8,8 +8,10 @@
 package org.sosly.arcaneadditions.spells.components;
 
 import com.mna.api.affinity.Affinity;
+import com.mna.api.capabilities.Faction;
 import com.mna.api.sound.SFX;
 import com.mna.api.spells.ComponentApplicationResult;
+import com.mna.api.spells.SpellReagent;
 import com.mna.api.spells.attributes.Attribute;
 import com.mna.api.spells.attributes.AttributeValuePair;
 import com.mna.api.spells.base.IModifiedSpellPart;
@@ -17,6 +19,8 @@ import com.mna.api.spells.parts.SpellEffect;
 import com.mna.api.spells.targeting.SpellContext;
 import com.mna.api.spells.targeting.SpellSource;
 import com.mna.api.spells.targeting.SpellTarget;
+import com.mna.capabilities.playerdata.progression.PlayerProgressionProvider;
+import com.mna.items.ItemInit;
 import com.mna.items.sorcery.PhylacteryStaffItem;
 import de.budschie.bmorph.morph.MorphManagerHandlers;
 import de.budschie.bmorph.morph.MorphUtil;
@@ -36,12 +40,16 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.network.PacketDistributor;
 import net.minecraftforge.registries.ForgeRegistries;
+import org.apache.commons.lang3.mutable.MutableBoolean;
 import org.sosly.arcaneadditions.capabilities.polymorph.PolymorphProvider;
 import org.sosly.arcaneadditions.compat.BMorph.BMorphRegistryEntries;
 import org.sosly.arcaneadditions.config.ServerConfig;
 import org.sosly.arcaneadditions.networking.PacketHandler;
 import org.sosly.arcaneadditions.networking.messages.clientbound.SyncPolymorphCapabilitiesToClient;
 
+import javax.annotation.Nullable;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -49,9 +57,11 @@ import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicReference;
 
 public class PolymorphComponent extends SpellEffect {
+    private List<SpellReagent> reagents = new ArrayList<SpellReagent>();
 
     public PolymorphComponent(ResourceLocation registryName, ResourceLocation guiIcon) {
         super(registryName, guiIcon, new AttributeValuePair(Attribute.MAGNITUDE, 1.0F, 1.0F, 4.0F, 1.0F, 25.0F));
+        this.reagents.add(new SpellReagent(new ItemStack(ItemInit.ANIMUS_DUST.get()), false, false, true));
     }
 
     @Override
@@ -63,7 +73,10 @@ public class PolymorphComponent extends SpellEffect {
         LivingEntity targetEntity = target.getLivingEntity();
 
         // Demorph
-        if (targetEntity.getEffect(BMorphRegistryEntries.POLYMORPH_EFFECT) != null) {
+        if (targetEntity.hasEffect(BMorphRegistryEntries.POLYMORPH_EFFECT)) {
+            targetEntity.getCapability(PolymorphProvider.POLYMORPH).ifPresent(polymorph -> {
+                        polymorph.setMorphing(true);
+            });
             targetEntity.removeEffect(BMorphRegistryEntries.POLYMORPH_EFFECT);
             return ComponentApplicationResult.SUCCESS;
         }
@@ -88,6 +101,7 @@ public class PolymorphComponent extends SpellEffect {
             }
 
             targetEntity.getCapability(PolymorphProvider.POLYMORPH).ifPresent(polymorph -> {
+                polymorph.setMorphing(true);
                 polymorph.setCaster(caster.getPlayer());
                 polymorph.setComplexity(spellContext.getSpell().getComplexity());
                 polymorph.setHealth(targetEntity.getHealth());
@@ -133,7 +147,7 @@ public class PolymorphComponent extends SpellEffect {
 
     @Override
     public float initialComplexity() {
-        return 50.0f;
+        return 25.0f;
     }
 
     @Override
@@ -144,5 +158,57 @@ public class PolymorphComponent extends SpellEffect {
     @Override
     public SoundEvent SoundEffect() {
         return SFX.Spell.Cast.WATER;
+    }
+
+    @Override
+    public List<SpellReagent> getRequiredReagents(@Nullable Player caster) {
+        if (caster == null) {
+            return this.reagents;
+        } else {
+            boolean isMorphed = caster.hasEffect(BMorphRegistryEntries.POLYMORPH_EFFECT);
+
+            MutableBoolean isFey = new MutableBoolean(false);
+            caster.getCapability(PlayerProgressionProvider.PROGRESSION).ifPresent((p) -> {
+                isFey.setValue(p.getAlliedFaction() == Faction.FEY_COURT);
+            });
+
+            MutableBoolean isMorphing = new MutableBoolean(false);
+            caster.getCapability(PolymorphProvider.POLYMORPH).ifPresent((p) -> {
+                isMorphing.setValue(p.isMorphing());
+            });
+
+            if (isFey.booleanValue()) {
+                // Fey don't pay
+                return null;
+            }
+
+            if (!isMorphed && !isMorphing.getValue()) {
+                // about to morph
+                return this.reagents;
+            }
+
+            if (isMorphed && isMorphing.getValue()) {
+                // just morphed
+                caster.getCapability(PolymorphProvider.POLYMORPH).ifPresent((p) -> {
+                    p.setMorphing(false);
+                });
+                return this.reagents;
+            }
+
+            if (!isMorphed && isMorphing.getValue()) {
+                // just de-morphed
+                caster.getCapability(PolymorphProvider.POLYMORPH).ifPresent((p) -> {
+                    p.setMorphing(false);
+                });
+                return null;
+            }
+
+            if (isMorphed && !isMorphing.getValue()) {
+                // about to de-morph
+                return null;
+            }
+
+            return this.reagents;
+        }
     }
 }

@@ -22,9 +22,12 @@ public interface IPolymorphCapability {
     UUID getCasterUUID();
     float getComplexity();
     float getHealth();
+    boolean isMorphing();
+
     void setCaster(Player value);
     void setCasterUUID(UUID value);
     void setComplexity(float value);
+    void setMorphing(boolean value);
     void setHealth(float value);
     void reset();
 }

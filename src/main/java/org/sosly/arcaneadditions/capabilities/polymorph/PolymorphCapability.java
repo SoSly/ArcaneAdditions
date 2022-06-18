@@ -9,7 +9,6 @@ package org.sosly.arcaneadditions.capabilities.polymorph;
 
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
-import org.sosly.arcaneadditions.capabilities.polymorph.IPolymorphCapability;
 
 import java.lang.ref.WeakReference;
 import java.util.UUID;
@@ -19,6 +18,7 @@ public class PolymorphCapability implements IPolymorphCapability {
     private WeakReference<Player> casterPlayer;
     private float complexity = 0.0f;
     private float health = 0.0f;
+    private boolean morphing = false;
 
     @Override
     public WeakReference<Player> getCaster(Level level) {
@@ -46,6 +46,9 @@ public class PolymorphCapability implements IPolymorphCapability {
     }
 
     @Override
+    public boolean isMorphing() { return morphing; }
+
+    @Override
     public void setCaster(Player player) {
         this.caster = player.getUUID();
         this.casterPlayer = new WeakReference<>(player);
@@ -61,6 +64,9 @@ public class PolymorphCapability implements IPolymorphCapability {
     public void setComplexity(float complexity) {
         this.complexity = complexity;
     }
+
+    @Override
+    public void setMorphing(boolean value) { this.morphing = value; }
 
     @Override
     public void setHealth(float health) {
