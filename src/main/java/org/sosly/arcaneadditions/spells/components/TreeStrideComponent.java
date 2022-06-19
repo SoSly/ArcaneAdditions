@@ -74,7 +74,7 @@ public class TreeStrideComponent extends SpellEffect {
 
     @Override
     public float initialComplexity() {
-        return 0;
+        return 50.0F;
     }
 
     @Override
