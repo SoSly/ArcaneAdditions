@@ -25,6 +25,22 @@
       }
     ]
   },
+  "Component: Enrage": {
+    "index": 2,
+    "category": "sorcery",
+    "sections": [
+      {
+        "type": "title",
+        "value": "Enrage"
+      },
+      {
+        "type": "text",
+        "json": {
+          "text": "I have learned to tap into the basic fight-or-flight reactions of my foes.  While enraged, they will be compelled to attack me. This has the unfortunate side-effect of making them quite a bit more frightening, but it's nothing I can't handle.  Probably."
+        }
+      }
+    ]
+  },
   "Component: Ice Block": {
     "index": 2,
     "category": "sorcery",

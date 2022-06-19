@@ -1,4 +1,5 @@
 {
+  "arcaneadditions:components/enrage": "Enrage",
   "arcaneadditions:components/ice_block": "Ice Block",
   "arcaneadditions:components/path": "Path",
   "arcaneadditions:components/plow": "Plow",
@@ -8,6 +9,7 @@
   "arcaneadditions:components/strip": "Strip",
   "arcaneadditions:components/tree_stride": "Tree Stride",
 
+  "effect.arcaneadditions.enraged": "Enraged",
   "effect.arcaneadditions.ice_block": "Ice Block",
   "effect.arcaneadditions.ice_block-exhaustion": "Hypothermia",
   "effect.arcaneadditions.polymorph": "Polymorph",

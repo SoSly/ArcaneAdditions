@@ -16,6 +16,7 @@ import org.sosly.arcaneadditions.utils.RLoc;
 
 @Mod.EventBusSubscriber(modid = org.sosly.arcaneadditions.ArcaneAdditions.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class SpellsRegistry {
+    public static SpellEffect ENRAGE;
     public static SpellEffect ICE_BLOCK;
     public static SpellEffect PATH;
     public static SpellEffect PLOW;
@@ -23,19 +24,21 @@ public class SpellsRegistry {
     public static SpellEffect TREE_STRIDE;
 
     static {
-         ICE_BLOCK = new IceBlockComponent(RLoc.create("components/ice_block"), RLoc.create("textures/spell/component/ice_block.png"));
-         PATH = new PathComponent(RLoc.create("components/path"), RLoc.create("textures/spell/component/path.png"));
-         PLOW = new PlowComponent(RLoc.create("components/plow"), RLoc.create("textures/spell/component/plow.png"));
-         STRIP = new StripComponent(RLoc.create("components/strip"), RLoc.create("textures/spell/component/strip.png"));
-         TREE_STRIDE = new TreeStrideComponent(RLoc.create("components/tree_stride"), RLoc.create("textures/spell/component/tree_stride.png"));
+        ENRAGE = new EnrageComponent(RLoc.create("components/enrage"), RLoc.create("textures/spell/component/enrage.png"));
+        ICE_BLOCK = new IceBlockComponent(RLoc.create("components/ice_block"), RLoc.create("textures/spell/component/ice_block.png"));
+        PATH = new PathComponent(RLoc.create("components/path"), RLoc.create("textures/spell/component/path.png"));
+        PLOW = new PlowComponent(RLoc.create("components/plow"), RLoc.create("textures/spell/component/plow.png"));
+        STRIP = new StripComponent(RLoc.create("components/strip"), RLoc.create("textures/spell/component/strip.png"));
+        TREE_STRIDE = new TreeStrideComponent(RLoc.create("components/tree_stride"), RLoc.create("textures/spell/component/tree_stride.png"));
     }
 
     @SubscribeEvent
     public static void registerComponents(RegistryEvent.Register<SpellEffect> event) {
-        event.getRegistry().registerAll(ICE_BLOCK);
-        event.getRegistry().registerAll(PATH);
-        event.getRegistry().registerAll(PLOW);
-        event.getRegistry().registerAll(STRIP);
-        event.getRegistry().registerAll(TREE_STRIDE);
+        event.getRegistry().register(ENRAGE);
+        event.getRegistry().register(ICE_BLOCK);
+        event.getRegistry().register(PATH);
+        event.getRegistry().register(PLOW);
+        event.getRegistry().register(STRIP);
+        event.getRegistry().register(TREE_STRIDE);
     }
 }
