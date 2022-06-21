@@ -21,6 +21,7 @@ public class SpellsRegistry {
     public static SpellEffect PATH;
     public static SpellEffect PLOW;
     public static SpellEffect STRIP;
+    public static SpellEffect TRANSFUSE;
     public static SpellEffect TREE_STRIDE;
 
     static {
@@ -29,6 +30,7 @@ public class SpellsRegistry {
         PATH = new PathComponent(RLoc.create("components/path"), RLoc.create("textures/spell/component/path.png"));
         PLOW = new PlowComponent(RLoc.create("components/plow"), RLoc.create("textures/spell/component/plow.png"));
         STRIP = new StripComponent(RLoc.create("components/strip"), RLoc.create("textures/spell/component/strip.png"));
+        TRANSFUSE = new TransfuseComponent(RLoc.create("components/transfuse"), RLoc.create("textures/spell/component/transfuse.png"));
         TREE_STRIDE = new TreeStrideComponent(RLoc.create("components/tree_stride"), RLoc.create("textures/spell/component/tree_stride.png"));
     }
 
@@ -39,6 +41,7 @@ public class SpellsRegistry {
         event.getRegistry().register(PATH);
         event.getRegistry().register(PLOW);
         event.getRegistry().register(STRIP);
+        event.getRegistry().register(TRANSFUSE);
         event.getRegistry().register(TREE_STRIDE);
     }
 }

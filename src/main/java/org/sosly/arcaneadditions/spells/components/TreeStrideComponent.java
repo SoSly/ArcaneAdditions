@@ -79,7 +79,7 @@ public class TreeStrideComponent extends SpellEffect {
 
     @Override
     public int requiredXPForRote() {
-        return 0;
+        return 100;
     }
 
     public static BlockPos findRootBlock(Set<BlockPos> blocks, BlockPos start) {

@@ -155,6 +155,28 @@
       }
     ]
   },
+  "Component: Tranfuse": {
+    "index": 2,
+    "category": "sorcery",
+    "sections": [
+      {
+        "type": "title",
+        "value": "Tranfuse"
+      },
+      {
+        "type": "text",
+        "json": {
+          "text": "By manipulating the life forces of those around me, I am able to bolster my own, as a sort of transfer of wellness.  I wonder if I might be able to do the opposite: restoring life to my target at the expense of my own health?  Probably best not to experiment with such things."
+        }
+      }
+    ],
+    "related_recipes": [
+      {
+        "type": "spell_part",
+        "location": "arcaneadditions:components/tranfuse"
+      }
+    ]
+  },
   "Component: Tree Stride": {
     "index": 2,
     "category": "sorcery",
