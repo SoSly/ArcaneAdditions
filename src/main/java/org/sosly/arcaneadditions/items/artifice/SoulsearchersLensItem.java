@@ -50,7 +50,7 @@ public class SoulsearchersLensItem extends AdditionalTieredItem {
     }
 
     @Override
-    public UseAnim getUseAnimation(@NotNull ItemStack item) {
+    public @NotNull UseAnim getUseAnimation(@NotNull ItemStack item) {
         return UseAnim.SPYGLASS;
     }
 
@@ -68,7 +68,7 @@ public class SoulsearchersLensItem extends AdditionalTieredItem {
     //      possibly add capability to the target; you can't target that specific creature again
 
     @Override
-    public InteractionResult interactLivingEntity(@NotNull ItemStack item, Player player, @NotNull LivingEntity target, @NotNull InteractionHand hand) {
+    public @NotNull InteractionResult interactLivingEntity(@NotNull ItemStack item, Player player, @NotNull LivingEntity target, @NotNull InteractionHand hand) {
         if (target instanceof Mob && !(target instanceof IConstruct)) {
             item.getOrCreateTag().putInt("target", target.getId());
             item.getOrCreateTag().putString("hand", hand.toString());

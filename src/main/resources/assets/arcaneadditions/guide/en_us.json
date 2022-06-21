@@ -39,6 +39,12 @@
           "text": "I have learned to tap into the basic fight-or-flight reactions of my foes.  While enraged, they will be compelled to attack me. This has the unfortunate side-effect of making them quite a bit more frightening, but it's nothing I can't handle.  Probably."
         }
       }
+    ],
+    "related_recipes": [
+      {
+        "type": "spell_part",
+        "location": "arcaneadditions:components/enrage"
+      }
     ]
   },
   "Component: Ice Block": {
@@ -60,6 +66,28 @@
       {
         "type": "spell_part",
         "location": "arcaneadditions:components/ice_block"
+      }
+    ]
+  },
+  "Component: Life Link": {
+    "index": 2,
+    "category": "sorcery",
+    "sections": [
+      {
+        "type": "title",
+        "value": "Life Link"
+      },
+      {
+        "type": "text",
+        "json": {
+          "text": "By linking my life force to another, we are able to share and reduce each other's pain for a short while."
+        }
+      }
+    ],
+    "related_recipes": [
+      {
+        "type": "spell_part",
+        "location": "arcaneadditions:components/life_link"
       }
     ]
   },

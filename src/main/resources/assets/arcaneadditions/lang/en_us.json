@@ -1,17 +1,20 @@
 {
   "arcaneadditions:components/enrage": "Enrage",
   "arcaneadditions:components/ice_block": "Ice Block",
+  "arcaneadditions:components/life_link": "Life Link",
   "arcaneadditions:components/path": "Path",
   "arcaneadditions:components/plow": "Plow",
   "arcaneadditions:components/polymorph": "Polymorph",
   "arcaneadditions:components/polymorph.nonphylactery": "I need a filled Crystal Phylactery in my other hand to cast this spell.",
   "arcaneadditions:components/polymorph.notallowed": "This spell seems to lack the power to become such a creature.",
   "arcaneadditions:components/strip": "Strip",
+  "arcaneadditions:components/transfuse": "Transfuse",
   "arcaneadditions:components/tree_stride": "Tree Stride",
 
   "effect.arcaneadditions.enraged": "Enraged",
   "effect.arcaneadditions.ice_block": "Ice Block",
   "effect.arcaneadditions.ice_block-exhaustion": "Hypothermia",
+  "effect.arcaneadditions.life_link": "Life Link",
   "effect.arcaneadditions.polymorph": "Polymorph",
 
   "item.arcaneadditions.soulsearchers_lens": "Soul Searcher's Lens",

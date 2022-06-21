@@ -43,7 +43,7 @@ public class PolymorphEffect extends MobEffect {
                 if (resource.getAmount() < complexity) {
                     entity.removeEffect(BMorphRegistryEntries.POLYMORPH_EFFECT);
                 } else {
-                    resource.consume(complexity);
+                    resource.consume(entity, complexity);
                 }
             });
         });
