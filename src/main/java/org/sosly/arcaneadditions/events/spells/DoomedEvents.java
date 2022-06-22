@@ -29,8 +29,9 @@ public class DoomedEvents {
     @SubscribeEvent
     public static void onDamage(LivingDamageEvent event) {
         runOnEffect(event, (instance,  entity) -> {
-            double amount = event.getAmount() + (event.getAmount() * .2 * (instance.getAmplifier() + 1));
-            event.setAmount((float)amount);
+            // damage formula mimics Sharpness
+            double damage = event.getAmount() + (0.5 * instance.getAmplifier()) + 0.5;
+            event.setAmount((float)damage);
         });
     }
 

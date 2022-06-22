@@ -1,6 +1,6 @@
 {
   "type": "mna:component",
-  "tier": 3,
+  "tier": 4,
   "output": "arcaneadditions:components/life_link",
   "items": [
     "mna:wakebloom",

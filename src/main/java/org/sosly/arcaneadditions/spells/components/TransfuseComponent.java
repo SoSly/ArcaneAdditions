@@ -11,33 +11,35 @@ import com.mna.api.affinity.Affinity;
 import com.mna.api.capabilities.Faction;
 import com.mna.api.sound.SFX;
 import com.mna.api.spells.ComponentApplicationResult;
-import com.mna.api.spells.DamageTypes;
 import com.mna.api.spells.SpellPartTags;
 import com.mna.api.spells.attributes.Attribute;
 import com.mna.api.spells.attributes.AttributeValuePair;
+import com.mna.api.spells.base.IDamageComponent;
 import com.mna.api.spells.base.IModifiedSpellPart;
 import com.mna.api.spells.parts.SpellEffect;
 import com.mna.api.spells.targeting.SpellContext;
 import com.mna.api.spells.targeting.SpellSource;
 import com.mna.api.spells.targeting.SpellTarget;
+import com.mna.config.GeneralModConfig;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.world.damagesource.DamageSource;
-import net.minecraft.world.entity.ExperienceOrb;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.item.ItemEntity;
-import net.minecraft.world.entity.player.Player;
 
-public class TransfuseComponent extends SpellEffect {
+public class TransfuseComponent extends SpellEffect implements IDamageComponent {
     public TransfuseComponent(ResourceLocation registryName, ResourceLocation guiIcon) {
-        super(registryName, guiIcon, new AttributeValuePair(Attribute.DAMAGE, 2.0F, 1.0F, 10.0F, 0.5F, 20.0F));
+        super(registryName, guiIcon,
+                new AttributeValuePair(Attribute.DAMAGE, 2.0F, 1.0F, 10.0F, 0.5F, 20.0F),
+                new AttributeValuePair(Attribute.MAGNITUDE, 1.0F, 1.0F, 5.0F, 1.0F, 20.0F));
     }
 
     @Override
     public ComponentApplicationResult ApplyEffect(SpellSource source, SpellTarget target, IModifiedSpellPart<SpellEffect> mods, SpellContext context) {
         LivingEntity livingTarget = null;
         LivingEntity livingSource = null;
-        float damage = mods.getValue(Attribute.DAMAGE);
+        float damage = mods.getValue(Attribute.DAMAGE) * GeneralModConfig.getDamageMultiplier();
+        float magnitude = mods.getValue(Attribute.MAGNITUDE);
+        float healing = damage * (magnitude / 5);
 
         if (target.isLivingEntity() && target.getLivingEntity() != null) {
             livingTarget = target.getLivingEntity();
@@ -56,14 +58,14 @@ public class TransfuseComponent extends SpellEffect {
             if (!hurt) {
                 return ComponentApplicationResult.FAIL;
             }
-            livingTarget.heal(damage);
+            livingTarget.heal(healing);
         } else {
             // hurt them to heal me
             boolean hurt = livingTarget.hurt(DamageSource.WITHER, damage);
             if (!hurt) {
                 return ComponentApplicationResult.FAIL;
             }
-            livingSource.heal(damage);
+            livingSource.heal(healing);
         }
 
         return ComponentApplicationResult.NOT_PRESENT;
