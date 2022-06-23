@@ -5,7 +5,8 @@
   "items": [
     "minecraft:wither_skeleton_skull",
     "minecraft:suspicious_stew",
-    "minecraft:eye_of_ender"
+    "minecraft:ender_eye",
+    "minecraft:poisonous_potato"
   ],
   "patterns": [
     "mna:manaweave_patterns/knot3",

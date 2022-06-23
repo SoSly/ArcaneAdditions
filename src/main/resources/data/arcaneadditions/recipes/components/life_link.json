@@ -3,8 +3,10 @@
   "tier": 4,
   "output": "arcaneadditions:components/life_link",
   "items": [
-    "mna:wakebloom",
+    "mna:aum",
+    "mna:aum",
     "minecraft:apple",
+    "minecraft:chain",
     "minecraft:chain"
   ],
   "patterns": [

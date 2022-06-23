@@ -14,10 +14,10 @@
   ],
   "patterns":
   [
-    "mna:manaweave_patterns/up",
+    "mna:manaweave_patterns/slash",
     "mna:manaweave_patterns/triangle",
-    "mna:manaweave_patterns/down",
+    "mna:manaweave_patterns/backslash",
     "mna:manaweave_patterns/inverted_triangle",
-    "mna:manaweave_patterns/up"
+    "mna:manaweave_patterns/slash"
   ]
 }

@@ -9,12 +9,7 @@
     "minecraft:acacia_log",
     "minecraft:spruce_log",
     "minecraft:birch_log",
-    "minecraft:ender_eye",
-    "minecraft:oak_leaves",
-    "minecraft:dark_oak_leaves",
-    "minecraft:acacia_leaves",
-    "minecraft:spruce_leaves",
-    "minecraft:birch_leaves"
+    "minecraft:ender_pearl"
   ],
   "patterns":
   [

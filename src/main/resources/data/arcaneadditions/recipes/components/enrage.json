@@ -5,7 +5,8 @@
   "items": [
     "minecraft:carved_pumpkin",
     "minecraft:lead",
-    "mna:wakebloom"
+    "mna:wakebloom",
+    "minecraft:blaze_powder"
   ],
   "patterns": [
     "mna:manaweave_patterns/circle",

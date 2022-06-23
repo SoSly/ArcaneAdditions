@@ -4,9 +4,12 @@
   "output": "arcaneadditions:components/transfuse",
   "items": [
     "mna:transmuted_silver",
+    "mna:transmuted_silver",
     "mna:healing_poultice",
-    "mna:wither_bone",
-    "mna:mote_ender"
+    "mna:witherbone",
+    "mna:mote_ender",
+    "minecraft:glistering_melon_slice",
+    "mna:aum"
   ],
   "patterns": [
     "mna:manaweave_patterns/triangle",
