@@ -8,8 +8,8 @@
 package org.sosly.arcaneadditions.events.spells;
 
 import com.mna.api.ManaAndArtificeMod;
+import com.mna.api.spells.ICanContainSpell;
 import com.mna.api.spells.base.ISpellDefinition;
-import com.mna.items.sorcery.ItemSpell;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.Entity;
@@ -25,9 +25,9 @@ import net.minecraftforge.eventbus.api.Event;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import org.sosly.arcaneadditions.ArcaneAdditions;
-import org.sosly.arcaneadditions.entities.IceBlockEntity;
 import org.sosly.arcaneadditions.effects.EffectRegistry;
 import org.sosly.arcaneadditions.effects.beneficial.IceBlockEffect;
+import org.sosly.arcaneadditions.entities.IceBlockEntity;
 import org.sosly.arcaneadditions.spells.components.IceBlockComponent;
 import org.sosly.arcaneadditions.utils.World;
 
@@ -166,7 +166,7 @@ public class IceBlockEvents {
             ItemStack stack = entity.getMainHandItem();
 
             // If the item is a spell, check if it's ice block for ending the effect.
-            if (stack.getItem() instanceof ItemSpell) {
+            if (stack.getItem() instanceof ICanContainSpell) {
                 ISpellDefinition recipe = ManaAndArtificeMod.getSpellHelper().parseSpellDefinition(stack);
                 AtomicBoolean isIceBlock = new AtomicBoolean(false);
                 recipe.getComponents().forEach(component -> {

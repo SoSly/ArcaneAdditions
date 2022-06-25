@@ -7,12 +7,12 @@
 
 package org.sosly.arcaneadditions.networking.messages.serverbound;
 
-import com.mna.network.messages.BaseMessage;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraftforge.network.NetworkEvent;
 import org.sosly.arcaneadditions.ArcaneAdditions;
+import org.sosly.arcaneadditions.networking.BaseMessage;
 import org.sosly.arcaneadditions.networking.messages.ServerMessageHandler;
 
 import java.util.function.Supplier;

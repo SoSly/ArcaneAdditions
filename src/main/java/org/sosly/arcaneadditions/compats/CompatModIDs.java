@@ -5,13 +5,9 @@
  *           conditions; detailed at https://www.gnu.org/licenses/gpl-3.0.html
  */
 
-package org.sosly.arcaneadditions.utils;
+package org.sosly.arcaneadditions.compats;
 
-import net.minecraft.client.multiplayer.ClientLevel;
-import net.minecraft.world.entity.player.Player;
-import org.jetbrains.annotations.Nullable;
-
-public interface ISidedProxy {
-    @Nullable Player getClientPlayer();
-    @Nullable ClientLevel getClientWorld();
+public class CompatModIDs {
+    public static final String BMORPH = "bmorph";
+    public static final String GRASS_SLABS = "grassslabs";
 }

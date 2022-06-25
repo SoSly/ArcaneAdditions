@@ -7,15 +7,15 @@
 
 package org.sosly.arcaneadditions.effects.beneficial;
 
+import com.mna.api.ManaAndArtificeMod;
 import com.mna.api.capabilities.resource.ICastingResource;
-import com.mna.capabilities.playerdata.magic.PlayerMagicProvider;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectCategory;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import org.jetbrains.annotations.NotNull;
 import org.sosly.arcaneadditions.capabilities.polymorph.PolymorphProvider;
-import org.sosly.arcaneadditions.compat.BMorph.BMorphRegistryEntries;
+import org.sosly.arcaneadditions.compats.BMorph.BMorphRegistryEntries;
 
 import java.lang.ref.WeakReference;
 import java.util.Objects;
@@ -38,7 +38,9 @@ public class PolymorphEffect extends MobEffect {
                 return;
             }
 
-            Objects.requireNonNull(caster.get()).getCapability(PlayerMagicProvider.MAGIC, null).ifPresent(magic -> {
+
+
+            Objects.requireNonNull(caster.get()).getCapability(ManaAndArtificeMod.getMagicCapability(), null).ifPresent(magic -> {
                 ICastingResource resource = magic.getCastingResource();
                 if (resource.getAmount() < complexity) {
                     entity.removeEffect(BMorphRegistryEntries.POLYMORPH_EFFECT);

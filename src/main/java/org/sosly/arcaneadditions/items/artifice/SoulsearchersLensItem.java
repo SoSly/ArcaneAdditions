@@ -7,12 +7,11 @@
 
 package org.sosly.arcaneadditions.items.artifice;
 
-import com.mna.api.entities.construct.IConstruct;
 import com.mna.api.ManaAndArtificeMod;
+import com.mna.api.entities.construct.IConstruct;
 import com.mna.api.sound.SFX;
 import com.mna.items.sorcery.ItemCrystalPhylactery;
 import com.mna.items.sorcery.PhylacteryStaffItem;
-import com.mna.sound.ItemInUseLoopingSound;
 import net.minecraft.client.Minecraft;
 import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.resources.ResourceLocation;
@@ -35,7 +34,8 @@ import org.apache.commons.lang3.mutable.MutableBoolean;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.sosly.arcaneadditions.api.AdditionalTieredItem;
-import org.sosly.arcaneadditions.config.ServerConfig;
+import org.sosly.arcaneadditions.configs.ServerConfig;
+import org.sosly.arcaneadditions.sounds.UseItemTickingSoundInstance;
 
 import java.util.UUID;
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -240,6 +240,6 @@ public class SoulsearchersLensItem extends AdditionalTieredItem {
 
     @OnlyIn(Dist.CLIENT)
     private void PlayLoopingSound(SoundEvent soundID, Player player) {
-        Minecraft.getInstance().getSoundManager().play(new ItemInUseLoopingSound(soundID, player));
+        Minecraft.getInstance().getSoundManager().play(new UseItemTickingSoundInstance(soundID, player));
     }
 }

@@ -18,7 +18,6 @@ import com.mna.api.spells.parts.SpellEffect;
 import com.mna.api.spells.targeting.SpellContext;
 import com.mna.api.spells.targeting.SpellSource;
 import com.mna.api.spells.targeting.SpellTarget;
-import com.mna.effects.EffectInit;
 import net.minecraft.core.BlockPos;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvent;
@@ -28,11 +27,13 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.EntityBlock;
 import net.minecraft.world.level.block.state.BlockState;
-import org.sosly.arcaneadditions.compat.Grass_Slabs.DummyPathableBlockProxy;
-import org.sosly.arcaneadditions.compat.Grass_Slabs.IPathableBlockProxy;
+import net.minecraftforge.registries.ForgeRegistries;
+import org.sosly.arcaneadditions.compats.Grass_Slabs.DummyPathableBlockProxy;
+import org.sosly.arcaneadditions.compats.Grass_Slabs.IPathableBlockProxy;
 
 public class PathComponent extends SpellEffect {
     public static IPathableBlockProxy proxy = new DummyPathableBlockProxy();
+    private static final ResourceLocation PILGRIM = new ResourceLocation("mna", "pilgrim");
 
     public PathComponent(ResourceLocation registryName, ResourceLocation guiIcon) {
         super(registryName, guiIcon, new AttributeValuePair(Attribute.DURATION, 30.0F, 30.0F, 600.0F, 30.0F, 10.0F));
@@ -59,9 +60,9 @@ public class PathComponent extends SpellEffect {
         // Pilgrim's Step when cast on self
         LivingEntity targetEntity = target.getLivingEntity();
         LivingEntity casterEntity = caster.getCaster();
-        if (targetEntity != null && targetEntity.equals(casterEntity)) {
-            casterEntity.addEffect(new MobEffectInstance(EffectInit.PILGRIM.get(), (int)mods.getValue(Attribute.DURATION)*20, 0, false, false));
-
+        MobEffect pilgrim = ForgeRegistries.MOB_EFFECTS.getValue(PILGRIM);
+        if (targetEntity != null && targetEntity.equals(casterEntity) && pilgrim != null) {
+            casterEntity.addEffect(new MobEffectInstance(pilgrim, (int) mods.getValue(Attribute.DURATION) * 20, 0, false, false));
             return ComponentApplicationResult.SUCCESS;
         }
 

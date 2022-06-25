@@ -5,7 +5,7 @@
  *           conditions; detailed at https://www.gnu.org/licenses/gpl-3.0.html
  */
 
-package org.sosly.arcaneadditions.menu;
+package org.sosly.arcaneadditions.menus;
 
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;

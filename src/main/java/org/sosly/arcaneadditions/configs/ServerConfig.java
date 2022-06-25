@@ -5,7 +5,7 @@
  *           conditions; detailed at https://www.gnu.org/licenses/gpl-3.0.html
  */
 
-package org.sosly.arcaneadditions.config;
+package org.sosly.arcaneadditions.configs;
 
 import net.minecraftforge.common.ForgeConfigSpec;
 import net.minecraftforge.fml.common.Mod;

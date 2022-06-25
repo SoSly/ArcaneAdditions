@@ -5,22 +5,15 @@
  *           conditions; detailed at https://www.gnu.org/licenses/gpl-3.0.html
  */
 
-package org.sosly.arcaneadditions.compat.Grass_Slabs;
+package org.sosly.arcaneadditions.compats.Grass_Slabs;
 
 import net.minecraft.core.BlockPos;
-import net.minecraft.world.item.ShovelItem;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import org.jetbrains.annotations.Nullable;
 
-public class DummyPathableBlockProxy implements IPathableBlockProxy {
-    @Override
-    public void setBlock(Level pLevel, BlockPos pBlockPos, BlockState pBlockState) {
-        pLevel.setBlock(pBlockPos, pBlockState, 11);
-    }
 
-    @Override
-    public @Nullable BlockState getPathingState(Level pLevel, BlockPos pBlock, BlockState pBlockState) {
-        return ShovelItem.getShovelPathingState(pBlockState);
-    }
+public interface IPathableBlockProxy {
+    void setBlock(Level pLevel, BlockPos pBlockPos, BlockState pBlockState);
+    @Nullable BlockState getPathingState(Level pLevel, BlockPos pBlock, BlockState pBlockState);
 }

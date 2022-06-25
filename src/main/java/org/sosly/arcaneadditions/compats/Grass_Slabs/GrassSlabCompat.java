@@ -5,7 +5,7 @@
  *           conditions; detailed at https://www.gnu.org/licenses/gpl-3.0.html
  */
 
-package org.sosly.arcaneadditions.compat.Grass_Slabs;
+package org.sosly.arcaneadditions.compats.Grass_Slabs;
 
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Maps;
@@ -19,7 +19,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.common.util.Lazy;
 import net.minecraftforge.registries.ForgeRegistries;
 import org.jetbrains.annotations.Nullable;
-import org.sosly.arcaneadditions.compat.ICompat;
+import org.sosly.arcaneadditions.compats.ICompat;
 import org.sosly.arcaneadditions.spells.components.PathComponent;
 
 import java.util.Map;

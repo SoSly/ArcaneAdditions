@@ -42,8 +42,8 @@ import net.minecraftforge.network.PacketDistributor;
 import net.minecraftforge.registries.ForgeRegistries;
 import org.apache.commons.lang3.mutable.MutableBoolean;
 import org.sosly.arcaneadditions.capabilities.polymorph.PolymorphProvider;
-import org.sosly.arcaneadditions.compat.BMorph.BMorphRegistryEntries;
-import org.sosly.arcaneadditions.config.ServerConfig;
+import org.sosly.arcaneadditions.compats.BMorph.BMorphRegistryEntries;
+import org.sosly.arcaneadditions.configs.ServerConfig;
 import org.sosly.arcaneadditions.networking.PacketHandler;
 import org.sosly.arcaneadditions.networking.messages.clientbound.SyncPolymorphCapabilitiesToClient;
 

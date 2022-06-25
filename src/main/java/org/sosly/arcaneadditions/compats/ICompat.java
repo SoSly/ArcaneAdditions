@@ -5,9 +5,8 @@
  *           conditions; detailed at https://www.gnu.org/licenses/gpl-3.0.html
  */
 
-package org.sosly.arcaneadditions.compat;
+package org.sosly.arcaneadditions.compats;
 
-public class CompatModIDs {
-    public static final String BMORPH = "bmorph";
-    public static final String GRASS_SLABS = "grassslabs";
+public interface ICompat {
+    void setup();
 }

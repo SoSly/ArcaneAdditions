@@ -5,7 +5,7 @@
  *           conditions; detailed at https://www.gnu.org/licenses/gpl-3.0.html
  */
 
-package org.sosly.arcaneadditions.compat.BMorph;
+package org.sosly.arcaneadditions.compats.BMorph;
 
 import com.mna.api.spells.parts.SpellEffect;
 import net.minecraft.world.effect.MobEffect;
@@ -13,7 +13,7 @@ import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.ModList;
 import net.minecraftforge.fml.common.Mod;
-import org.sosly.arcaneadditions.compat.CompatModIDs;
+import org.sosly.arcaneadditions.compats.CompatModIDs;
 import org.sosly.arcaneadditions.effects.beneficial.PolymorphEffect;
 import org.sosly.arcaneadditions.spells.components.PolymorphComponent;
 import org.sosly.arcaneadditions.utils.RLoc;

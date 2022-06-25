@@ -7,7 +7,6 @@
 
 package org.sosly.arcaneadditions.networking.messages.clientbound;
 
-import com.mna.network.messages.BaseMessage;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.world.level.Level;
@@ -17,6 +16,7 @@ import net.minecraftforge.network.NetworkEvent;
 import org.sosly.arcaneadditions.ArcaneAdditions;
 import org.sosly.arcaneadditions.capabilities.treestride.ITreestrideCapability;
 import org.sosly.arcaneadditions.capabilities.treestride.TreestrideProvider;
+import org.sosly.arcaneadditions.networking.BaseMessage;
 import org.sosly.arcaneadditions.networking.messages.ClientMessageHandler;
 
 import java.util.Optional;

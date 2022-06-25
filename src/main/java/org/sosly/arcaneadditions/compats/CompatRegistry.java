@@ -5,12 +5,12 @@
  *           conditions; detailed at https://www.gnu.org/licenses/gpl-3.0.html
  */
 
-package org.sosly.arcaneadditions.compat;
+package org.sosly.arcaneadditions.compats;
 
 import net.minecraftforge.fml.ModList;
 import org.sosly.arcaneadditions.ArcaneAdditions;
-import org.sosly.arcaneadditions.compat.BMorph.BMorphCompat;
-import org.sosly.arcaneadditions.compat.Grass_Slabs.GrassSlabCompat;
+import org.sosly.arcaneadditions.compats.BMorph.BMorphCompat;
+import org.sosly.arcaneadditions.compats.Grass_Slabs.GrassSlabCompat;
 
 import java.util.HashMap;
 import java.util.Map;

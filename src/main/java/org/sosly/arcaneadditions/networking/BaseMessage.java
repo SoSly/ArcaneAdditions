@@ -5,8 +5,14 @@
  *           conditions; detailed at https://www.gnu.org/licenses/gpl-3.0.html
  */
 
-package org.sosly.arcaneadditions.compat;
+package org.sosly.arcaneadditions.networking;
 
-public interface ICompat {
-    void setup();
+public abstract class BaseMessage {
+    protected boolean messageIsValid = false;
+
+    public BaseMessage() {}
+
+    public final boolean isMessageValid() {
+        return this.messageIsValid;
+    }
 }

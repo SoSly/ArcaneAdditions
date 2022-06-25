@@ -5,7 +5,7 @@
  *           conditions; detailed at https://www.gnu.org/licenses/gpl-3.0.html
  */
 
-package org.sosly.arcaneadditions.renderer.entity;
+package org.sosly.arcaneadditions.renderers.entity;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
@@ -18,7 +18,7 @@ import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.resources.ResourceLocation;
 import org.jetbrains.annotations.NotNull;
 import org.sosly.arcaneadditions.entities.IceBlockEntity;
-import org.sosly.arcaneadditions.model.IceBlockModel;
+import org.sosly.arcaneadditions.models.IceBlockModel;
 
 public class IceBlockRenderer extends EntityRenderer<IceBlockEntity> {
     public static final ResourceLocation ICE_TEXTURE = new ResourceLocation("minecraft", "textures/block/ice.png");

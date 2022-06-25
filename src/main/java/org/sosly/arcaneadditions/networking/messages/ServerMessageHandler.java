@@ -8,11 +8,11 @@
 
 package org.sosly.arcaneadditions.networking.messages;
 
-import com.mna.network.messages.BaseMessage;
 import net.minecraftforge.fml.LogicalSide;
 import net.minecraftforge.network.NetworkEvent;
 import org.apache.logging.log4j.Logger;
 import org.sosly.arcaneadditions.ArcaneAdditions;
+import org.sosly.arcaneadditions.networking.BaseMessage;
 
 public class ServerMessageHandler {
     public static <T extends BaseMessage> boolean validateBasics(T message, NetworkEvent.Context ctx) {

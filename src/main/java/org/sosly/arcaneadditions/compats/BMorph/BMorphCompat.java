@@ -5,9 +5,9 @@
  *           conditions; detailed at https://www.gnu.org/licenses/gpl-3.0.html
  */
 
-package org.sosly.arcaneadditions.compat.BMorph;
+package org.sosly.arcaneadditions.compats.BMorph;
 
-import org.sosly.arcaneadditions.compat.ICompat;
+import org.sosly.arcaneadditions.compats.ICompat;
 
 
 public class BMorphCompat implements ICompat {

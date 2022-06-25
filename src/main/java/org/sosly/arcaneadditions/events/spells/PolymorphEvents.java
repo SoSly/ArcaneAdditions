@@ -8,8 +8,8 @@
 package org.sosly.arcaneadditions.events.spells;
 
 import com.mna.api.ManaAndArtificeMod;
+import com.mna.api.spells.ICanContainSpell;
 import com.mna.api.spells.base.ISpellDefinition;
-import com.mna.items.sorcery.ItemSpell;
 import de.budschie.bmorph.morph.MorphUtil;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectInstance;
@@ -32,9 +32,9 @@ import net.minecraftforge.fml.common.Mod;
 import org.sosly.arcaneadditions.ArcaneAdditions;
 import org.sosly.arcaneadditions.capabilities.polymorph.IPolymorphCapability;
 import org.sosly.arcaneadditions.capabilities.polymorph.PolymorphProvider;
-import org.sosly.arcaneadditions.compat.BMorph.BMorphRegistryEntries;
-import org.sosly.arcaneadditions.compat.CompatModIDs;
-import org.sosly.arcaneadditions.config.ServerConfig;
+import org.sosly.arcaneadditions.compats.BMorph.BMorphRegistryEntries;
+import org.sosly.arcaneadditions.compats.CompatModIDs;
+import org.sosly.arcaneadditions.configs.ServerConfig;
 import org.sosly.arcaneadditions.effects.EffectRegistry;
 import org.sosly.arcaneadditions.effects.beneficial.PolymorphEffect;
 import org.sosly.arcaneadditions.spells.components.PolymorphComponent;
@@ -125,7 +125,7 @@ public class PolymorphEvents {
             if (stack.getItem() instanceof AirItem || stack.getItem() instanceof BlockItem) return;
 
             // If the item is a spell, check if it's polymorph for ending the effect.
-            if (stack.getItem() instanceof ItemSpell) {
+            if (stack.getItem() instanceof ICanContainSpell) {
                 if (ServerConfig.ALLOW_SPELLCASTING_WHILE_POLYMORPHED.get()) return;
 
                 ISpellDefinition recipe = ManaAndArtificeMod.getSpellHelper().parseSpellDefinition(stack);

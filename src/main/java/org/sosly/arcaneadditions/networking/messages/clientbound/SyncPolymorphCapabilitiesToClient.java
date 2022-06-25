@@ -7,7 +7,6 @@
 
 package org.sosly.arcaneadditions.networking.messages.clientbound;
 
-import com.mna.network.messages.BaseMessage;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
@@ -18,6 +17,7 @@ import org.sosly.arcaneadditions.ArcaneAdditions;
 import org.sosly.arcaneadditions.capabilities.polymorph.IPolymorphCapability;
 import org.sosly.arcaneadditions.capabilities.polymorph.PolymorphCapability;
 import org.sosly.arcaneadditions.capabilities.polymorph.PolymorphProvider;
+import org.sosly.arcaneadditions.networking.BaseMessage;
 import org.sosly.arcaneadditions.networking.messages.ClientMessageHandler;
 
 import java.util.Optional;

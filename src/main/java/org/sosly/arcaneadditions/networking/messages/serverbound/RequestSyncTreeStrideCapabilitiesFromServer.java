@@ -7,12 +7,12 @@
 
 package org.sosly.arcaneadditions.networking.messages.serverbound;
 
-import com.mna.network.messages.BaseMessage;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraftforge.network.NetworkEvent;
 import net.minecraftforge.network.PacketDistributor;
 import org.sosly.arcaneadditions.capabilities.treestride.TreestrideProvider;
+import org.sosly.arcaneadditions.networking.BaseMessage;
 import org.sosly.arcaneadditions.networking.PacketHandler;
 import org.sosly.arcaneadditions.networking.messages.ServerMessageHandler;
 import org.sosly.arcaneadditions.networking.messages.clientbound.SyncTreeStrideCapabilitiesToClient;
