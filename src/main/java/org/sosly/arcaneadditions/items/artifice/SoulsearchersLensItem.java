@@ -9,12 +9,10 @@ package org.sosly.arcaneadditions.items.artifice;
 
 import com.mna.api.ManaAndArtificeMod;
 import com.mna.api.entities.construct.IConstruct;
+import com.mna.api.items.IPhylacteryItem;
 import com.mna.api.sound.SFX;
-import com.mna.items.sorcery.ItemCrystalPhylactery;
-import com.mna.items.sorcery.PhylacteryStaffItem;
 import net.minecraft.client.Minecraft;
 import net.minecraft.network.chat.TranslatableComponent;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
@@ -29,8 +27,6 @@ import net.minecraft.world.item.UseAnim;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.common.util.Lazy;
-import net.minecraftforge.registries.ForgeRegistries;
 import org.apache.commons.lang3.mutable.MutableBoolean;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -43,9 +39,6 @@ import java.util.concurrent.atomic.AtomicReference;
 
 public class SoulsearchersLensItem extends Item {
     private static final String TARGET_KEY = "soulsearcher-target";
-    private static final Lazy<ItemCrystalPhylactery> CrystalPhylactery = Lazy.of(() -> (ItemCrystalPhylactery)ForgeRegistries.ITEMS.getValue(new ResourceLocation("mna:crystal_phylactery")));
-    private static final Lazy<PhylacteryStaffItem> StaffPhylactery = Lazy.of(() -> (PhylacteryStaffItem)ForgeRegistries.ITEMS.getValue(new ResourceLocation("mna:staff_phylactery")));
-
     public SoulsearchersLensItem() {
         super(new Properties());
     }
@@ -104,7 +97,7 @@ public class SoulsearchersLensItem extends Item {
     @NotNull
     public InteractionResultHolder<ItemStack> use(@NotNull Level level, @NotNull Player player, @NotNull InteractionHand hand) {
         final ItemStack lens = (hand == InteractionHand.MAIN_HAND) ? player.getMainHandItem() : player.getOffhandItem();
-        final ItemStack phylactery = (hand == InteractionHand.MAIN_HAND) ? player.getOffhandItem() : player.getMainHandItem();
+        final ItemStack itemStack = (hand == InteractionHand.MAIN_HAND) ? player.getOffhandItem() : player.getMainHandItem();
         AtomicBoolean result = new AtomicBoolean(false);
 
             int targetID = player.getPersistentData().getInt(TARGET_KEY);
@@ -112,10 +105,10 @@ public class SoulsearchersLensItem extends Item {
             if (target != null) {
                 player.getCapability(ManaAndArtificeMod.getMagicCapability()).ifPresent((m) -> {
                     if (m.isMagicUnlocked()) {
-                        if (this.isPhylacteryItem(phylactery)) {
-                            if ((PhylacteryStaffItem.getEntityType(phylactery) == target.getType() && !PhylacteryStaffItem.isFilled(phylactery))
-                                    || PhylacteryStaffItem.getEntityType(phylactery) == null) {
-                                if (level.isClientSide) {
+                        Item item = itemStack.getItem();
+                        if (item instanceof IPhylacteryItem phylactery) {
+                            if (!phylactery.isFull(itemStack)) {
+                                if (level.isClientSide()) {
                                     this.PlayLoopingSound(SFX.Loops.ARCANE, player);
                                 }
                                 player.startUsingItem(hand);
@@ -127,7 +120,7 @@ public class SoulsearchersLensItem extends Item {
                             }
                         }
                     } else {
-                        if (level.isClientSide) {
+                        if (level.isClientSide()) {
                             player.sendMessage(new TranslatableComponent("item.arcaneadditions.soulsearchers_lens.confusion"), UUID.randomUUID());
                         }
                     }
@@ -196,15 +189,7 @@ public class SoulsearchersLensItem extends Item {
     }
 
     private boolean addToPhylactery(Player player, @NotNull ItemStack phylactery, EntityType<? extends Mob> type, float amount, Level level) {
-        if (phylactery.getItem() == CrystalPhylactery.get()) {
-            return ItemCrystalPhylactery.addToPhylactery(player.getInventory(), type, amount, level, true);
-        } else {
-            return PhylacteryStaffItem.addToPhylactery(phylactery, type, amount, level);
-        }
-    }
-
-    private boolean isPhylacteryItem(@NotNull ItemStack phylactery) {
-        return phylactery.getItem() == CrystalPhylactery.get() || phylactery.getItem() == StaffPhylactery.get();
+        return ((IPhylacteryItem)phylactery.getItem()).fill(phylactery, type, amount, level);
     }
 
     @OnlyIn(Dist.CLIENT)
