@@ -23,6 +23,7 @@ import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.UseAnim;
 import net.minecraft.world.level.Level;
@@ -33,7 +34,6 @@ import net.minecraftforge.registries.ForgeRegistries;
 import org.apache.commons.lang3.mutable.MutableBoolean;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import org.sosly.arcaneadditions.api.AdditionalTieredItem;
 import org.sosly.arcaneadditions.configs.ServerConfig;
 import org.sosly.arcaneadditions.sounds.UseItemTickingSoundInstance;
 
@@ -41,7 +41,8 @@ import java.util.UUID;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicReference;
 
-public class SoulsearchersLensItem extends AdditionalTieredItem {
+public class SoulsearchersLensItem extends Item {
+    private static final String TARGET_KEY = "soulsearcher-target";
     private static final Lazy<ItemCrystalPhylactery> CrystalPhylactery = Lazy.of(() -> (ItemCrystalPhylactery)ForgeRegistries.ITEMS.getValue(new ResourceLocation("mna:crystal_phylactery")));
     private static final Lazy<PhylacteryStaffItem> StaffPhylactery = Lazy.of(() -> (PhylacteryStaffItem)ForgeRegistries.ITEMS.getValue(new ResourceLocation("mna:staff_phylactery")));
 
@@ -59,19 +60,10 @@ public class SoulsearchersLensItem extends AdditionalTieredItem {
         return 999999;
     }
 
-    // Right Click - if targeting a creature
-    //      ensure the user has a phylactery
-    //      target health multiplier based on creature type (config, e.g.: "minecraft:villager,2.5" = 2.5 * health before XP calc)
-    //      drain XP from the user based on target health (if they have enough, otherwise cancel action)
-    //      phylactery gains +1 as if the user killed the creature
-    //      item goes on cooldown
-    //      possibly add capability to the target; you can't target that specific creature again
-
     @Override
     public @NotNull InteractionResult interactLivingEntity(@NotNull ItemStack item, Player player, @NotNull LivingEntity target, @NotNull InteractionHand hand) {
         if (target instanceof Mob && !(target instanceof IConstruct)) {
-            item.getOrCreateTag().putInt("target", target.getId());
-            item.getOrCreateTag().putString("hand", hand.toString());
+            player.getPersistentData().putInt(TARGET_KEY, target.getId());
             return InteractionResult.PASS;
         }
         return InteractionResult.FAIL;
@@ -85,8 +77,9 @@ public class SoulsearchersLensItem extends AdditionalTieredItem {
             MutableBoolean continueUsing = new MutableBoolean(true);
             player.getCapability(ManaAndArtificeMod.getMagicCapability()).ifPresent((m) -> {
                 if (m.isMagicUnlocked()) {
-                    Mob target = this.getTargetFromTag(lens, level);
-                    InteractionHand hand = this.getHandFromTag(lens);
+                    int targetId = player.getPersistentData().getInt(TARGET_KEY);
+                    Mob target = (Mob)level.getEntity(targetId);
+                    InteractionHand hand = player.getUsedItemHand();
                     ItemStack phylactery = hand == InteractionHand.MAIN_HAND ? user.getOffhandItem() : user.getMainHandItem();
 
                     if (target != null && phylactery.getCount() > 0) {
@@ -114,31 +107,32 @@ public class SoulsearchersLensItem extends AdditionalTieredItem {
         final ItemStack phylactery = (hand == InteractionHand.MAIN_HAND) ? player.getOffhandItem() : player.getMainHandItem();
         AtomicBoolean result = new AtomicBoolean(false);
 
-        Mob target = this.getTargetFromTag(lens, level);
-        if (target != null ) {
-            player.getCapability(ManaAndArtificeMod.getMagicCapability()).ifPresent((m) -> {
-                if (m.isMagicUnlocked()) {
-                    if (this.isPhylacteryItem(phylactery)) {
-                        if ((PhylacteryStaffItem.getEntityType(phylactery) == target.getType() && !PhylacteryStaffItem.isFilled(phylactery))
-                                || PhylacteryStaffItem.getEntityType(phylactery) == null) {
-                            if (level.isClientSide) {
-                                this.PlayLoopingSound(SFX.Loops.ARCANE, player);
-                            }
-                            player.startUsingItem(hand);
-                            result.set(true);
-                        } else {
-                            if (level.isClientSide) {
-                                player.sendMessage(new TranslatableComponent("item.arcaneadditions.soulsearchers_lens.nonphylactery"), UUID.randomUUID());
+            int targetID = player.getPersistentData().getInt(TARGET_KEY);
+            Mob target = (Mob) level.getEntity(targetID);
+            if (target != null) {
+                player.getCapability(ManaAndArtificeMod.getMagicCapability()).ifPresent((m) -> {
+                    if (m.isMagicUnlocked()) {
+                        if (this.isPhylacteryItem(phylactery)) {
+                            if ((PhylacteryStaffItem.getEntityType(phylactery) == target.getType() && !PhylacteryStaffItem.isFilled(phylactery))
+                                    || PhylacteryStaffItem.getEntityType(phylactery) == null) {
+                                if (level.isClientSide) {
+                                    this.PlayLoopingSound(SFX.Loops.ARCANE, player);
+                                }
+                                player.startUsingItem(hand);
+                                result.set(true);
+                            } else {
+                                if (level.isClientSide) {
+                                    player.sendMessage(new TranslatableComponent("item.arcaneadditions.soulsearchers_lens.nonphylactery"), UUID.randomUUID());
+                                }
                             }
                         }
+                    } else {
+                        if (level.isClientSide) {
+                            player.sendMessage(new TranslatableComponent("item.arcaneadditions.soulsearchers_lens.confusion"), UUID.randomUUID());
+                        }
                     }
-                } else {
-                    if (level.isClientSide) {
-                        player.sendMessage(new TranslatableComponent("item.arcaneadditions.soulsearchers_lens.confusion"), UUID.randomUUID());
-                    }
-                }
-            });
-        }
+                });
+            }
 
         return result.get() ? InteractionResultHolder.pass(lens) : InteractionResultHolder.fail(lens);
     }
@@ -150,14 +144,9 @@ public class SoulsearchersLensItem extends AdditionalTieredItem {
 
     @Override
     public void releaseUsing(@NotNull ItemStack stack, @NotNull Level level, @NotNull LivingEntity user, int ticks) {
-        if (stack.hasTag()) {
-            assert stack.getTag() != null;
-            stack.getTag().remove("target");
-            stack.getTag().remove("phylactery");
-
-            if (user instanceof Player) {
-                ((Player)user).getCooldowns().addCooldown(this, 100);
-            }
+        if (user instanceof Player) {
+            user.getPersistentData().remove(TARGET_KEY);
+            ((Player)user).getCooldowns().addCooldown(this, 40);
         }
     }
 
@@ -172,7 +161,7 @@ public class SoulsearchersLensItem extends AdditionalTieredItem {
             return false;
         }
 
-        if (player.experienceLevel < levelsRequired) {
+        if (player.experienceLevel < levelsRequired && !player.isCreative()) {
             if (level.isClientSide) {
                 player.sendMessage(new TranslatableComponent("item.arcaneadditions.soulsearchers_lens.experience"), UUID.randomUUID());
             }
@@ -189,26 +178,6 @@ public class SoulsearchersLensItem extends AdditionalTieredItem {
         }
 
         return added;
-    }
-
-    @Nullable
-    private Mob getTargetFromTag(ItemStack stack, Level level) {
-        if (stack.hasTag()) {
-            assert stack.getTag() != null;
-            return (Mob)level.getEntity(stack.getTag().getInt("target"));
-        }
-
-        return null;
-    }
-
-    @Nullable
-    private InteractionHand getHandFromTag(ItemStack stack) {
-        if (stack.hasTag()) {
-            assert stack.getTag() != null;
-            return InteractionHand.valueOf(stack.getTag().getString("hand"));
-        }
-
-        return null;
     }
 
     @Nullable
