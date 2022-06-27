@@ -33,7 +33,7 @@ import org.sosly.arcaneadditions.effects.EffectRegistry;
 public class DoomComponent extends PotionEffectComponent {
     public DoomComponent(ResourceLocation registryName, ResourceLocation guiIcon) {
         super(registryName, guiIcon, EffectRegistry.DOOMED,
-                new AttributeValuePair(Attribute.MAGNITUDE, 2.0F, 2.0F, 6.0F, 1.0F, 25.0F),
+                new AttributeValuePair(Attribute.LESSER_MAGNITUDE, 2.0F, 2.0F, 6.0F, 1.0F, 10.0F),
                 new AttributeValuePair(Attribute.DURATION, 5.0F, 5.0F, 60.0F, 5.0F, 5.0F));
     }
 
@@ -54,7 +54,7 @@ public class DoomComponent extends PotionEffectComponent {
 
     @Override
     public float initialComplexity() {
-        return 50.0F;
+        return 25.0F;
     }
 
     @Override

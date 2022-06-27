@@ -10,7 +10,7 @@
   ],
   "patterns": [
     "mna:manaweave_patterns/knot3",
-    "mna:manaweave_patterns/knot1",
+    "mna:manaweave_patterns/knot",
     "mna:manaweave_patterns/knot4"
   ]
 }
