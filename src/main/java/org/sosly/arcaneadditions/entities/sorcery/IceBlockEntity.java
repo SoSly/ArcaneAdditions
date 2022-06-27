@@ -5,7 +5,7 @@
  *           conditions; detailed at https://www.gnu.org/licenses/gpl-3.0.html
  */
 
-package org.sosly.arcaneadditions.entities;
+package org.sosly.arcaneadditions.entities.sorcery;
 
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.protocol.Packet;
@@ -16,8 +16,9 @@ import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.NotNull;
 
 public class IceBlockEntity extends Entity {
-    public IceBlockEntity(EntityType type, Level level) {
+    public IceBlockEntity(EntityType<? extends IceBlockEntity> type, Level level) {
         super(type, level);
+        this.setInvulnerable(true);
     }
 
     @Override

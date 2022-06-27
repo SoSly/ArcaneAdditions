@@ -15,7 +15,7 @@ import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.PartPose;
 import net.minecraft.client.model.geom.builders.*;
 import org.jetbrains.annotations.NotNull;
-import org.sosly.arcaneadditions.entities.IceBlockEntity;
+import org.sosly.arcaneadditions.entities.sorcery.IceBlockEntity;
 import org.sosly.arcaneadditions.utils.RLoc;
 
 public class IceBlockModel<T extends IceBlockEntity> extends EntityModel<T> {

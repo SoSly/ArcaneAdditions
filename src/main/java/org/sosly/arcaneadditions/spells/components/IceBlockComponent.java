@@ -25,7 +25,7 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.level.Level;
 import org.sosly.arcaneadditions.entities.EntityRegistry;
-import org.sosly.arcaneadditions.entities.IceBlockEntity;
+import org.sosly.arcaneadditions.entities.sorcery.IceBlockEntity;
 import org.sosly.arcaneadditions.effects.EffectRegistry;
 
 import java.util.Objects;

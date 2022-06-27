@@ -27,7 +27,7 @@ import net.minecraftforge.fml.common.Mod;
 import org.sosly.arcaneadditions.ArcaneAdditions;
 import org.sosly.arcaneadditions.effects.EffectRegistry;
 import org.sosly.arcaneadditions.effects.beneficial.IceBlockEffect;
-import org.sosly.arcaneadditions.entities.IceBlockEntity;
+import org.sosly.arcaneadditions.entities.sorcery.IceBlockEntity;
 import org.sosly.arcaneadditions.spells.components.IceBlockComponent;
 import org.sosly.arcaneadditions.utils.World;
 

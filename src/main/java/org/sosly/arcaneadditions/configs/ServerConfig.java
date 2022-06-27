@@ -32,7 +32,7 @@ public class ServerConfig {
             .define("creatureModifiers", Arrays.asList("minecraft:villager,1.5"));
         SOULSEARCHERS_LENS_HEALTH_PER_LEVEL = builder.comment("For every multiple of this number that a creature has in max health, the player must spend a level to progress their phylactery progress.")
             .translation("config.arcaneadditions.soulsearchers_lens_health_per_level")
-            .define("healthPerLevel", 10);
+            .define("healthPerLevel", 20);
         SOULSEARCHERS_LENS_MAX_DISTANCE = builder.comment("This setting determines how many blocks away the player can be as they continue to study their target.")
             .translation("config.arcaneadditions.soulsearchers_lens_max_distance")
             .define("maxDistance", 5);

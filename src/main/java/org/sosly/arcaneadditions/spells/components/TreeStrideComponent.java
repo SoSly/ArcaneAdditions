@@ -46,7 +46,6 @@ public class TreeStrideComponent extends SpellEffect {
         BlockState state = level.getBlockState(pos);
 
         if (!TreeFinder.isBlockALog(state) || !TreeFinder.isPartOfATree(level, pos, true)) {
-            // todo: message = needs to be a tree
             return ComponentApplicationResult.FAIL;
         }
 

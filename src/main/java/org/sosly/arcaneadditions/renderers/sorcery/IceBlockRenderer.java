@@ -4,8 +4,7 @@
  *           This is free software, and you are welcome to redistribute it under certain
  *           conditions; detailed at https://www.gnu.org/licenses/gpl-3.0.html
  */
-
-package org.sosly.arcaneadditions.renderers.entity;
+package org.sosly.arcaneadditions.renderers.sorcery;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
@@ -17,7 +16,7 @@ import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.resources.ResourceLocation;
 import org.jetbrains.annotations.NotNull;
-import org.sosly.arcaneadditions.entities.IceBlockEntity;
+import org.sosly.arcaneadditions.entities.sorcery.IceBlockEntity;
 import org.sosly.arcaneadditions.models.IceBlockModel;
 
 public class IceBlockRenderer extends EntityRenderer<IceBlockEntity> {
