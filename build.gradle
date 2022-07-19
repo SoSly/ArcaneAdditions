@@ -1,3 +1,9 @@
+/*
+ *   Arcane Additions Copyright (c)  2022, Kevin Kragenbrink <kevin@writh.net>
+ *           This program comes with ABSOLUTELY NO WARRANTY; for details see <https://www.gnu.org/licenses/gpl-3.0.html>.
+ *           This is free software, and you are welcome to redistribute it under certain
+ *           conditions; detailed at https://www.gnu.org/licenses/gpl-3.0.html
+ */
 buildscript {
     repositories {
         // These repositories are only for Gradle plugins, put any other repositories in the repository block further below
@@ -16,12 +22,7 @@ apply plugin: 'net.minecraftforge.gradle'
 apply plugin: 'org.parchmentmc.librarian.forgegradle'
 apply plugin: 'idea'
 apply plugin: 'maven-publish'
-apply plugin: "com.matthewprenger.cursegradle" /*
- *   Arcane Additions Copyright (c)  2022, Kevin Kragenbrink <kevin@writh.net>
- *           This program comes with ABSOLUTELY NO WARRANTY; for details see <https://www.gnu.org/licenses/gpl-3.0.html>.
- *           This is free software, and you are welcome to redistribute it under certain
- *           conditions; detailed at https://www.gnu.org/licenses/gpl-3.0.html
- */ // Required for CurseGradle
+apply plugin: "com.matthewprenger.cursegradle" // Required for CurseGradle
 
 version = "${aa_version}"
 group = 'org.sosly.arcaneadditions' // http://maven.apache.org/guides/mini/guide-naming-conventions.html

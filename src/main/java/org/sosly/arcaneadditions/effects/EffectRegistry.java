@@ -13,6 +13,7 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
+import org.sosly.arcaneadditions.effects.beneficial.AntiMagicEffect;
 import org.sosly.arcaneadditions.effects.beneficial.IceBlockEffect;
 import org.sosly.arcaneadditions.effects.beneficial.LifeLinkEffect;
 import org.sosly.arcaneadditions.effects.harmful.DoomedEffect;
@@ -21,6 +22,8 @@ import org.sosly.arcaneadditions.effects.neutral.IceBlockExhaustionEffect;
 
 public class EffectRegistry {
     public static final DeferredRegister<MobEffect> EFFECTS = DeferredRegister.create(ForgeRegistries.MOB_EFFECTS, org.sosly.arcaneadditions.ArcaneAdditions.MOD_ID);
+
+    public static final RegistryObject<AntiMagicEffect> ANTI_MAGIC = EFFECTS.register("anti-magic", AntiMagicEffect::new);
     public static final RegistryObject<DoomedEffect> DOOMED = EFFECTS.register("doomed", DoomedEffect::new);
     public static final RegistryObject<EnragedEffect> ENRAGED = EFFECTS.register("enraged", EnragedEffect::new);
     public static final RegistryObject<IceBlockEffect> ICE_BLOCK = EFFECTS.register("ice_block", IceBlockEffect::new);
