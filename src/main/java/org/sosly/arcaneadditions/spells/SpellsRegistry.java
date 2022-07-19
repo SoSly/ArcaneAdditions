@@ -17,6 +17,7 @@ import org.sosly.arcaneadditions.utils.RLoc;
 @Mod.EventBusSubscriber(modid = org.sosly.arcaneadditions.ArcaneAdditions.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class SpellsRegistry {
     public static SpellEffect ASTRAL_PROJECTION = new AstralProjectionComponent(RLoc.create("components/astral_projection"), RLoc.create("textures/spell/component/astral_projection.png"));
+    public static SpellEffect COUNTERSPELL = new CounterspellComponent(RLoc.create("components/counterspell"), RLoc.create("textures/spell/component/counterspell.png"));
     public static SpellEffect ENRAGE = new EnrageComponent(RLoc.create("components/enrage"), RLoc.create("textures/spell/component/enrage.png"));;
     public static SpellEffect ICE_BLOCK = new IceBlockComponent(RLoc.create("components/ice_block"), RLoc.create("textures/spell/component/ice_block.png"));
     public static SpellEffect LIFE_LINK = new LifeLinkComponent(RLoc.create("components/life_link"), RLoc.create("textures/spell/component/life_link.png"));
@@ -29,6 +30,7 @@ public class SpellsRegistry {
     @SubscribeEvent
     public static void registerComponents(RegistryEvent.Register<SpellEffect> event) {
         event.getRegistry().register(ASTRAL_PROJECTION);
+        event.getRegistry().register(COUNTERSPELL);
         event.getRegistry().register(ENRAGE);
         event.getRegistry().register(ICE_BLOCK);
         event.getRegistry().register(LIFE_LINK);

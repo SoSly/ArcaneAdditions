@@ -1,0 +1,18 @@
+{
+  "type": "mna:component",
+  "tier": 4,
+  "output": "arcaneadditions:components/counterspell",
+  "items": [
+    "mna:transmuted_silver",
+    "mna:transmuted_silver",
+    "mna:superheated_purified_vinteum_ingot",
+    "minecraft:diamond",
+    "minecraft:ender_pearl"
+  ],
+  "patterns": [
+    "mna:manaweave_patterns/knot3",
+    "mna:manaweave_patterns/knot",
+    "mna:manaweave_patterns/knot4",
+    "mna:manaweave_patterns/inverted_triangle"
+  ]
+}

@@ -27,6 +27,50 @@
       }
     ]
   },
+  "Component: Counterspell": {
+  "index": 2,
+  "category": "sorcery",
+  "sections": [
+    {
+      "type": "title",
+      "value": "Counterspell"
+    },
+    {
+      "type": "text",
+      "json": [{
+        "text": "With the right timing, I can counter and disperse magics which are directed towards me!"
+      }]
+    }
+  ],
+  "related_recipes": [
+    {
+      "type": "spell_part",
+      "location": "arcaneadditions:components/counterspell"
+    }
+  ]
+},
+  "Component: Doom": {
+    "index": 2,
+    "category": "sorcery",
+    "sections": [
+      {
+        "type": "title",
+        "value": "Doom"
+      },
+      {
+        "type": "text",
+        "json": {
+          "text": "I can draw down the magic of the end to increasing the damage my target takes."
+        }
+      }
+    ],
+    "related_recipes": [
+      {
+        "type": "spell_part",
+        "location": "arcaneadditions:components/doom"
+      }
+    ]
+  },
   "Component: Enrage": {
     "index": 2,
     "category": "sorcery",
