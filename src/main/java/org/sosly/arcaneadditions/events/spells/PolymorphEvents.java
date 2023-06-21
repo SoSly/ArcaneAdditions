@@ -9,7 +9,10 @@ package org.sosly.arcaneadditions.events.spells;
 
 import com.mna.api.ManaAndArtificeMod;
 import com.mna.api.spells.ICanContainSpell;
+import com.mna.api.spells.base.IModifiedSpellPart;
 import com.mna.api.spells.base.ISpellDefinition;
+import com.mna.api.spells.collections.Shapes;
+import com.mna.api.spells.parts.Shape;
 import de.budschie.bmorph.morph.MorphUtil;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectInstance;
@@ -34,13 +37,14 @@ import org.sosly.arcaneadditions.capabilities.polymorph.IPolymorphCapability;
 import org.sosly.arcaneadditions.capabilities.polymorph.PolymorphProvider;
 import org.sosly.arcaneadditions.compats.BMorph.BMorphRegistryEntries;
 import org.sosly.arcaneadditions.compats.CompatModIDs;
-import org.sosly.arcaneadditions.configs.ServerConfig;
+import org.sosly.arcaneadditions.configs.Config;
 import org.sosly.arcaneadditions.effects.EffectRegistry;
 import org.sosly.arcaneadditions.effects.beneficial.PolymorphEffect;
 import org.sosly.arcaneadditions.spells.components.PolymorphComponent;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.concurrent.atomic.AtomicBoolean;
 
@@ -126,16 +130,22 @@ public class PolymorphEvents {
 
             // If the item is a spell, check if it's polymorph for ending the effect.
             if (stack.getItem() instanceof ICanContainSpell) {
-                if (ServerConfig.ALLOW_SPELLCASTING_WHILE_POLYMORPHED.get()) return;
-
                 ISpellDefinition recipe = ManaAndArtificeMod.getSpellHelper().parseSpellDefinition(stack);
                 AtomicBoolean isPolymorph = new AtomicBoolean(false);
+                boolean isSelf = false;
+                IModifiedSpellPart<Shape> shape = recipe.getShape();
+                if (shape != null && shape.getPart() == Shapes.SELF) {
+                    isSelf = true;
+                }
                 recipe.getComponents().forEach(component -> {
                     if (component.getPart() instanceof PolymorphComponent) {
-                        isPolymorph.set(true); // todo: We should probably also make sure that the spell is going to affect the target in question.
+                        isPolymorph.set(true);
                     }
                 });
-                if (isPolymorph.get()) return;
+                if (isSelf && isPolymorph.get()) return;
+
+                // If the spell is not polymorph, check if spellcasting is allowed.
+                if (Config.SERVER.polymorph.allowSpellcasting.get()) return;
             }
 
             // Otherwise, cancel the action.
