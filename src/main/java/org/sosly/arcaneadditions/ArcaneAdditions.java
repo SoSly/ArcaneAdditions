@@ -18,15 +18,13 @@ import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.config.ModConfig;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
-import net.minecraftforge.fml.loading.FMLPaths;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.sosly.arcaneadditions.entities.EntityRegistry;
 import org.sosly.arcaneadditions.menus.MenuRegistry;
 import org.sosly.arcaneadditions.renderers.RendererRegistry;
 import org.sosly.arcaneadditions.compats.CompatRegistry;
-import org.sosly.arcaneadditions.configs.ConfigLoader;
-import org.sosly.arcaneadditions.configs.ServerConfig;
+import org.sosly.arcaneadditions.configs.Config;
 import org.sosly.arcaneadditions.effects.EffectRegistry;
 import org.sosly.arcaneadditions.utils.ClientProxy;
 import org.sosly.arcaneadditions.utils.ISidedProxy;
@@ -41,8 +39,7 @@ public class ArcaneAdditions {
     public ISidedProxy proxy;
 
     public ArcaneAdditions() {
-        ModLoadingContext.get().registerConfig(ModConfig.Type.SERVER, ServerConfig.CONFIG);
-        ConfigLoader.loadConfig(ServerConfig.CONFIG, FMLPaths.CONFIGDIR.get().resolve("arcaneadditions-server.toml"));
+        ModLoadingContext.get().registerConfig(ModConfig.Type.SERVER, Config.SERVER_SPEC);
         instance = this;
 
         // Initialize Registries

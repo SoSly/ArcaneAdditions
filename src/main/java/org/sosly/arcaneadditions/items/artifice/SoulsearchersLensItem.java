@@ -31,7 +31,7 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 import org.apache.commons.lang3.mutable.MutableBoolean;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import org.sosly.arcaneadditions.configs.ServerConfig;
+import org.sosly.arcaneadditions.configs.Config;
 import org.sosly.arcaneadditions.entities.EntityRegistry;
 import org.sosly.arcaneadditions.entities.sorcery.SoulSearchersBeamEntity;
 import org.sosly.arcaneadditions.sounds.UseItemTickingSoundInstance;
@@ -165,9 +165,9 @@ public class SoulsearchersLensItem extends Item {
 
     private boolean useOn(@NotNull Level level, @NotNull Player player, @NotNull Mob target, ItemStack phylactery) {
         float adjustedHealth = target.getMaxHealth() * this.getAdjustmentForType(target.getType());
-        int levelsRequired = (int)Math.floor(adjustedHealth / ServerConfig.SOULSEARCHERS_LENS_HEALTH_PER_LEVEL.get());
+        int levelsRequired = (int)Math.floor(adjustedHealth / Config.SERVER.soulSearchersLens.healthPerLevel.get());
 
-        if (target.distanceTo(player) > (float)ServerConfig.SOULSEARCHERS_LENS_MAX_DISTANCE.get()) {
+        if (target.distanceTo(player) > (float) Config.SERVER.soulSearchersLens.maxDistance.get()) {
             if (level.isClientSide) {
                 player.sendMessage(new TranslatableComponent("item.arcaneadditions.soulsearchers_lens.distance"), UUID.randomUUID());
             }
@@ -197,7 +197,7 @@ public class SoulsearchersLensItem extends Item {
     private float getAdjustmentForType(EntityType entityType) {
         String type = entityType.getRegistryName().toString();
         AtomicReference<Float> modifier = new AtomicReference<>(1.0f);
-        ServerConfig.SOULSEARCHERS_LENS_CREATURE_MODIFIERS.get().stream().forEach((mod) -> {
+        Config.SERVER.soulSearchersLens.creatureModifiers.get().stream().forEach((mod) -> {
             String[] parts = mod.split(",");
             String registryName = parts[0];
             String stringModifier = parts[1];

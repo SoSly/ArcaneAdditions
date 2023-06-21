@@ -43,7 +43,7 @@ import net.minecraftforge.registries.ForgeRegistries;
 import org.apache.commons.lang3.mutable.MutableBoolean;
 import org.sosly.arcaneadditions.capabilities.polymorph.PolymorphProvider;
 import org.sosly.arcaneadditions.compats.BMorph.BMorphRegistryEntries;
-import org.sosly.arcaneadditions.configs.ServerConfig;
+import org.sosly.arcaneadditions.configs.Config;
 import org.sosly.arcaneadditions.networking.PacketHandler;
 import org.sosly.arcaneadditions.networking.messages.clientbound.SyncPolymorphCapabilitiesToClient;
 
@@ -123,7 +123,7 @@ public class PolymorphComponent extends SpellEffect {
         AtomicBoolean allowed = new AtomicBoolean(false);
         AtomicInteger tier = new AtomicInteger();
         AtomicReference<Float> magnitude = new AtomicReference<>(iModifiedSpellPart.getValue(Attribute.MAGNITUDE));
-        ServerConfig.POLYMORPH_TIERS.get().forEach(tierList -> {
+        Config.SERVER.polymorph.tiers.get().forEach(tierList -> {
             tier.getAndIncrement();
 
             if (tierList.contains(Objects.requireNonNull(type.getRegistryName()).toString())) {
