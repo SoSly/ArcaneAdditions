@@ -7,6 +7,7 @@
 
 package org.sosly.arcaneadditions.spells.components;
 
+import com.mna.api.ManaAndArtificeMod;
 import com.mna.api.affinity.Affinity;
 import com.mna.api.capabilities.Faction;
 import com.mna.api.sound.SFX;
@@ -21,10 +22,14 @@ import com.mna.api.spells.targeting.SpellSource;
 import com.mna.api.spells.targeting.SpellTarget;
 import com.mna.capabilities.playerdata.progression.PlayerProgressionProvider;
 import com.mna.items.ItemInit;
+import com.mna.items.sorcery.ItemBookOfRote;
 import com.mna.items.sorcery.PhylacteryStaffItem;
+import de.budschie.bmorph.morph.MorphItem;
 import de.budschie.bmorph.morph.MorphManagerHandlers;
+import de.budschie.bmorph.morph.MorphReasonRegistry;
 import de.budschie.bmorph.morph.MorphUtil;
 import net.minecraft.Util;
+import net.minecraft.client.particle.CritParticle;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.resources.ResourceLocation;
@@ -109,7 +114,10 @@ public class PolymorphComponent extends SpellEffect {
             });
 
             CompoundTag nbt = new CompoundTag();
-            MorphUtil.morphToServer(Optional.of(MorphManagerHandlers.FALLBACK.createMorph(ForgeRegistries.ENTITIES.getValue(type.getRegistryName()), nbt, null, true)), Optional.empty(), (ServerPlayer)target.getEntity());
+
+            Optional<MorphItem> morphItem = Optional.of(MorphManagerHandlers.FALLBACK.createMorph(ForgeRegistries.ENTITIES.getValue(type.getRegistryName()), nbt, null, true));
+            MorphUtil.morphToServer(morphItem, MorphReasonRegistry.MORPHED_BY_ABILITY.get(), (ServerPlayer)target.getEntity(), true);
+
             MobEffectInstance instance = new MobEffectInstance(BMorphRegistryEntries.POLYMORPH_EFFECT, Integer.MAX_VALUE);
             instance.setNoCounter(true);
             targetEntity.addEffect(instance);
