@@ -26,6 +26,6 @@ A wealth of new magical mysteries for the Mana and Artifice mod.'''
 [[dependencies.arcaneadditions]]
     modId="mna"
     mandatory=true
-    versionRange="[1.7.2.10,1.8)"
+    versionRange="[2.0.0.16,2.1)"
     ordering="NONE"
     sides="BOTH"

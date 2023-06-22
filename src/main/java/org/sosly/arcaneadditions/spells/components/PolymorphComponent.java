@@ -7,9 +7,9 @@
 
 package org.sosly.arcaneadditions.spells.components;
 
-import com.mna.api.ManaAndArtificeMod;
 import com.mna.api.affinity.Affinity;
-import com.mna.api.capabilities.Faction;
+
+import com.mna.api.faction.FactionIDs;
 import com.mna.api.sound.SFX;
 import com.mna.api.spells.ComponentApplicationResult;
 import com.mna.api.spells.SpellReagent;
@@ -21,15 +21,14 @@ import com.mna.api.spells.targeting.SpellContext;
 import com.mna.api.spells.targeting.SpellSource;
 import com.mna.api.spells.targeting.SpellTarget;
 import com.mna.capabilities.playerdata.progression.PlayerProgressionProvider;
+import com.mna.factions.Factions;
 import com.mna.items.ItemInit;
-import com.mna.items.sorcery.ItemBookOfRote;
 import com.mna.items.sorcery.PhylacteryStaffItem;
 import de.budschie.bmorph.morph.MorphItem;
 import de.budschie.bmorph.morph.MorphManagerHandlers;
 import de.budschie.bmorph.morph.MorphReasonRegistry;
 import de.budschie.bmorph.morph.MorphUtil;
 import net.minecraft.Util;
-import net.minecraft.client.particle.CritParticle;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.resources.ResourceLocation;
@@ -177,7 +176,7 @@ public class PolymorphComponent extends SpellEffect {
 
             MutableBoolean isFey = new MutableBoolean(false);
             caster.getCapability(PlayerProgressionProvider.PROGRESSION).ifPresent((p) -> {
-                isFey.setValue(p.getAlliedFaction() == Faction.FEY_COURT);
+                isFey.setValue(p.getAlliedFaction() == Factions.FEY);
             });
 
             MutableBoolean isMorphing = new MutableBoolean(false);

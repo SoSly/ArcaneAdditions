@@ -8,7 +8,7 @@
 package org.sosly.arcaneadditions.spells.components;
 
 import com.mna.api.affinity.Affinity;
-import com.mna.api.capabilities.Faction;
+import com.mna.api.faction.IFaction;
 import com.mna.api.sound.SFX;
 import com.mna.api.spells.ComponentApplicationResult;
 import com.mna.api.spells.SpellPartTags;
@@ -21,6 +21,7 @@ import com.mna.api.spells.targeting.SpellContext;
 import com.mna.api.spells.targeting.SpellSource;
 import com.mna.api.spells.targeting.SpellTarget;
 import com.mna.config.GeneralModConfig;
+import com.mna.factions.Factions;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.world.damagesource.DamageSource;
@@ -97,9 +98,7 @@ public class TransfuseComponent extends SpellEffect implements IDamageComponent 
     }
 
     @Override
-    public Faction getFactionRequirement() {
-        return Faction.UNDEAD;
-    }
+    public IFaction getFactionRequirement() { return Factions.UNDEAD; }
 
     @Override
     public boolean targetsBlocks() {
