@@ -9,7 +9,6 @@ package org.sosly.arcaneadditions.spells.components;
 
 import com.mna.api.affinity.Affinity;
 
-import com.mna.api.faction.FactionIDs;
 import com.mna.api.sound.SFX;
 import com.mna.api.spells.ComponentApplicationResult;
 import com.mna.api.spells.SpellReagent;

@@ -140,34 +140,12 @@ public class PolymorphEvents {
             // If the item is a spell, check if it's polymorph for ending the effect.
             if (!level.isClientSide() && stack.getItem() instanceof ICanContainSpell) {
                 AtomicBoolean isPolymorph = new AtomicBoolean(false);
-
-                if (stack.getItem() instanceof ItemBookOfRote roteBook) {
-                    // Rote books are special, so we need to check if the spell is polymorph by parsing the spell manually.
-                    // This is due to a limitation in the spellHelper, since it doesn't actually know the player when
-                    // looking up the spell definition from a rote book stack. Fixes #21, but it's a hack and should be
-                    // removed when the spellHelper is updated to include a way to parse the spell definition including
-                    // the player.
-                    caster.getCapability(ManaAndArtificeMod.getMagicCapability()).ifPresent(magic -> {
-                        CompoundTag tag = roteBook.getSpellCompound(stack, caster);
-                        if (tag != null) {
-                            ISpellDefinition recipe = SpellRecipe.fromNBT(tag);
-                            if (recipe != null) {
-                                recipe.getComponents().forEach(component -> {
-                                    if (component.getPart() instanceof PolymorphComponent) {
-                                        isPolymorph.set(true);
-                                    }
-                                });
-                            }
-                        }
-                    });
-                } else {
-                    ISpellDefinition recipe = ManaAndArtificeMod.getSpellHelper().parseSpellDefinition(stack);
-                    recipe.getComponents().forEach(component -> {
-                        if (component.getPart() instanceof PolymorphComponent) {
-                            isPolymorph.set(true);
-                        }
-                    });
-                }
+                ISpellDefinition recipe = ManaAndArtificeMod.getSpellHelper().parseSpellDefinition(stack, caster);
+                recipe.iterateComponents(component -> {
+                    if (component.getPart() instanceof PolymorphComponent) {
+                        isPolymorph.set(true);
+                    }
+                });
                 if (isPolymorph.get()) return;
 
                 // If the spell is not polymorph, check if spellcasting is allowed.
