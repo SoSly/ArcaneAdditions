@@ -8,12 +8,18 @@
 package org.sosly.arcaneadditions.events.spells;
 
 import com.mna.api.ManaAndArtificeMod;
+import com.mna.api.capabilities.IPlayerMagic;
 import com.mna.api.spells.ICanContainSpell;
 import com.mna.api.spells.base.IModifiedSpellPart;
 import com.mna.api.spells.base.ISpellDefinition;
 import com.mna.api.spells.collections.Shapes;
 import com.mna.api.spells.parts.Shape;
+import com.mna.items.sorcery.ISpellBookInventory;
+import com.mna.items.sorcery.ItemBookOfRote;
+import com.mna.spells.crafting.SpellRecipe;
+import de.budschie.bmorph.morph.MorphReasonRegistry;
 import de.budschie.bmorph.morph.MorphUtil;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.LivingEntity;
@@ -21,6 +27,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.AirItem;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.Level;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
 import net.minecraftforge.event.entity.living.LivingDamageEvent;
 import net.minecraftforge.event.entity.living.LivingEvent;
@@ -101,10 +108,10 @@ public class PolymorphEvents {
             if (!(entity instanceof Player)) return; // for now, we can't affect non-players
 
             // demorph the target
-            if (event.getEntity().getLevel().isClientSide()) {
-                MorphUtil.morphToClient(Optional.empty(), Optional.empty(), new ArrayList<>(), (Player) entity);
-            } else {
-                MorphUtil.morphToServer(Optional.empty(), Optional.empty(), (Player) entity);
+            if (!event.getEntity().getLevel().isClientSide()) {
+//                MorphUtil.morphToClient(Optional.empty(), MorphReasonRegistry.MORPHED_BY_ABILITY.get(), new ArrayList<>(), (Player) entity);
+//            } else {
+                MorphUtil.morphToServer(Optional.empty(), MorphReasonRegistry.MORPHED_BY_ABILITY.get(), (Player) entity, true);
 
                 entity.getCapability(PolymorphProvider.POLYMORPH).ifPresent(polymorph -> {
                     entity.setHealth(polymorph.getHealth());
@@ -128,21 +135,40 @@ public class PolymorphEvents {
             // If they are holding air or a building block, let them continue.
             if (stack.getItem() instanceof AirItem || stack.getItem() instanceof BlockItem) return;
 
+            Level level = event.getEntityLiving().getLevel();
+
             // If the item is a spell, check if it's polymorph for ending the effect.
-            if (stack.getItem() instanceof ICanContainSpell) {
-                ISpellDefinition recipe = ManaAndArtificeMod.getSpellHelper().parseSpellDefinition(stack);
+            if (!level.isClientSide() && stack.getItem() instanceof ICanContainSpell) {
                 AtomicBoolean isPolymorph = new AtomicBoolean(false);
-                boolean isSelf = false;
-                IModifiedSpellPart<Shape> shape = recipe.getShape();
-                if (shape != null && shape.getPart() == Shapes.SELF) {
-                    isSelf = true;
+
+                if (stack.getItem() instanceof ItemBookOfRote roteBook) {
+                    // Rote books are special, so we need to check if the spell is polymorph by parsing the spell manually.
+                    // This is due to a limitation in the spellHelper, since it doesn't actually know the player when
+                    // looking up the spell definition from a rote book stack. Fixes #21, but it's a hack and should be
+                    // removed when the spellHelper is updated to include a way to parse the spell definition including
+                    // the player.
+                    caster.getCapability(ManaAndArtificeMod.getMagicCapability()).ifPresent(magic -> {
+                        CompoundTag tag = roteBook.getSpellCompound(stack, caster);
+                        if (tag != null) {
+                            ISpellDefinition recipe = SpellRecipe.fromNBT(tag);
+                            if (recipe != null) {
+                                recipe.getComponents().forEach(component -> {
+                                    if (component.getPart() instanceof PolymorphComponent) {
+                                        isPolymorph.set(true);
+                                    }
+                                });
+                            }
+                        }
+                    });
+                } else {
+                    ISpellDefinition recipe = ManaAndArtificeMod.getSpellHelper().parseSpellDefinition(stack);
+                    recipe.getComponents().forEach(component -> {
+                        if (component.getPart() instanceof PolymorphComponent) {
+                            isPolymorph.set(true);
+                        }
+                    });
                 }
-                recipe.getComponents().forEach(component -> {
-                    if (component.getPart() instanceof PolymorphComponent) {
-                        isPolymorph.set(true);
-                    }
-                });
-                if (isSelf && isPolymorph.get()) return;
+                if (isPolymorph.get()) return;
 
                 // If the spell is not polymorph, check if spellcasting is allowed.
                 if (Config.SERVER.polymorph.allowSpellcasting.get()) return;
