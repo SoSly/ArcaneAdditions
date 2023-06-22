@@ -20,15 +20,15 @@ import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.sosly.arcaneadditions.entities.EntityRegistry;
-import org.sosly.arcaneadditions.menus.MenuRegistry;
-import org.sosly.arcaneadditions.renderers.RendererRegistry;
 import org.sosly.arcaneadditions.compats.CompatRegistry;
 import org.sosly.arcaneadditions.configs.Config;
 import org.sosly.arcaneadditions.effects.EffectRegistry;
+import org.sosly.arcaneadditions.entities.EntityRegistry;
+import org.sosly.arcaneadditions.items.ItemRegistry;
+import org.sosly.arcaneadditions.menus.MenuRegistry;
+import org.sosly.arcaneadditions.renderers.RendererRegistry;
 import org.sosly.arcaneadditions.utils.ClientProxy;
 import org.sosly.arcaneadditions.utils.ISidedProxy;
-import org.sosly.arcaneadditions.items.ItemRegistry;
 import org.sosly.arcaneadditions.utils.RLoc;
 
 @Mod(ArcaneAdditions.MOD_ID)

@@ -4,13 +4,14 @@
 package org.sosly.arcaneadditions.spells.components;
 
 import com.mna.api.affinity.Affinity;
-import com.mna.api.capabilities.Faction;
+import com.mna.api.faction.IFaction;
 import com.mna.api.spells.ComponentApplicationResult;
 import com.mna.api.spells.base.IModifiedSpellPart;
 import com.mna.api.spells.parts.SpellEffect;
 import com.mna.api.spells.targeting.SpellContext;
 import com.mna.api.spells.targeting.SpellSource;
 import com.mna.api.spells.targeting.SpellTarget;
+import com.mna.factions.Factions;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.TextComponent;
 import net.minecraft.resources.ResourceLocation;
@@ -67,8 +68,8 @@ public class TreeStrideComponent extends SpellEffect {
     }
 
     @Override
-    public Faction getFactionRequirement() {
-        return Faction.FEY_COURT;
+    public IFaction getFactionRequirement() {
+        return Factions.FEY;
     }
 
     @Override
