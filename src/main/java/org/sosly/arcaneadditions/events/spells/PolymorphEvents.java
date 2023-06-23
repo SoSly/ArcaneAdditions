@@ -8,18 +8,10 @@
 package org.sosly.arcaneadditions.events.spells;
 
 import com.mna.api.ManaAndArtificeMod;
-import com.mna.api.capabilities.IPlayerMagic;
 import com.mna.api.spells.ICanContainSpell;
-import com.mna.api.spells.base.IModifiedSpellPart;
 import com.mna.api.spells.base.ISpellDefinition;
-import com.mna.api.spells.collections.Shapes;
-import com.mna.api.spells.parts.Shape;
-import com.mna.items.sorcery.ISpellBookInventory;
-import com.mna.items.sorcery.ItemBookOfRote;
-import com.mna.spells.crafting.SpellRecipe;
 import de.budschie.bmorph.morph.MorphReasonRegistry;
 import de.budschie.bmorph.morph.MorphUtil;
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.LivingEntity;
@@ -49,9 +41,7 @@ import org.sosly.arcaneadditions.effects.EffectRegistry;
 import org.sosly.arcaneadditions.effects.beneficial.PolymorphEffect;
 import org.sosly.arcaneadditions.spells.components.PolymorphComponent;
 
-import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Objects;
 import java.util.Optional;
 import java.util.concurrent.atomic.AtomicBoolean;
 
@@ -109,8 +99,6 @@ public class PolymorphEvents {
 
             // demorph the target
             if (!event.getEntity().getLevel().isClientSide()) {
-//                MorphUtil.morphToClient(Optional.empty(), MorphReasonRegistry.MORPHED_BY_ABILITY.get(), new ArrayList<>(), (Player) entity);
-//            } else {
                 MorphUtil.morphToServer(Optional.empty(), MorphReasonRegistry.MORPHED_BY_ABILITY.get(), (Player) entity, true);
 
                 entity.getCapability(PolymorphProvider.POLYMORPH).ifPresent(polymorph -> {
