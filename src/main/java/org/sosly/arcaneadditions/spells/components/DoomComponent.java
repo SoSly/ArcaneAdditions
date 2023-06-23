@@ -30,6 +30,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
 import org.sosly.arcaneadditions.effects.EffectRegistry;
 
+@Deprecated
 public class DoomComponent extends PotionEffectComponent {
     public DoomComponent(ResourceLocation registryName, ResourceLocation guiIcon) {
         super(registryName, guiIcon, EffectRegistry.DOOMED,
