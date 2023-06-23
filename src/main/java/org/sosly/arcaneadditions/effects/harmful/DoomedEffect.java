@@ -10,6 +10,7 @@ package org.sosly.arcaneadditions.effects.harmful;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectCategory;
 
+@Deprecated
 public class DoomedEffect extends MobEffect {
     public DoomedEffect() {
         super(MobEffectCategory.HARMFUL, 0);

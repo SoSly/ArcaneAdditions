@@ -24,6 +24,7 @@ import org.sosly.arcaneadditions.effects.beneficial.LifeLinkEffect;
 import org.sosly.arcaneadditions.effects.harmful.DoomedEffect;
 import org.sosly.arcaneadditions.spells.components.LifeLinkComponent;
 
+@Deprecated
 @Mod.EventBusSubscriber(modid = ArcaneAdditions.MOD_ID, bus = Mod.EventBusSubscriber.Bus.FORGE)
 public class DoomedEvents {
     @SubscribeEvent

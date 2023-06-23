@@ -37,9 +37,15 @@
       },
       {
         "type": "text",
-        "json": [{
-          "text": "I can draw down the magic of the end to increasing the damage my target takes."
-        }]
+        "json": [
+          {
+            "text": "I can draw down the magic of the end to increasing the damage my target takes."
+          },
+          {
+            "text": "\n\nThis spell is deprecated and will be removed in future versions of Arcane Additions.",
+            "italic": true
+          }
+        ]
       }
     ],
     "related_recipes": [
