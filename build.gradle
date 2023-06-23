@@ -149,7 +149,6 @@ dependencies {
     minecraft "net.minecraftforge:forge:${minecraft_version}-${forge_version}"
 
 //    implementation fg.deobf("curse.maven:mana-and-artifice-${mna_projectId}:${mna_fileId}")
-//    compileOnly "blank:mna:2.0.0.16_api"
 
     implementation fg.deobf("blank:mna:2.0.0.16")
 
