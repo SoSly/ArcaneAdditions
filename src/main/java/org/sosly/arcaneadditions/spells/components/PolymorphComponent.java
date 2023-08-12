@@ -167,54 +167,54 @@ public class PolymorphComponent extends SpellEffect {
     }
 
     @Override
-    public List<SpellReagent> getRequiredReagents(@Nullable Player caster) {
+    public List<SpellReagent> getRequiredReagents(@Nullable Player caster, @Nullable InteractionHand hand) {
         if (caster == null) {
             return this.reagents;
-        } else {
-            boolean isMorphed = caster.hasEffect(BMorphRegistryEntries.POLYMORPH_EFFECT);
+        }
 
-            MutableBoolean isFey = new MutableBoolean(false);
-            caster.getCapability(PlayerProgressionProvider.PROGRESSION).ifPresent((p) -> {
-                isFey.setValue(p.getAlliedFaction() == Factions.FEY);
-            });
+        boolean isMorphed = caster.hasEffect(BMorphRegistryEntries.POLYMORPH_EFFECT);
 
-            MutableBoolean isMorphing = new MutableBoolean(false);
-            caster.getCapability(PolymorphProvider.POLYMORPH).ifPresent((p) -> {
-                isMorphing.setValue(p.isMorphing());
-            });
+        MutableBoolean isFey = new MutableBoolean(false);
+        caster.getCapability(PlayerProgressionProvider.PROGRESSION).ifPresent((p) -> {
+            isFey.setValue(p.getAlliedFaction() == Factions.FEY);
+        });
 
-            if (isFey.booleanValue()) {
-                // Fey don't pay
-                return null;
-            }
+        MutableBoolean isMorphing = new MutableBoolean(false);
+        caster.getCapability(PolymorphProvider.POLYMORPH).ifPresent((p) -> {
+            isMorphing.setValue(p.isMorphing());
+        });
 
-            if (!isMorphed && !isMorphing.getValue()) {
-                // about to morph
-                return this.reagents;
-            }
+        if (isFey.booleanValue()) {
+            // Fey don't pay
+            return null;
+        }
 
-            if (isMorphed && isMorphing.getValue()) {
-                // just morphed
-                caster.getCapability(PolymorphProvider.POLYMORPH).ifPresent((p) -> {
-                    p.setMorphing(false);
-                });
-                return this.reagents;
-            }
-
-            if (!isMorphed && isMorphing.getValue()) {
-                // just de-morphed
-                caster.getCapability(PolymorphProvider.POLYMORPH).ifPresent((p) -> {
-                    p.setMorphing(false);
-                });
-                return null;
-            }
-
-            if (isMorphed && !isMorphing.getValue()) {
-                // about to de-morph
-                return null;
-            }
-
+        if (!isMorphed && !isMorphing.getValue()) {
+            // about to morph
             return this.reagents;
         }
+
+        if (isMorphed && isMorphing.getValue()) {
+            // just morphed
+            caster.getCapability(PolymorphProvider.POLYMORPH).ifPresent((p) -> {
+                p.setMorphing(false);
+            });
+            return this.reagents;
+        }
+
+        if (!isMorphed && isMorphing.getValue()) {
+            // just de-morphed
+            caster.getCapability(PolymorphProvider.POLYMORPH).ifPresent((p) -> {
+                p.setMorphing(false);
+            });
+            return null;
+        }
+
+        if (isMorphed && !isMorphing.getValue()) {
+            // about to de-morph
+            return null;
+        }
+
+        return this.reagents;
     }
 }
