@@ -17,6 +17,7 @@ credits="Thanks to Joefoxe of Hexerei for inspiring me to start modding, and to 
 authors="nivthefox, anomalagous"
 description='''
 A wealth of new magical mysteries for the Mana and Artifice mod.'''
+
 [[dependencies.arcaneadditions]]
     modId="forge"
     mandatory=true

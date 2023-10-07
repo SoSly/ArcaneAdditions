@@ -16,6 +16,7 @@ import net.minecraft.world.entity.player.Player;
 import org.jetbrains.annotations.NotNull;
 import org.sosly.arcaneadditions.capabilities.polymorph.PolymorphProvider;
 import org.sosly.arcaneadditions.compats.BMorph.BMorphRegistryEntries;
+import org.sosly.arcaneadditions.effects.EffectRegistry;
 
 import java.lang.ref.WeakReference;
 import java.util.Objects;
@@ -34,7 +35,7 @@ public class PolymorphEffect extends MobEffect {
             WeakReference<Player> caster = polymorph.getCaster(entity.getLevel());
 
             if (caster == null) {
-                entity.removeEffect(BMorphRegistryEntries.POLYMORPH_EFFECT);
+                entity.removeEffect(EffectRegistry.POLYMORPH.get());
                 return;
             }
 
@@ -43,7 +44,7 @@ public class PolymorphEffect extends MobEffect {
             Objects.requireNonNull(caster.get()).getCapability(ManaAndArtificeMod.getMagicCapability(), null).ifPresent(magic -> {
                 ICastingResource resource = magic.getCastingResource();
                 if (resource.getAmount() < complexity) {
-                    entity.removeEffect(BMorphRegistryEntries.POLYMORPH_EFFECT);
+                    entity.removeEffect(EffectRegistry.POLYMORPH.get());
                 } else {
                     resource.consume(entity, complexity);
                 }

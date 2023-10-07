@@ -21,19 +21,10 @@ import org.sosly.arcaneadditions.utils.RLoc;
 @Mod.EventBusSubscriber(modid = org.sosly.arcaneadditions.ArcaneAdditions.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class BMorphRegistryEntries {
     public static SpellEffect POLYMORPH;
-    public static PolymorphEffect POLYMORPH_EFFECT;
-
-    @SubscribeEvent
-    public static void registerEffects(RegistryEvent.Register<MobEffect> event) {
-        if (ModList.get().isLoaded(CompatModIDs.BMORPH)) {
-            POLYMORPH_EFFECT = new PolymorphEffect();
-            event.getRegistry().register(POLYMORPH_EFFECT.setRegistryName("polymorph"));
-        }
-    }
 
     @SubscribeEvent
     public static void registerComponents(RegistryEvent.Register<SpellEffect> event) {
-        if (ModList.get().isLoaded(CompatModIDs.BMORPH)) {
+        if (ModList.get().isLoaded(CompatModIDs.BMORPH) && !ModList.get().isLoaded(CompatModIDs.IDENTITY)) {
             POLYMORPH = new PolymorphComponent(RLoc.create("components/polymorph"), RLoc.create("textures/spell/component/polymorph.png"));
             event.getRegistry().registerAll(POLYMORPH);
         }

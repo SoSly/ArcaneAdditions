@@ -77,7 +77,7 @@ public class Config {
             public SoulSearchersLensConfig(ForgeConfigSpec.Builder builder) {
                 builder.comment("Soul Searcher's Lens settings").push("soulsearchers_lens");
 
-                creatureModifiers = builder.comment("An (optional) list of modifiers for specific creatures heawlth values for determinign the XP required to study that creature")
+                creatureModifiers = builder.comment("An (optional) list of modifiers for specific creatures health values for determining the XP required to study that creature")
                         .translation("config.arcaneadditions.soulsearchers_lens_creature_modifiers")
                         .define("creatureModifiers", List.of("minecraft:villager,1.5"));
                 healthPerLevel = builder.comment("For every multiple of this number that a creature has in max health, the player must spend a level to progress their phylactery progress.")

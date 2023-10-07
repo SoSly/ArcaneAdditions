@@ -149,16 +149,23 @@ dependencies {
     minecraft "net.minecraftforge:forge:${minecraft_version}-${forge_version}"
 
     implementation fg.deobf("curse.maven:mana-and-artifice-${mna_projectId}:${mna_fileId}")
-
-    implementation fg.deobf("curse.maven:budschies-morph-mod-${budschies_projectId}:${budschies_fileId}")
-
     implementation fg.deobf("curse.maven:curios-${curios_projectId}:${curios_fileId}")
-
     implementation fg.deobf("curse.maven:geckolib-${geckolib_projectId}:${geckolib_fileId}")
 
-    implementation fg.deobf("curse.maven:grassslab-${grassslab_projectId}:${grassslab_fileId}")
+    // these optional dependencies provide Polymorph support.
+    // compileOnly fg.deobf("curse.maven:architectury-api-${architectury_projectId}:${architectury_fileId}")
+    // implementation fg.deobf("curse.maven:identity-${identity_projectId}:${identity_fileId}")
+    // implementation fg.deobf("curse.maven:budschies-morph-mod-${budschies_projectId}:${budschies_fileId}")
 
-    implementation fg.deobf("curse.maven:jei-${jei_projectId}:${jei_fileId}")
+    // this optional dependency provides support for grass slabs, stairs, and carpets
+    // compileOnly fg.deobf("curse.maven:grassslab-${grassslab_projectId}:${grassslab_fileId}")
+
+    // alex's mobs is included only for the purpose of testing polymorph compatibility with other mods
+    // runtimeOnly fg.deobf("citadel:citadel:1.11.3-1.18.2")
+    // runtimeOnly fg.deobf("alexsmobs:alexsmobs:1.18.6")
+
+    // jei is included only for the purpose of testing jei compatibility
+    // runtimeOnly fg.deobf("curse.maven:jei-${jei_projectId}:${jei_fileId}")
 }
 
 // Example for how to get properties into the manifest for reading at runtime.
@@ -183,7 +190,8 @@ jar.finalizedBy('reobfJar')
 // publish.dependsOn('reobfJar')
 
 def curseRelations = {
-    requiredDependency 'budschies-morph-mod'
+    optionalDependency 'budschies-morph-mod'
+    optionalDependnecy 'identity'
     requiredDependency 'curios'
     requiredDependency 'geckolib'
     optionalDependency 'grassslab'

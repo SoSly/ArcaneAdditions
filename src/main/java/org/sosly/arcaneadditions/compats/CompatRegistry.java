@@ -9,8 +9,11 @@ package org.sosly.arcaneadditions.compats;
 
 import net.minecraftforge.fml.ModList;
 import org.sosly.arcaneadditions.ArcaneAdditions;
+import org.sosly.arcaneadditions.api.spells.components.IPolymorphProvider;
+import org.sosly.arcaneadditions.capabilities.polymorph.PolymorphProvider;
 import org.sosly.arcaneadditions.compats.BMorph.BMorphCompat;
 import org.sosly.arcaneadditions.compats.Grass_Slabs.GrassSlabCompat;
+import org.sosly.arcaneadditions.compats.Identity.IdentityCompat;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -23,10 +26,13 @@ public class CompatRegistry {
 
     static {
         compatFactories.put(CompatModIDs.BMORPH, () -> BMorphCompat::new);
+        compatFactories.put(CompatModIDs.IDENTITY, () -> IdentityCompat::new);
         compatFactories.put(CompatModIDs.GRASS_SLABS, () -> GrassSlabCompat::new);
     }
 
-    public  static void registerCompats() {
+    static IPolymorphProvider polymorphProvider;
+
+    public static void registerCompats() {
         for (Map.Entry<String, Supplier<Callable<ICompat>>> entry : compatFactories.entrySet()) {
             if (ModList.get().isLoaded(entry.getKey())) {
                 try {
@@ -36,5 +42,23 @@ public class CompatRegistry {
                 }
             }
         }
+    }
+
+    public static IPolymorphProvider getPolymorphCompat() {
+        if (polymorphProvider != null) {
+            return polymorphProvider;
+        }
+
+        if (ModList.get().isLoaded(CompatModIDs.IDENTITY)) {
+            polymorphProvider = new IdentityCompat();
+            return polymorphProvider;
+        }
+
+        if (ModList.get().isLoaded(CompatModIDs.BMORPH)) {
+            polymorphProvider = new BMorphCompat();
+            return polymorphProvider;
+        }
+
+        return null;
     }
 }

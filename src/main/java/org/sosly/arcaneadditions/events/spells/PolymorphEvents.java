@@ -8,13 +8,20 @@
 package org.sosly.arcaneadditions.events.spells;
 
 import com.mna.api.ManaAndArtificeMod;
+import com.mna.api.capabilities.IPlayerMagic;
+import com.mna.api.capabilities.IPlayerProgression;
 import com.mna.api.spells.ICanContainSpell;
 import com.mna.api.spells.base.ISpellDefinition;
-import de.budschie.bmorph.morph.MorphReasonRegistry;
-import de.budschie.bmorph.morph.MorphUtil;
+import com.mna.capabilities.playerdata.progression.PlayerProgression;
+import com.mna.capabilities.playerdata.progression.PlayerProgressionProvider;
+import com.mna.config.GeneralModConfig;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.ai.attributes.AttributeInstance;
+import net.minecraft.world.entity.ai.attributes.AttributeModifier;
+import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.AirItem;
 import net.minecraft.world.item.BlockItem;
@@ -32,18 +39,21 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.ModList;
 import net.minecraftforge.fml.common.Mod;
 import org.sosly.arcaneadditions.ArcaneAdditions;
+import org.sosly.arcaneadditions.api.spells.components.IPolymorphProvider;
 import org.sosly.arcaneadditions.capabilities.polymorph.IPolymorphCapability;
 import org.sosly.arcaneadditions.capabilities.polymorph.PolymorphProvider;
-import org.sosly.arcaneadditions.compats.BMorph.BMorphRegistryEntries;
 import org.sosly.arcaneadditions.compats.CompatModIDs;
+import org.sosly.arcaneadditions.compats.CompatRegistry;
 import org.sosly.arcaneadditions.configs.Config;
 import org.sosly.arcaneadditions.effects.EffectRegistry;
 import org.sosly.arcaneadditions.effects.beneficial.PolymorphEffect;
 import org.sosly.arcaneadditions.spells.components.PolymorphComponent;
 
 import java.util.Collection;
-import java.util.Optional;
+import java.util.List;
+import java.util.UUID;
 import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.concurrent.atomic.AtomicInteger;
 
 @Mod.EventBusSubscriber(modid = ArcaneAdditions.MOD_ID, bus = Mod.EventBusSubscriber.Bus.FORGE)
 public class PolymorphEvents {
@@ -72,7 +82,7 @@ public class PolymorphEvents {
             float amount = event.getAmount();
             if (entity.getHealth() - amount <= 0) {
                 event.setCanceled(true);
-                entity.removeEffect(BMorphRegistryEntries.POLYMORPH_EFFECT);
+                entity.removeEffect(EffectRegistry.POLYMORPH.get());
             }
         });
     }
@@ -99,7 +109,17 @@ public class PolymorphEvents {
 
             // demorph the target
             if (!event.getEntity().getLevel().isClientSide()) {
-                MorphUtil.morphToServer(Optional.empty(), MorphReasonRegistry.MORPHED_BY_ABILITY.get(), (Player) entity, true);
+                // get the polymorpher from the compat registry
+                IPolymorphProvider polymorpher = CompatRegistry.getPolymorphCompat();
+                if (polymorpher == null) {
+                    return;
+                }
+
+                // unpolymorph the target
+                polymorpher.unpolymorph((ServerPlayer) event.getEntityLiving());
+
+                // reset the target's health
+                PolymorphComponent.resetBonusHealth((ServerPlayer) event.getEntityLiving());
 
                 entity.getCapability(PolymorphProvider.POLYMORPH).ifPresent(polymorph -> {
                     entity.setHealth(polymorph.getHealth());
