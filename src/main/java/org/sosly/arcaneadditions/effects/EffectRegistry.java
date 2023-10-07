@@ -15,6 +15,7 @@ import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
 import org.sosly.arcaneadditions.effects.beneficial.IceBlockEffect;
 import org.sosly.arcaneadditions.effects.beneficial.LifeLinkEffect;
+import org.sosly.arcaneadditions.effects.beneficial.PolymorphEffect;
 import org.sosly.arcaneadditions.effects.harmful.DoomedEffect;
 import org.sosly.arcaneadditions.effects.harmful.EnragedEffect;
 import org.sosly.arcaneadditions.effects.neutral.IceBlockExhaustionEffect;
@@ -26,6 +27,8 @@ public class EffectRegistry {
     public static final RegistryObject<IceBlockEffect> ICE_BLOCK = EFFECTS.register("ice_block", IceBlockEffect::new);
     public static final RegistryObject<IceBlockExhaustionEffect> ICE_BLOCK_EXHAUSTION = EFFECTS.register("ice_block-exhaustion", IceBlockExhaustionEffect::new);
     public static final RegistryObject<LifeLinkEffect> LIFE_LINK = EFFECTS.register("life_link", LifeLinkEffect::new);
+
+    public static final RegistryObject<PolymorphEffect> POLYMORPH = EFFECTS.register("polymorph", PolymorphEffect::new);
 
     @FunctionalInterface
     public interface ILivingMobEffectInstanceHandler {

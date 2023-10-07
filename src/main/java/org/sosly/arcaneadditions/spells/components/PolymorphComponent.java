@@ -8,7 +8,8 @@
 package org.sosly.arcaneadditions.spells.components;
 
 import com.mna.api.affinity.Affinity;
-
+import com.mna.api.capabilities.IPlayerMagic;
+import com.mna.api.capabilities.IPlayerProgression;
 import com.mna.api.sound.SFX;
 import com.mna.api.spells.ComponentApplicationResult;
 import com.mna.api.spells.SpellReagent;
@@ -20,15 +21,11 @@ import com.mna.api.spells.targeting.SpellContext;
 import com.mna.api.spells.targeting.SpellSource;
 import com.mna.api.spells.targeting.SpellTarget;
 import com.mna.capabilities.playerdata.progression.PlayerProgressionProvider;
+import com.mna.config.GeneralModConfig;
 import com.mna.factions.Factions;
 import com.mna.items.ItemInit;
 import com.mna.items.sorcery.PhylacteryStaffItem;
-import de.budschie.bmorph.morph.MorphItem;
-import de.budschie.bmorph.morph.MorphManagerHandlers;
-import de.budschie.bmorph.morph.MorphReasonRegistry;
-import de.budschie.bmorph.morph.MorphUtil;
 import net.minecraft.Util;
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
@@ -38,15 +35,20 @@ import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
+import net.minecraft.world.entity.ai.attributes.AttributeInstance;
+import net.minecraft.world.entity.ai.attributes.AttributeModifier;
+import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.network.PacketDistributor;
-import net.minecraftforge.registries.ForgeRegistries;
 import org.apache.commons.lang3.mutable.MutableBoolean;
+import org.sosly.arcaneadditions.api.spells.components.IPolymorphProvider;
 import org.sosly.arcaneadditions.capabilities.polymorph.PolymorphProvider;
 import org.sosly.arcaneadditions.compats.BMorph.BMorphRegistryEntries;
+import org.sosly.arcaneadditions.compats.CompatRegistry;
 import org.sosly.arcaneadditions.configs.Config;
+import org.sosly.arcaneadditions.effects.EffectRegistry;
 import org.sosly.arcaneadditions.networking.PacketHandler;
 import org.sosly.arcaneadditions.networking.messages.clientbound.SyncPolymorphCapabilitiesToClient;
 
@@ -54,7 +56,7 @@ import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
-import java.util.Optional;
+import java.util.UUID;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicReference;
@@ -73,19 +75,26 @@ public class PolymorphComponent extends SpellEffect {
             return ComponentApplicationResult.FAIL;
         }
 
+        // get the polymorpher from the compat registry
+        IPolymorphProvider polymorpher = CompatRegistry.getPolymorphCompat();
+        if (polymorpher == null) {
+            return ComponentApplicationResult.FAIL;
+        }
+
         LivingEntity targetEntity = target.getLivingEntity();
 
-        // Demorph
-        if (targetEntity.hasEffect(BMorphRegistryEntries.POLYMORPH_EFFECT)) {
+        // if the target is already polymorphed, then we are removing that effect
+        if (targetEntity.hasEffect(EffectRegistry.POLYMORPH.get())) {
             targetEntity.getCapability(PolymorphProvider.POLYMORPH).ifPresent(polymorph -> {
                         polymorph.setMorphing(true);
             });
-            targetEntity.removeEffect(BMorphRegistryEntries.POLYMORPH_EFFECT);
+            targetEntity.removeEffect(EffectRegistry.POLYMORPH.get());
             return ComponentApplicationResult.SUCCESS;
         }
 
         Level level = targetEntity.getLevel();
         if (!level.isClientSide()) {
+            // get the phylactery from the target
             ItemStack phylactery = caster.getHand() == InteractionHand.MAIN_HAND ? targetEntity.getOffhandItem() : targetEntity.getMainHandItem();
             ServerPlayer casterPlayer = (ServerPlayer)Objects.requireNonNull(caster.getCaster());
 
@@ -103,6 +112,7 @@ public class PolymorphComponent extends SpellEffect {
                 return ComponentApplicationResult.FAIL;
             }
 
+            // configure the polymorph capabilities for the target
             targetEntity.getCapability(PolymorphProvider.POLYMORPH).ifPresent(polymorph -> {
                 polymorph.setMorphing(true);
                 polymorph.setCaster(caster.getPlayer());
@@ -111,15 +121,18 @@ public class PolymorphComponent extends SpellEffect {
                 PacketHandler.network.send(PacketDistributor.PLAYER.with(() -> (ServerPlayer)targetEntity), new SyncPolymorphCapabilitiesToClient(polymorph));
             });
 
-            CompoundTag nbt = new CompoundTag();
+            // transform the target into the creature
+            polymorpher.polymorph(casterPlayer, type.getRegistryName());
 
-            Optional<MorphItem> morphItem = Optional.of(MorphManagerHandlers.FALLBACK.createMorph(ForgeRegistries.ENTITIES.getValue(type.getRegistryName()), nbt, null, true));
-            MorphUtil.morphToServer(morphItem, MorphReasonRegistry.MORPHED_BY_ABILITY.get(), (ServerPlayer)target.getEntity(), true);
+            // remove bonus health from tiers
+            removeBonusHealth(casterPlayer);
 
-            MobEffectInstance instance = new MobEffectInstance(BMorphRegistryEntries.POLYMORPH_EFFECT, Integer.MAX_VALUE);
+            // apply the polymorph effect
+            MobEffectInstance instance = new MobEffectInstance(EffectRegistry.POLYMORPH.get(), Integer.MAX_VALUE);
             instance.setNoCounter(true);
             targetEntity.addEffect(instance);
             targetEntity.setHealth(targetEntity.getMaxHealth());
+
             return ComponentApplicationResult.SUCCESS;
         }
         return ComponentApplicationResult.FAIL;
@@ -172,7 +185,7 @@ public class PolymorphComponent extends SpellEffect {
             return this.reagents;
         }
 
-        boolean isMorphed = caster.hasEffect(BMorphRegistryEntries.POLYMORPH_EFFECT);
+        boolean isMorphed = caster.hasEffect(EffectRegistry.POLYMORPH.get());
 
         MutableBoolean isFey = new MutableBoolean(false);
         caster.getCapability(PlayerProgressionProvider.PROGRESSION).ifPresent((p) -> {
@@ -216,5 +229,61 @@ public class PolymorphComponent extends SpellEffect {
         }
 
         return this.reagents;
+    }
+
+
+
+
+    public static void resetBonusHealth(ServerPlayer target) {
+        int roteTier;
+        int index;
+        int modifierAmount;
+        AttributeModifier modifier;
+        AttributeInstance inst = target.getAttribute(Attributes.MAX_HEALTH);
+
+        if (inst == null) {
+            return;
+        }
+
+        AtomicInteger tier = new AtomicInteger();
+        target.getCapability(PlayerProgressionProvider.PROGRESSION).ifPresent(progression -> {
+            tier.set(progression.getTier());
+        });
+
+        if (tier.get() == 0) {
+            return;
+        }
+
+        removeBonusHealth(target);
+
+        for(roteTier = 1; roteTier <= 5; ++roteTier) {
+            index = roteTier - 1;
+            modifierAmount = ((List)GeneralModConfig.TIER_HEALTH_BOOSTS.get()).size() >= index ? (Integer)((List)GeneralModConfig.TIER_HEALTH_BOOSTS.get()).get(index) : 0;
+            modifier = new AttributeModifier(UUID.fromString(IPlayerProgression.Tier_Health_Boost_IDs[index]), "Tier Health Boost " + roteTier, (double)modifierAmount, AttributeModifier.Operation.ADDITION);
+            if (modifierAmount > 0 && tier.get() >= roteTier && !inst.hasModifier(modifier)) {
+                inst.addPermanentModifier(modifier);
+            }
+        }
+    }
+
+    public static void removeBonusHealth(ServerPlayer target) {
+        int roteTier;
+        int index;
+        int modifierAmount;
+        AttributeModifier modifier;
+        AttributeInstance inst = target.getAttribute(Attributes.MAX_HEALTH);
+
+        if (inst == null) {
+            return;
+        }
+
+        for(roteTier = 1; roteTier <= 5; ++roteTier) {
+            index = roteTier - 1;
+            modifierAmount = (GeneralModConfig.TIER_HEALTH_BOOSTS.get()).size() >= index ? (Integer)((List)GeneralModConfig.TIER_HEALTH_BOOSTS.get()).get(index) : 0;
+            modifier = new AttributeModifier(UUID.fromString(IPlayerProgression.Tier_Health_Boost_IDs[index]), "Tier Health Boost " + roteTier, modifierAmount, AttributeModifier.Operation.ADDITION);
+            if (inst.hasModifier(modifier)) {
+                inst.removeModifier(modifier.getId());
+            }
+        }
     }
 }
