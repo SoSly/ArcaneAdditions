@@ -165,7 +165,7 @@ public class SoulsearchersLensItem extends Item {
 
     private boolean useOn(@NotNull Level level, @NotNull Player player, @NotNull Mob target, ItemStack phylactery) {
         float adjustedHealth = target.getMaxHealth() * this.getAdjustmentForType(target.getType());
-        int levelsRequired = (int)Math.floor(adjustedHealth / Config.SERVER.soulSearchersLens.healthPerLevel.get());
+        int levelsRequired = (int)Math.max(1, Math.floor(adjustedHealth / Config.SERVER.soulSearchersLens.healthPerLevel.get()));
 
         if (target.distanceTo(player) > (float) Config.SERVER.soulSearchersLens.maxDistance.get()) {
             if (level.isClientSide) {
