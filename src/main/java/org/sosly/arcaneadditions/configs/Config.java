@@ -127,6 +127,82 @@ public class Config {
                 tier4polymorphs.add("minecraft:wither_skeleton");
                 tier4polymorphs.add("minecraft:zoglin");
 
+                // Alex's mobs
+                if (ModList.get().isLoaded("alexsmobs")) {
+                    tier1polymorphs.add("alexsmobs:anteater");
+                    tier1polymorphs.add("alexsmobs:bunfungus");
+                    tier1polymorphs.add("alexsmobs:capuchin_monkey");
+                    tier1polymorphs.add("alexsmobs:cockroach");
+                    tier1polymorphs.add("alexsmobs:emu");
+                    tier1polymorphs.add("alexsmobs:gazelle");
+                    tier1polymorphs.add("alexsmobs:gelada_monkey");
+                    tier1polymorphs.add("alexsmobs:jerboa");
+                    tier1polymorphs.add("alexsmobs:leafcutter_ant");
+                    tier1polymorphs.add("alexsmobs:maned_wolf");
+                    tier1polymorphs.add("alexsmobs:raccoon");
+                    tier1polymorphs.add("alexsmobs:rattlesnake");
+                    tier1polymorphs.add("alexsmobs:roadrunner");
+                    tier1polymorphs.add("alexsmobs:seal");
+                    tier1polymorphs.add("alexsmobs:tasmanian_devil");
+
+                    tier2polymorphs.add("alexsmobs:alligator_snapping_turtle");
+                    tier2polymorphs.add("alexsmobs:anaconda");
+                    tier2polymorphs.add("alexsmobs:bald_eagle");
+                    tier2polymorphs.add("alexsmobs:bison");
+                    tier2polymorphs.add("alexsmobs:blobfish");
+                    tier2polymorphs.add("alexsmobs:catfish");
+                    tier2polymorphs.add("alexsmobs:comb_jelly");
+                    tier2polymorphs.add("alexsmobs:crocodile");
+                    tier2polymorphs.add("alexsmobs:devils_hole_pupfish");
+                    tier2polymorphs.add("alexsmobs:elephant");
+                    tier2polymorphs.add("alexsmobs:flutter");
+                    tier2polymorphs.add("alexsmobs:fly");
+                    tier2polymorphs.add("alexsmobs:frilled_shark");
+                    tier2polymorphs.add("alexsmobs:frostalker");
+                    tier2polymorphs.add("alexsmobs:giant_squid");
+                    tier2polymorphs.add("alexsmobs:gorilla");
+                    tier2polymorphs.add("alexsmobs:grizzly_bear");
+                    tier2polymorphs.add("alexsmobs:hummingbird");
+                    tier2polymorphs.add("alexsmobs:kangaroo");
+                    tier2polymorphs.add("alexsmobs:komodo_dragon");
+                    tier2polymorphs.add("alexsmobs:lobster");
+                    tier2polymorphs.add("alexsmobs:mantis_shrimp");
+                    tier2polymorphs.add("alexsmobs:moose");
+                    tier2polymorphs.add("alexsmobs:platypus");
+                    tier2polymorphs.add("alexsmobs:rhinoceros");
+                    tier2polymorphs.add("alexsmobs:rocky_roller");
+                    tier2polymorphs.add("alexsmobs:seagull");
+                    tier2polymorphs.add("alexsmobs:shoebill");
+                    tier2polymorphs.add("alexsmobs:snow_leopard");
+                    tier2polymorphs.add("alexsmobs:terrapin");
+                    tier2polymorphs.add("alexsmobs:tiger");
+                    tier2polymorphs.add("alexsmobs:toucan");
+                    tier2polymorphs.add("alexsmobs:tusklin");
+                    tier2polymorphs.add("alexsmobs:warped_toad");
+
+                    tier3polymorphs.add("alexsmobs:cachalot_whale");
+                    tier3polymorphs.add("alexsmobs:cosmic_cod");
+                    tier3polymorphs.add("alexsmobs:crimson_mosquito");
+                    tier3polymorphs.add("alexsmobs:dropbear");
+                    tier3polymorphs.add("alexsmobs:endergrade");
+                    tier3polymorphs.add("alexsmobs:guster");
+                    tier3polymorphs.add("alexsmobs:hammerhead_shark");
+                    tier3polymorphs.add("alexsmobs:mimicube");
+                    tier3polymorphs.add("alexsmobs:orca");
+                    tier3polymorphs.add("alexsmobs:skelewag");
+                    tier3polymorphs.add("alexsmobs:soul_vulture");
+                    tier3polymorphs.add("alexsmobs:tarantula_hawk");
+
+                    tier4polymorphs.add("alexsmobs:cosmaw");
+                    tier4polymorphs.add("alexsmobs:enderiophage");
+                    tier4polymorphs.add("alexsmobs:laviathan");
+                    tier4polymorphs.add("alexsmobs:spectre");
+                    tier4polymorphs.add("alexsmobs:straddler");
+                    tier4polymorphs.add("alexsmobs:stradpole");
+                    tier4polymorphs.add("alexsmobs:sunbird");
+                    tier4polymorphs.add("alexsmobs:warped_mosco");
+                }
+
                 // critters and companions
                 if (ModList.get().isLoaded("crittersandcompanions")) {
                     tier1polymorphs.add("crittersandcompanions:ferret");
