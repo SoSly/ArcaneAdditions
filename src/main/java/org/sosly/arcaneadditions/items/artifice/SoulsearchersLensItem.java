@@ -183,7 +183,7 @@ public class SoulsearchersLensItem extends Item {
 
         @SuppressWarnings(value="unchecked")
         EntityType<? extends Mob> type = (EntityType<? extends Mob>)target.getType();
-        float amount = player.isCreative() ? 100 : 1;
+        float amount = player.isCreative() ? ((IPhylacteryItem) phylactery.getItem()).getMaximumFill() : 1;
         boolean added = this.addToPhylactery(player, phylactery, type, amount, target.level);
 
         if (added) {
