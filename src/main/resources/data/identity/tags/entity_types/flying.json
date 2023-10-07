@@ -1,6 +1,21 @@
 {
   "replace": false,
   "values": [
+    "alexsmobs:bald_eagle",
+    "alexsmobs:cosmaw",
+    "alexsmobs:cosmic_cod",
+    "alexsmobs:crimson_mosquito",
+    "alexsmobs:enderiophage",
+    "alexsmobs:fly",
+    "alexsmobs:hummingbird",
+    "alexsmobs:seagull",
+    "alexsmobs:shoebill",
+    "alexsmobs:soul_vulture",
+    "alexsmobs:specter",
+    "alexsmobs:sunbird",
+    "alexsmobs:tarantula_hawk",
+    "alexsmobs:toucan",
+    "alexsmobs:warped_mosco",
     "crittersandcompanions:dragonfly"
   ]
 }
