@@ -10,6 +10,9 @@ package org.sosly.arcaneadditions.items.artifice;
 import com.mna.api.ManaAndArtificeMod;
 import com.mna.api.entities.construct.IConstruct;
 import com.mna.api.items.IPhylacteryItem;
+import com.mna.api.items.ITieredItem;
+import com.mna.api.items.MAItemGroups;
+import com.mna.api.items.TieredItem;
 import com.mna.api.sound.SFX;
 import net.minecraft.client.Minecraft;
 import net.minecraft.network.chat.TranslatableComponent;
@@ -40,10 +43,10 @@ import java.util.UUID;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicReference;
 
-public class SoulsearchersLensItem extends Item {
+public class SoulsearchersLensItem extends TieredItem {
     private static final String TARGET_KEY = "soulsearcher-target";
     public SoulsearchersLensItem() {
-        super(new Properties());
+        super(new Properties().stacksTo(1).tab(MAItemGroups.artifice));
     }
 
     @Override
