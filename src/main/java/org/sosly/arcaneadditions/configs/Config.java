@@ -8,10 +8,13 @@
 package org.sosly.arcaneadditions.configs;
 
 import net.minecraftforge.common.ForgeConfigSpec;
+import net.minecraftforge.fml.ModList;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.config.ModConfigEvent;
 import org.apache.commons.lang3.tuple.Pair;
 
+import java.lang.reflect.Array;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -55,12 +58,90 @@ public class Config {
                         .translation("config.arcaneadditions.polymorph_allow_spellcasting_while_polymorphed")
                         .define("allowSpellcastingWhilePolymorphed", false);
 
-                List<List<String>> morphTiers = Arrays.asList(
-                        Arrays.asList("minecraft:cat", "minecraft_chicken", "minecraft:cow", "minecraft:donkey", "minecraft:fox", "minecraft:goat", "minecraft:horse", "minecraft:llama", "minecraft:mule", "minecraft:ocelot", "minecraft:panda", "minecraft:pig", "minecraft:rabbit", "minecraft:sheep", "minecraft:spider", "minecraft:wolf"),
-                        Arrays.asList("minecraft:axolotl", "minecraft:bat", "minecraft:bee","minecraft:cave_spider","minecraft:cod","minecraft:dolphin","minecraft:mooshroom","minecraft:parrot","minecraft:pufferfish","minecraft:salmon","minecraft:polar_bear","minecraft:squid","minecraft:tropical_fish","minecraft:turtle"),
-                        Arrays.asList("minecraft:creeper","minecraft:drowned","minecraft:glow_squid","minecraft:husk","minecraft:iron_golem","minecraft:piglin","minecraft:ravager","minecraft:silverfish","minecraft:skeleton","minecraft:skeleton_horse","minecraft:slime","minecraft:snow_golem","minecraft:stray","minecraft:strider","minecraft:zombie","minecraft:zombie_horse","minecraft:zombified_piglin"),
-                        Arrays.asList("minecraft:blaze","minecraft:enderman","minecraft:endermite","minecraft:ghast","minecraft:giant","minecraft:guardian","minecraft:hoglin","minecraft:magma_cube","minecraft:phantom","minecraft:piglin_brute","minecraft:shulker","minecraft:vex","minecraft:wither_skeleton","minecraft:zoglin")
-                );
+                ArrayList<String> tier1polymorphs = new ArrayList<String>();
+                tier1polymorphs.add("minecraft:cat");
+                tier1polymorphs.add("minecraft:chicken");
+                tier1polymorphs.add("minecraft:cow");
+                tier1polymorphs.add("minecraft:donkey");
+                tier1polymorphs.add("minecraft:fox");
+                tier1polymorphs.add("minecraft:goat");
+                tier1polymorphs.add("minecraft:horse");
+                tier1polymorphs.add("minecraft:llama");
+                tier1polymorphs.add("minecraft:mule");
+                tier1polymorphs.add("minecraft:ocelot");
+                tier1polymorphs.add("minecraft:panda");
+                tier1polymorphs.add("minecraft:pig");
+                tier1polymorphs.add("minecraft:rabbit");
+                tier1polymorphs.add("minecraft:sheep");
+                tier1polymorphs.add("minecraft:spider");
+                tier1polymorphs.add("minecraft:wolf");
+
+                ArrayList<String> tier2polymorphs = new ArrayList<String>();
+                tier2polymorphs.add("minecraft:axolotl");
+                tier2polymorphs.add("minecraft:bat");
+                tier2polymorphs.add("minecraft:bee");
+                tier2polymorphs.add("minecraft:cave_spider");
+                tier2polymorphs.add("minecraft:cod");
+                tier2polymorphs.add("minecraft:dolphin");
+                tier2polymorphs.add("minecraft:mooshroom");
+                tier2polymorphs.add("minecraft:parrot");
+                tier2polymorphs.add("minecraft:pufferfish");
+                tier2polymorphs.add("minecraft:salmon");
+                tier2polymorphs.add("minecraft:polar_bear");
+                tier2polymorphs.add("minecraft:squid");
+                tier2polymorphs.add("minecraft:tropical_fish");
+                tier2polymorphs.add("minecraft:turtle");
+
+                ArrayList<String> tier3polymorphs = new ArrayList<String>();
+                tier3polymorphs.add("minecraft:creeper");
+                tier3polymorphs.add("minecraft:drowned");
+                tier3polymorphs.add("minecraft:glow_squid");
+                tier3polymorphs.add("minecraft:husk");
+                tier3polymorphs.add("minecraft:iron_golem");
+                tier3polymorphs.add("minecraft:piglin");
+                tier3polymorphs.add("minecraft:ravager");
+                tier3polymorphs.add("minecraft:silverfish");
+                tier3polymorphs.add("minecraft:skeleton");
+                tier3polymorphs.add("minecraft:skeleton_horse");
+                tier3polymorphs.add("minecraft:slime");
+                tier3polymorphs.add("minecraft:snow_golem");
+                tier3polymorphs.add("minecraft:stray");
+                tier3polymorphs.add("minecraft:strider");
+                tier3polymorphs.add("minecraft:zombie");
+                tier3polymorphs.add("minecraft:zombie_horse");
+                tier3polymorphs.add("minecraft:zombified_piglin");
+
+                ArrayList<String> tier4polymorphs = new ArrayList<String>();
+                tier4polymorphs.add("minecraft:blaze");
+                tier4polymorphs.add("minecraft:enderman");
+                tier4polymorphs.add("minecraft:endermite");
+                tier4polymorphs.add("minecraft:ghast");
+                tier4polymorphs.add("minecraft:giant");
+                tier4polymorphs.add("minecraft:guardian");
+                tier4polymorphs.add("minecraft:hoglin");
+                tier4polymorphs.add("minecraft:magma_cube");
+                tier4polymorphs.add("minecraft:phantom");
+                tier4polymorphs.add("minecraft:piglin_brute");
+                tier4polymorphs.add("minecraft:shulker");
+                tier4polymorphs.add("minecraft:vex");
+                tier4polymorphs.add("minecraft:wither_skeleton");
+                tier4polymorphs.add("minecraft:zoglin");
+
+                // critters and companions
+                if (ModList.get().isLoaded("crittersandcompanions")) {
+                    tier1polymorphs.add("crittersandcompanions:ferret");
+                    tier1polymorphs.add("crittersandcompanions:leaf_insect");
+                    tier1polymorphs.add("crittersandcompanions:otter");
+                    tier1polymorphs.add("crittersandcompanions:red_panda");
+
+                    tier2polymorphs.add("crittersandcompanions:dragonfly");
+                    tier2polymorphs.add("crittersandcompanions:dumbo_octopus");
+                    tier2polymorphs.add("crittersandcompanions:koi_fish");
+                    tier1polymorphs.add("crittersandcompanions:sea_bunny");
+                }
+
+                List<List<String>> morphTiers = Arrays.asList(tier1polymorphs, tier2polymorphs, tier3polymorphs, tier4polymorphs);
+
                 tiers = builder.comment("A list of polymorph tiers, each of which is a list of entity IDs and their corresponding polymorph spell IDs.")
                         .translation("config.arcaneadditions.polymorph_tiers")
                         .defineList("morphTiers", morphTiers, it -> it instanceof List);
