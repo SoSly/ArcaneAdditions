@@ -16,7 +16,6 @@ import org.sosly.arcaneadditions.utils.RLoc;
 
 @Mod.EventBusSubscriber(modid = org.sosly.arcaneadditions.ArcaneAdditions.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class SpellsRegistry {
-    public static SpellEffect DOOM = new DoomComponent(RLoc.create("components/doom"), RLoc.create("textures/spell/component/doom.png"));;
     public static SpellEffect ENRAGE = new EnrageComponent(RLoc.create("components/enrage"), RLoc.create("textures/spell/component/enrage.png"));;
     public static SpellEffect ICE_BLOCK = new IceBlockComponent(RLoc.create("components/ice_block"), RLoc.create("textures/spell/component/ice_block.png"));
     public static SpellEffect LIFE_LINK = new LifeLinkComponent(RLoc.create("components/life_link"), RLoc.create("textures/spell/component/life_link.png"));
@@ -28,7 +27,6 @@ public class SpellsRegistry {
 
     @SubscribeEvent
     public static void registerComponents(RegistryEvent.Register<SpellEffect> event) {
-        event.getRegistry().register(DOOM);
         event.getRegistry().register(ENRAGE);
         event.getRegistry().register(ICE_BLOCK);
         event.getRegistry().register(LIFE_LINK);

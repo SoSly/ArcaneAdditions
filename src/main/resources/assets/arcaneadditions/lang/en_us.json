@@ -1,5 +1,4 @@
 {
-  "arcaneadditions:components/doom": "Doom",
   "arcaneadditions:components/enrage": "Enrage",
   "arcaneadditions:components/ice_block": "Ice Block",
   "arcaneadditions:components/life_link": "Life Link",
@@ -12,7 +11,6 @@
   "arcaneadditions:components/transfuse": "Transfuse",
   "arcaneadditions:components/tree_stride": "Tree Stride",
 
-  "effect.arcaneadditions.doomed": "Doomed",
   "effect.arcaneadditions.enraged": "Enraged",
   "effect.arcaneadditions.ice_block": "Ice Block",
   "effect.arcaneadditions.ice_block-exhaustion": "Hypothermia",
