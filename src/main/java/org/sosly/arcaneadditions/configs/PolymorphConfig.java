@@ -69,6 +69,9 @@ public class PolymorphConfig {
             tier4polymorphs.addAll(naturalist.get(3));
         }
 
+        // exoticbirds
+        // fixme: exotic birds animations do not work with identity, so they are disabled for now
+
         List<List<String>> morphTiers = Arrays.asList(tier1polymorphs, tier2polymorphs, tier3polymorphs, tier4polymorphs);
 
         tiers = builder.comment("A list of polymorph tiers, each of which is a list of entity IDs and their corresponding polymorph spell IDs.")
@@ -184,6 +187,63 @@ public class PolymorphConfig {
         tier2polymorphs.add("crittersandcompanions:dumbo_octopus");
         tier2polymorphs.add("crittersandcompanions:koi_fish");
         tier1polymorphs.add("crittersandcompanions:sea_bunny");
+
+        polymorphs.add(tier1polymorphs);
+        polymorphs.add(tier2polymorphs);
+        polymorphs.add(tier3polymorphs);
+        polymorphs.add(tier4polymorphs);
+
+        return polymorphs;
+    }
+
+    private static ArrayList<ArrayList<String>> getExoticBirds() {
+        ArrayList<ArrayList<String>> polymorphs = new ArrayList<>();
+        ArrayList<String> tier1polymorphs = new ArrayList<>();
+        ArrayList<String> tier2polymorphs = new ArrayList<>();
+        ArrayList<String> tier3polymorphs = new ArrayList<>();
+        ArrayList<String> tier4polymorphs = new ArrayList<>();
+
+        tier1polymorphs.add("exoticbirds:cassowary");
+        tier1polymorphs.add("exoticbirds:kiwi");
+        tier1polymorphs.add("exoticbirds:ostrich");
+        tier1polymorphs.add("exoticbirds:penguin");
+        tier1polymorphs.add("exoticbirds:roadrunner");
+
+        tier2polymorphs.add("exoticbirds:bluejay");
+        tier2polymorphs.add("exoticbirds:booby");
+        tier2polymorphs.add("exoticbirds:budgerigar");
+        tier2polymorphs.add("exoticbirds:cardinal");
+        tier2polymorphs.add("exoticbirds:cockatoo");
+        tier2polymorphs.add("exoticbirds:crane");
+        tier2polymorphs.add("exoticbirds:duck");
+        tier2polymorphs.add("exoticbirds:flamingo");
+        tier2polymorphs.add("exoticbirds:gouldianfinch");
+        tier2polymorphs.add("exoticbirds:gull");
+        tier2polymorphs.add("exoticbirds:heron");
+        tier2polymorphs.add("exoticbirds:hummingbird");
+        tier2polymorphs.add("exoticbirds:kingfisher");
+        tier2polymorphs.add("exoticbirds:kookaburra");
+        tier2polymorphs.add("exoticbirds:lyrebird");
+        tier2polymorphs.add("exoticbirds:macaw");
+        tier2polymorphs.add("exoticbirds:magpie");
+        tier2polymorphs.add("exoticbirds:owl");
+        tier2polymorphs.add("exoticbirds:peafowl");
+        tier2polymorphs.add("exoticbirds:pelican");
+        tier2polymorphs.add("exoticbirds:pigeon");
+        tier2polymorphs.add("exoticbirds:robin");
+        tier2polymorphs.add("exoticbirds:swan");
+        tier2polymorphs.add("exoticbirds:toucan");
+        tier2polymorphs.add("exoticbirds:woodpecker");
+
+        tier3polymorphs.add("exoticbirds:cloud_phoenix");
+        tier3polymorphs.add("exoticbirds:desert_phoenix");
+        tier3polymorphs.add("exoticbirds:ender_phoenix");
+        tier3polymorphs.add("exoticbirds:fire_phoenix");
+        tier3polymorphs.add("exoticbirds:nether_phoenix");
+        tier3polymorphs.add("exoticbirds:skeleton_phoenix");
+        tier3polymorphs.add("exoticbirds:snowy_phoenix");
+        tier3polymorphs.add("exoticbirds:twilight_phoenix");
+        tier3polymorphs.add("exoticbirds:water_phoenix");
 
         polymorphs.add(tier1polymorphs);
         polymorphs.add(tier2polymorphs);

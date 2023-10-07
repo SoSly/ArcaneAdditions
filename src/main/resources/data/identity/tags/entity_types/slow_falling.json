@@ -3,6 +3,10 @@
   "values": [
     "alexsmobs:emu",
     "alexsmobs:guster",
-    "alexsmobs:roadrunner"
+    "alexsmobs:roadrunner",
+    "exoticbirds:cassowary",
+    "exoticbirds:kiwi",
+    "exoticbirds:ostrich",
+    "exoticbirds:roadrunner"
   ]
 }
