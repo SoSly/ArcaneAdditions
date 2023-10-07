@@ -11,11 +11,23 @@
     "alexsmobs:seagull",
     "alexsmobs:shoebill",
     "alexsmobs:soul_vulture",
-    "alexsmobs:specter",
+    "alexsmobs:spectre",
     "alexsmobs:sunbird",
     "alexsmobs:tarantula_hawk",
     "alexsmobs:toucan",
     "alexsmobs:warped_mosco",
-    "crittersandcompanions:dragonfly"
+    "crittersandcompanions:dragonfly",
+    "lilwings:aponi_butterfly",
+    "lilwings:butter_gold_butterfly",
+    "lilwings:cloudy_puff_butterfly",
+    "lilwings:crystal_puff_butterfly",
+    "lilwings:gold_applefly_butterfly",
+    "lilwings:grayling_butterfly",
+    "lilwings:painted_panther_butterfly",
+    "lilwings:red_applefly_butterfly",
+    "lilwings:shroom_skipper_butterfly",
+    "lilwings:swallow_tail_butterfly",
+    "lilwings:swamp_hopper_butterfly",
+    "lilwings:white_fox_butterfly"
   ]
 }
