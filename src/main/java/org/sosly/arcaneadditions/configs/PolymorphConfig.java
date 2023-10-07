@@ -60,6 +60,15 @@ public class PolymorphConfig {
             tier4polymorphs.addAll(lilWings.get(3));
         }
 
+        // naturalist
+        if (ModList.get().isLoaded("naturalist")) {
+            ArrayList<ArrayList<String>> naturalist = getNaturalist();
+            tier1polymorphs.addAll(naturalist.get(0));
+            tier2polymorphs.addAll(naturalist.get(1));
+            tier3polymorphs.addAll(naturalist.get(2));
+            tier4polymorphs.addAll(naturalist.get(3));
+        }
+
         List<List<String>> morphTiers = Arrays.asList(tier1polymorphs, tier2polymorphs, tier3polymorphs, tier4polymorphs);
 
         tiers = builder.comment("A list of polymorph tiers, each of which is a list of entity IDs and their corresponding polymorph spell IDs.")
@@ -284,6 +293,43 @@ public class PolymorphConfig {
         tier4polymorphs.add("minecraft:vex");
         tier4polymorphs.add("minecraft:wither_skeleton");
         tier4polymorphs.add("minecraft:zoglin");
+
+        polymorphs.add(tier1polymorphs);
+        polymorphs.add(tier2polymorphs);
+        polymorphs.add(tier3polymorphs);
+        polymorphs.add(tier4polymorphs);
+
+        return polymorphs;
+    }
+
+    private static ArrayList<ArrayList<String>> getNaturalist() {
+        ArrayList<ArrayList<String>> polymorphs = new ArrayList<>();
+        ArrayList<String> tier1polymorphs = new ArrayList<>();
+        ArrayList<String> tier2polymorphs = new ArrayList<>();
+        ArrayList<String> tier3polymorphs = new ArrayList<>();
+        ArrayList<String> tier4polymorphs = new ArrayList<>();
+
+        tier1polymorphs.add("naturalist:bear");
+        tier1polymorphs.add("naturalist:boar");
+        tier1polymorphs.add("naturalist:caterpillar");
+        tier1polymorphs.add("naturalist:coral_snake");
+        tier1polymorphs.add("naturalist:deer");
+        tier1polymorphs.add("naturalist:rattlesnake");
+        tier1polymorphs.add("naturalist:snail");
+        tier1polymorphs.add("naturalist:snake");
+
+        tier2polymorphs.add("naturalist:bluejay");
+        tier2polymorphs.add("naturalist:butterfly");
+        tier2polymorphs.add("naturalist:canary");
+        tier2polymorphs.add("naturalist:cardinal");
+        tier2polymorphs.add("naturalist:elephant");
+        tier2polymorphs.add("naturalist:giraffe");
+        tier2polymorphs.add("naturalist:hippo");
+        tier2polymorphs.add("naturalist:lion");
+        tier2polymorphs.add("naturalist:rhino");
+        tier2polymorphs.add("naturalist:robin");
+        tier2polymorphs.add("naturalist:vulture");
+        tier2polymorphs.add("naturalist:zebra");
 
         polymorphs.add(tier1polymorphs);
         polymorphs.add(tier2polymorphs);
