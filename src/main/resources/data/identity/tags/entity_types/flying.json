@@ -28,6 +28,12 @@
     "lilwings:shroom_skipper_butterfly",
     "lilwings:swallow_tail_butterfly",
     "lilwings:swamp_hopper_butterfly",
-    "lilwings:white_fox_butterfly"
+    "lilwings:white_fox_butterfly",
+    "naturalist:bluejay",
+    "naturalist:butterfly",
+    "naturalist:canary",
+    "naturalist:cardinal",
+    "naturalist:robin",
+    "naturalist:vulture"
   ]
 }
