@@ -37,9 +37,11 @@
       },
       {
         "type": "text",
-        "json": [{
-          "text": "I have learned to tap into the basic fight-or-flight reactions of my foes.  While enraged, they will be compelled to attack me. This has the unfortunate side-effect of making them quite a bit more frightening, but it's nothing I can't handle.  Probably."
-        }]
+        "json": [
+          {
+            "text": "I have learned to tap into the basic fight-or-flight reactions of my foes.  While enraged, they will be compelled to attack me. This has the unfortunate side-effect of making them quite a bit more frightening, but it's nothing I can't handle.  Probably."
+          }
+        ]
       }
     ],
     "related_recipes": [
@@ -59,9 +61,11 @@
       },
       {
         "type": "text",
-        "json": [{
-          "text": "I can draw on the powers of ice to temporarily protect my target and restore their vitality.  While they do become immune, it is unfortunate that they also become incapable of action."
-        }]
+        "json": [
+          {
+            "text": "I can draw on the powers of ice to temporarily protect my target and restore their vitality.  While they do become immune, it is unfortunate that they also become incapable of action."
+          }
+        ]
       }
     ],
     "related_recipes": [
@@ -81,9 +85,11 @@
       },
       {
         "type": "text",
-        "json": [{
-          "text": "By linking my life force to another, we are able to share and reduce each other's pain for a short while."
-        }]
+        "json": [
+          {
+            "text": "By linking my life force to another, we are able to share and reduce each other's pain for a short while."
+          }
+        ]
       }
     ],
     "related_recipes": [
@@ -103,9 +109,11 @@
       },
       {
         "type": "text",
-        "json": [{
-          "text": "The earth bends before me as I walk, forging a path wherever I go."
-        }]
+        "json": [
+          {
+            "text": "The earth bends before me as I walk, forging a path wherever I go."
+          }
+        ]
       }
     ],
     "related_recipes": [
@@ -125,9 +133,11 @@
       },
       {
         "type": "text",
-        "json": [{
-          "text": "I can call upon running water to prepare the soil for harvesting."
-        }]
+        "json": [
+          {
+            "text": "I can call upon running water to prepare the soil for harvesting."
+          }
+        ]
       }
     ],
     "related_recipes": [
@@ -147,9 +157,11 @@
       },
       {
         "type": "text",
-        "json": [{
-          "text": "I can draw upon the changeable nature of water to alter my own fundamental form.  I will first need to fill a Crystal Phylactery with the essence of a creature I want to become.  Then, I hold the spell in one hand and the phylactery in the other.  This will determine what shape I take on. I may require animus dust to power the effect.\n\nThe magnitude of the effect may allow me to take on even more powerful forms.\n\n(Note: If Budschie's Morph Mod is not loaded, this component will not be available.)"
-        }]
+        "json": [
+          {
+            "text": "I can draw upon the changeable nature of water to alter my own fundamental form.  I will first need to fill a Crystal Phylactery with the essence of a creature I want to become.  Then, I hold the spell in one hand and the phylactery in the other.  This will determine what shape I take on. I may require animus dust to power the effect.\n\nThe magnitude of the effect may allow me to take on even more powerful forms.\n\n(Note: If Budschie's Morph Mod is not loaded, this component will not be available.)"
+          }
+        ]
       }
     ],
     "related_recipes": [
@@ -173,9 +185,11 @@
       },
       {
         "type": "text",
-        "json": [{
-          "text": "I can call upon the wind to strip the bark from trees and logs."
-        }]
+        "json": [
+          {
+            "text": "I can call upon the wind to strip the bark from trees and logs."
+          }
+        ]
       }
     ],
     "related_recipes": [
@@ -195,9 +209,11 @@
       },
       {
         "type": "text",
-        "json": [{
-          "text": "By manipulating the life forces of those around me, I am able to bolster my own, as a sort of transfer of wellness.  I wonder if I might be able to do the opposite: restoring life to my target at the expense of my own health?  Probably best not to experiment with such things."
-        }]
+        "json": [
+          {
+            "text": "By manipulating the life forces of those around me, I am able to bolster my own, as a sort of transfer of wellness.  I wonder if I might be able to do the opposite: restoring life to my target at the expense of my own health?  Probably best not to experiment with such things."
+          }
+        ]
       }
     ],
     "related_recipes": [
@@ -217,15 +233,42 @@
       },
       {
         "type": "text",
-        "json": [{
-          "text": "I can swiftly transport myself through trees, traveling along the roots to other destinations within the world."
-        }]
+        "json": [
+          {
+            "text": "I can swiftly transport myself through trees, traveling along the roots to other destinations within the world."
+          }
+        ]
       }
     ],
     "related_recipes": [
       {
         "type": "spell_part",
         "location": "arcaneadditions:components/tree_stride"
+      }
+    ]
+  },
+  "Component: Astral Projection": {
+    "index": "2",
+    "category": "sorcery",
+    "sections": [
+      {
+        "type": "title",
+        "value": "Astral Projection"
+      },
+      {
+        "type": "text",
+        "value": "",
+        "json": [
+          {
+            "text": "I have discovered the means to project my consciousness beyond my body, allowing me to look ahead of my path from a safe location.\n\nI suspect that, with a bit more effort, I may be able to learn to ignore the effects of gravity while projecting myself; and perhaps I can ignore physics entirely!"
+          }
+        ]
+      }
+    ],
+    "related_recipes": [
+      {
+        "type": "spell_part",
+        "location": "arcaneadditions:components/astral_projection"
       }
     ]
   },
