@@ -1,0 +1,16 @@
+{
+  "type": "mna:component",
+  "tier": 4,
+  "output": "arcaneadditions:components/astral_projection",
+  "items": [
+    "mna:vinteum_dust",
+    "mna:animus_dust",
+    "mna:mote_arcane",
+    "minecraft:soul_sand"
+  ],
+  "patterns": [
+    "mna:manaweave_patterns/circle",
+    "mna:manaweave_patterns/circle",
+    "mna:manaweave_patterns/slash"
+  ]
+}
