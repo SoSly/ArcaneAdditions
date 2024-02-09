@@ -34,8 +34,8 @@ import org.sosly.arcaneadditions.effects.EffectRegistry;
 public class LifeLinkComponent extends PotionEffectComponent {
     public static final String LINKED = "linked";
 
-    public LifeLinkComponent(ResourceLocation registryName, ResourceLocation guiIcon) {
-        super(registryName, guiIcon, EffectRegistry.LIFE_LINK, new AttributeValuePair(Attribute.DURATION, 15.0F, 5.0F, 60.0F, 5.0F, 5.0F));
+    public LifeLinkComponent(ResourceLocation guiIcon) {
+        super(guiIcon, EffectRegistry.LIFE_LINK, new AttributeValuePair(Attribute.DURATION, 15.0F, 5.0F, 60.0F, 5.0F, 5.0F));
     }
 
     @Override

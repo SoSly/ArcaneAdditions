@@ -8,20 +8,12 @@
 package org.sosly.arcaneadditions.events.spells;
 
 import com.mna.api.ManaAndArtificeMod;
-import com.mna.api.capabilities.IPlayerMagic;
-import com.mna.api.capabilities.IPlayerProgression;
 import com.mna.api.spells.ICanContainSpell;
 import com.mna.api.spells.base.ISpellDefinition;
-import com.mna.capabilities.playerdata.progression.PlayerProgression;
-import com.mna.capabilities.playerdata.progression.PlayerProgressionProvider;
-import com.mna.config.GeneralModConfig;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.ai.attributes.AttributeInstance;
-import net.minecraft.world.entity.ai.attributes.AttributeModifier;
-import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.AirItem;
 import net.minecraft.world.item.BlockItem;
@@ -30,7 +22,7 @@ import net.minecraft.world.level.Level;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
 import net.minecraftforge.event.entity.living.LivingDamageEvent;
 import net.minecraftforge.event.entity.living.LivingEvent;
-import net.minecraftforge.event.entity.living.PotionEvent;
+import net.minecraftforge.event.entity.living.MobEffectEvent;
 import net.minecraftforge.event.entity.player.AttackEntityEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
@@ -50,16 +42,13 @@ import org.sosly.arcaneadditions.effects.beneficial.PolymorphEffect;
 import org.sosly.arcaneadditions.spells.components.PolymorphComponent;
 
 import java.util.Collection;
-import java.util.List;
-import java.util.UUID;
 import java.util.concurrent.atomic.AtomicBoolean;
-import java.util.concurrent.atomic.AtomicInteger;
 
 @Mod.EventBusSubscriber(modid = ArcaneAdditions.MOD_ID, bus = Mod.EventBusSubscriber.Bus.FORGE)
 public class PolymorphEvents {
     @SubscribeEvent
     public static void onAttachCapability(AttachCapabilitiesEvent<?> event) {
-        if (event.getObject() instanceof Player && ModList.get().isLoaded(CompatModIDs.BMORPH)) {
+        if (event.getObject() instanceof Player && ModList.get().isLoaded(CompatModIDs.IDENTITY)) {
             event.addCapability(IPolymorphCapability.POLYMORPH_CAPABILITY, new PolymorphProvider());
         }
     }
@@ -103,7 +92,7 @@ public class PolymorphEvents {
     }
 
     @SubscribeEvent
-    public static void onPotionRemoved(PotionEvent.PotionRemoveEvent event) {
+    public static void onPotionRemoved(MobEffectEvent.Remove event) {
         runOnEffect(event, (instance, entity) -> {
             if (!(entity instanceof Player)) return; // for now, we can't affect non-players
 
@@ -116,10 +105,10 @@ public class PolymorphEvents {
                 }
 
                 // unpolymorph the target
-                polymorpher.unpolymorph((ServerPlayer) event.getEntityLiving());
+                polymorpher.unpolymorph((ServerPlayer) event.getEntity());
 
                 // reset the target's health
-                PolymorphComponent.resetBonusHealth((ServerPlayer) event.getEntityLiving());
+                PolymorphComponent.resetBonusHealth((ServerPlayer) event.getEntity());
 
                 entity.getCapability(PolymorphProvider.POLYMORPH).ifPresent(polymorph -> {
                     entity.setHealth(polymorph.getHealth());
@@ -143,7 +132,7 @@ public class PolymorphEvents {
             // If they are holding air or a building block, let them continue.
             if (stack.getItem() instanceof AirItem || stack.getItem() instanceof BlockItem) return;
 
-            Level level = event.getEntityLiving().getLevel();
+            Level level = event.getEntity().getLevel();
 
             // If the item is a spell, check if it's polymorph for ending the effect.
             if (!level.isClientSide() && stack.getItem() instanceof ICanContainSpell) {

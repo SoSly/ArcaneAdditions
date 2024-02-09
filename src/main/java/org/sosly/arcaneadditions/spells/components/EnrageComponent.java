@@ -33,8 +33,8 @@ import org.sosly.arcaneadditions.effects.EffectRegistry;
 public class EnrageComponent extends PotionEffectComponent {
     public static final String CASTER = "caster";
 
-    public EnrageComponent(ResourceLocation registryName, ResourceLocation guiIcon) {
-        super(registryName, guiIcon, EffectRegistry.ENRAGED, new AttributeValuePair(Attribute.DURATION, 5.0F, 5.0F, 60.0F, 5.0F, 5.0F));
+    public EnrageComponent(ResourceLocation guiIcon) {
+        super(guiIcon, EffectRegistry.ENRAGED, new AttributeValuePair(Attribute.DURATION, 5.0F, 5.0F, 60.0F, 5.0F, 5.0F));
     }
 
     @Override
@@ -85,7 +85,15 @@ public class EnrageComponent extends PotionEffectComponent {
 
             for(int i = 0; i < particleCount; ++i) {
                 Vec3 velocity = new Vec3(0.0, -Math.random() * (double)v, 0.0);
-                world.addParticle(recipe.colorParticle(new MAParticleType(ParticleInit.FLAME.get()), caster), impact_position.x + (double)(-particle_spread) + Math.random() * (double)particle_spread * 2.0, impact_position.y + (double)(-particle_spread) + Math.random() * (double)particle_spread * 2.0, impact_position.z + (double)(-particle_spread) + Math.random() * (double)particle_spread * 2.0, velocity.x, velocity.y, velocity.z);
+                world.addParticle(
+                        recipe.colorParticle(new MAParticleType(ParticleInit.FLAME.get()), caster),
+                        impact_position.x + (double)(-particle_spread) + Math.random() * (double)particle_spread * 2.0,
+                        impact_position.y + (double)(-particle_spread) + Math.random() * (double)particle_spread * 2.0,
+                        impact_position.z + (double)(-particle_spread) + Math.random() * (double)particle_spread * 2.0,
+                        velocity.x,
+                        velocity.y,
+                        velocity.z
+                );
             }
         }
     }

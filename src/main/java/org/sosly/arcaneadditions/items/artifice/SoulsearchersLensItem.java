@@ -10,12 +10,11 @@ package org.sosly.arcaneadditions.items.artifice;
 import com.mna.api.ManaAndArtificeMod;
 import com.mna.api.entities.construct.IConstruct;
 import com.mna.api.items.IPhylacteryItem;
-import com.mna.api.items.ITieredItem;
 import com.mna.api.items.MAItemGroups;
 import com.mna.api.items.TieredItem;
 import com.mna.api.sound.SFX;
 import net.minecraft.client.Minecraft;
-import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.network.chat.Component;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
@@ -39,7 +38,6 @@ import org.sosly.arcaneadditions.entities.EntityRegistry;
 import org.sosly.arcaneadditions.entities.sorcery.SoulSearchersBeamEntity;
 import org.sosly.arcaneadditions.sounds.UseItemTickingSoundInstance;
 
-import java.util.UUID;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicReference;
 
@@ -132,13 +130,13 @@ public class SoulsearchersLensItem extends TieredItem {
                                 result.set(true);
                             } else {
                                 if (level.isClientSide()) {
-                                    player.sendMessage(new TranslatableComponent("item.arcaneadditions.soulsearchers_lens.nonphylactery"), UUID.randomUUID());
+                                    player.sendSystemMessage(Component.translatable("item.arcaneadditions.soulsearchers_lens.nonphylactery"));
                                 }
                             }
                         }
                     } else {
                         if (level.isClientSide()) {
-                            player.sendMessage(new TranslatableComponent("item.arcaneadditions.soulsearchers_lens.confusion"), UUID.randomUUID());
+                            player.sendSystemMessage(Component.translatable("item.arcaneadditions.soulsearchers_lens.confusion"));
                         }
                     }
                 });
@@ -172,14 +170,14 @@ public class SoulsearchersLensItem extends TieredItem {
 
         if (target.distanceTo(player) > (float) Config.SERVER.soulSearchersLens.maxDistance.get()) {
             if (level.isClientSide) {
-                player.sendMessage(new TranslatableComponent("item.arcaneadditions.soulsearchers_lens.distance"), UUID.randomUUID());
+                player.sendSystemMessage(Component.translatable("item.arcaneadditions.soulsearchers_lens.distance"));
             }
             return false;
         }
 
         if (player.experienceLevel < levelsRequired && !player.isCreative()) {
             if (level.isClientSide) {
-                player.sendMessage(new TranslatableComponent("item.arcaneadditions.soulsearchers_lens.experience"), UUID.randomUUID());
+                player.sendSystemMessage(Component.translatable("item.arcaneadditions.soulsearchers_lens.experience"));
             }
             return false;
         }
@@ -198,7 +196,7 @@ public class SoulsearchersLensItem extends TieredItem {
 
     @Nullable
     private float getAdjustmentForType(EntityType entityType) {
-        String type = entityType.getRegistryName().toString();
+        String type = entityType.getDescriptionId();
         AtomicReference<Float> modifier = new AtomicReference<>(1.0f);
         Config.SERVER.soulSearchersLens.creatureModifiers.get().stream().forEach((mod) -> {
             String[] parts = mod.split(",");

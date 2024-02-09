@@ -13,7 +13,7 @@ import com.mna.api.spells.targeting.SpellSource;
 import com.mna.api.spells.targeting.SpellTarget;
 import com.mna.factions.Factions;
 import net.minecraft.core.BlockPos;
-import net.minecraft.network.chat.TextComponent;
+import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
@@ -29,8 +29,8 @@ import java.util.Set;
 import java.util.concurrent.atomic.AtomicReference;
 
 public class TreeStrideComponent extends SpellEffect {
-    public TreeStrideComponent(ResourceLocation registryName, ResourceLocation guiIcon) {
-        super(registryName, guiIcon);
+    public TreeStrideComponent(ResourceLocation guiIcon) {
+        super(guiIcon);
     }
 
     @Override
@@ -56,8 +56,8 @@ public class TreeStrideComponent extends SpellEffect {
 
         level.getCapability(TreestrideProvider.TREESTRIDE).ifPresent(treestride -> treestride.setCurrentPosition(caster, root));
 
-        MenuProvider container = new SimpleMenuProvider(TreeStrideMenu::new, new TextComponent("Tree Stride"));
-        NetworkHooks.openGui(caster, container);
+        MenuProvider container = new SimpleMenuProvider(TreeStrideMenu::new, Component.translatable("arcaneadditions:components/tree_stride"));
+        NetworkHooks.openScreen(caster, container);
 
         return ComponentApplicationResult.SUCCESS;
     }

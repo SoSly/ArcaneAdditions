@@ -11,7 +11,6 @@ import net.minecraftforge.fml.ModList;
 import org.sosly.arcaneadditions.ArcaneAdditions;
 import org.sosly.arcaneadditions.api.spells.components.IPolymorphProvider;
 import org.sosly.arcaneadditions.capabilities.polymorph.PolymorphProvider;
-import org.sosly.arcaneadditions.compats.BMorph.BMorphCompat;
 import org.sosly.arcaneadditions.compats.Grass_Slabs.GrassSlabCompat;
 import org.sosly.arcaneadditions.compats.Identity.IdentityCompat;
 
@@ -25,7 +24,6 @@ public class CompatRegistry {
     private static final Map<String, Supplier<Callable<ICompat>>> compatFactories = new HashMap<>();
 
     static {
-        compatFactories.put(CompatModIDs.BMORPH, () -> BMorphCompat::new);
         compatFactories.put(CompatModIDs.IDENTITY, () -> IdentityCompat::new);
         compatFactories.put(CompatModIDs.GRASS_SLABS, () -> GrassSlabCompat::new);
     }
@@ -51,11 +49,6 @@ public class CompatRegistry {
 
         if (ModList.get().isLoaded(CompatModIDs.IDENTITY)) {
             polymorphProvider = new IdentityCompat();
-            return polymorphProvider;
-        }
-
-        if (ModList.get().isLoaded(CompatModIDs.BMORPH)) {
-            polymorphProvider = new BMorphCompat();
             return polymorphProvider;
         }
 

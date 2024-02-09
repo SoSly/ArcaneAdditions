@@ -11,6 +11,11 @@
   "arcaneadditions:components/strip": "Strip",
   "arcaneadditions:components/transfuse": "Transfuse",
   "arcaneadditions:components/tree_stride": "Tree Stride",
+  "arcaneadditions:components/tree_stride.added_destination": "Added destination for %s.",
+  "arcaneadditions:components/tree_stride.new_destination": "New destination",
+  "arcaneadditions:components/tree_stride.removed_destination": "Removed destination for %s.",
+  "arcaneadditions:components/tree_stride.save": "Save",
+  "arcaneadditions:components/tree_stride.travel": "You travel through the root network to %s.",
 
   "effect.arcaneadditions.astral_projection": "Astral Projection",
   "effect.arcaneadditions.enraged": "Enraged",

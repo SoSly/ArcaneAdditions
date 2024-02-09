@@ -15,7 +15,6 @@ import net.minecraft.client.gui.components.EditBox;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TextComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraftforge.client.gui.widget.ExtendedButton;
@@ -56,8 +55,8 @@ public class TreeStrideScreen extends AbstractContainerScreen<TreeStrideMenu> {
                     .sorted(Map.Entry.<BlockPos, String>comparingByValue())
                     .forEach(destination -> {
                         topPos.addAndGet(18);
-                        addRenderableWidget(new ExtendedButton(this.leftPos + 7, this.topPos + topPos.get(), 140, 16, new TextComponent(destination.getValue()), btn -> this.teleportPlayer(destination.getKey(), destination.getValue())));
-                        addRenderableWidget(new ExtendedButton(this.leftPos + 152, this.topPos + topPos.get(), 16, 16, new TextComponent("X"), btn -> this.deleteDestination(destination.getKey(), destination.getValue())));
+                        addRenderableWidget(new ExtendedButton(this.leftPos + 7, this.topPos + topPos.get(), 140, 16, Component.literal(destination.getValue()), btn -> this.teleportPlayer(destination.getKey(), destination.getValue())));
+                        addRenderableWidget(new ExtendedButton(this.leftPos + 152, this.topPos + topPos.get(), 16, 16, Component.literal("X"), btn -> this.deleteDestination(destination.getKey(), destination.getValue())));
                     });
 
                 if (destinations.size() >= 7) {
@@ -78,9 +77,9 @@ public class TreeStrideScreen extends AbstractContainerScreen<TreeStrideMenu> {
 
         this.createDestinationBox = addRenderableWidget(new EditBox(this.font, this.leftPos + 15,
                 this.topPos + 126, 100, 15, this.createDestinationBox,
-                new TextComponent("New Destination")));
+                Component.translatable("arcaneadditions:components/tree_stride.new_destination")));
         this.createDestinationButton = addRenderableWidget(new ExtendedButton(this.leftPos + 120,
-                this.topPos + 126, 40, 16, new TextComponent("Save"),
+                this.topPos + 126, 40, 16, Component.translatable("arcaneadditions:components/tree_stride.save"),
                 btn -> this.handleNewDestination()));
     }
 
@@ -108,7 +107,7 @@ public class TreeStrideScreen extends AbstractContainerScreen<TreeStrideMenu> {
     private void deleteDestination(BlockPos pos, String name) {
         PacketHandler.network.sendToServer(new RemoveTreeStrideDestination(pos));
         this.onClose();
-        Minecraft.getInstance().player.sendMessage(new TextComponent("Removed destination for " + name), UUID.randomUUID());
+        Minecraft.getInstance().player.sendSystemMessage(Component.translatable("arcaneadditions:components/tree_stride.removed_destination", name));
     }
 
     private boolean handleNewDestination() {
@@ -117,17 +116,17 @@ public class TreeStrideScreen extends AbstractContainerScreen<TreeStrideMenu> {
             return false;
         }
 
-        PacketHandler.network.sendToServer(new NewTreeStrideDestination(new TextComponent(newValue)));
+        PacketHandler.network.sendToServer(new NewTreeStrideDestination(Component.literal(newValue)));
 
         this.onClose();
-        Minecraft.getInstance().player.sendMessage(new TextComponent("Added destination for " + newValue), UUID.randomUUID());
+        Minecraft.getInstance().player.sendSystemMessage(Component.translatable("arcaneadditions:components/tree_stride.added_destination", newValue));
         return true;
     }
 
     private void teleportPlayer(BlockPos pos, String name) {
         this.onClose();
         PacketHandler.network.sendToServer(new TreeStridePlayer(pos));
-        Minecraft.getInstance().player.sendMessage(new TextComponent("You travel through the root network to " + name), UUID.randomUUID());
+        Minecraft.getInstance().player.sendSystemMessage(Component.translatable("arcaneadditions:components/tree_stride.travel", name));
     }
 
     @Override

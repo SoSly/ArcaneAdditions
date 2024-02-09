@@ -7,10 +7,10 @@
 
 package org.sosly.arcaneadditions.api.spells.components;
 
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.entity.LivingEntity;
 
 public interface IPolymorphProvider {
-    void polymorph(ServerPlayer target, ResourceLocation creature);
+    void polymorph(ServerPlayer target, LivingEntity creature);
     void unpolymorph(ServerPlayer target);
 }

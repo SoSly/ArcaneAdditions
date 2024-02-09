@@ -93,7 +93,7 @@ public class IceBlockEvents {
     }
 
     @SubscribeEvent
-    public static void onPotionAdded(PotionEvent.PotionAddedEvent event) {
+    public static void onPotionAdded(MobEffectEvent.Added event) {
         runOnEffect(event, (instance, entity) -> {
             // Only player entities have their potion effects synced.  We need to sync non-player entities, too, so that we
             // are able to render the effect in the overworld.
@@ -109,7 +109,7 @@ public class IceBlockEvents {
     }
 
     @SubscribeEvent
-    public static void onPotionExpired(PotionEvent.PotionExpiryEvent event) {
+    public static void onPotionExpired(MobEffectEvent.Expired event) {
         runOnEffect(event, (instance, entity) -> {
             // Only player entities have their potion effects synced.  We need to sync non-player entities, too, so that we
             // are able to render the effect in the overworld.
@@ -127,7 +127,7 @@ public class IceBlockEvents {
     }
 
     @SubscribeEvent
-    public static void onPotionRemoved(PotionEvent.PotionRemoveEvent event) {
+    public static void onPotionRemoved(MobEffectEvent.Remove event) {
         runOnEffect(event, (instance, entity) -> {
             // Only player entities have their potion effects synced.  We need to sync non-player entities, too, so that we
             // are able to render the effect in the overworld.
@@ -198,13 +198,11 @@ public class IceBlockEvents {
             return; // not sure how we got here but let's bail out just in case.
         }
 
-        if (event instanceof PotionEvent.PotionAddedEvent) {
-            MobEffectInstance instance = ((PotionEvent)event).getPotionEffect();
-            if (instance != null) {
-                MobEffect effect = instance.getEffect();
-                if (effect instanceof IceBlockEffect) {
-                    EffectRegistry.handle(handler, instance, entity);
-                }
+        if (event instanceof MobEffectEvent.Added) {
+            MobEffectInstance instance = ((MobEffectEvent)event).getEffectInstance();
+            MobEffect effect = instance.getEffect();
+            if (effect instanceof IceBlockEffect) {
+                EffectRegistry.handle(handler, instance, entity);
             }
         } else {
             Collection<MobEffectInstance> effects = entity.getActiveEffects();

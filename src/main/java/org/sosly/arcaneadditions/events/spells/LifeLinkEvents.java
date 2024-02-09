@@ -75,7 +75,7 @@ public class LifeLinkEvents {
         LivingEntity entity;
 
         if (event instanceof LivingEvent livingEvent) {
-            entity = livingEvent.getEntityLiving();
+            entity = livingEvent.getEntity();
         } else if (event instanceof RenderLivingEvent<?,?> livingEvent) {
             entity = livingEvent.getEntity();
         } else {

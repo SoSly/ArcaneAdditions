@@ -10,13 +10,14 @@ package org.sosly.arcaneadditions.sounds;
 import net.minecraft.client.resources.sounds.AbstractTickableSoundInstance;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundSource;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.player.Player;
 
 public class UseItemTickingSoundInstance extends AbstractTickableSoundInstance {
     private final Player player;
 
     public UseItemTickingSoundInstance(SoundEvent event, Player player) {
-        super(event, SoundSource.PLAYERS);
+        super(event, SoundSource.PLAYERS, RandomSource.create());
         this.player = player;
         this.looping = true;
         this.delay = 0;

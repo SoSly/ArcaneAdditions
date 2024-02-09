@@ -8,16 +8,14 @@
 package org.sosly.arcaneadditions.events.spells;
 
 import com.mna.effects.beneficial.EffectPossession;
-import net.minecraft.util.profiling.jfr.event.WorldLoadFinishedEvent;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraftforge.client.event.RenderLivingEvent;
-import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.event.entity.living.LivingEvent;
-import net.minecraftforge.event.entity.living.PotionEvent;
+import net.minecraftforge.event.entity.living.MobEffectEvent;
 import net.minecraftforge.eventbus.api.Event;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
@@ -25,17 +23,15 @@ import org.sosly.arcaneadditions.ArcaneAdditions;
 import org.sosly.arcaneadditions.effects.EffectRegistry;
 import org.sosly.arcaneadditions.effects.neutral.AstralProjectionEffect;
 import org.sosly.arcaneadditions.entities.sorcery.AstralProjectionEntity;
-import org.sosly.arcaneadditions.renderers.sorcery.AstralProjectionRenderer;
 
 import java.util.Collection;
-import java.util.UUID;
 
 @Mod.EventBusSubscriber(modid = ArcaneAdditions.MOD_ID, bus = Mod.EventBusSubscriber.Bus.FORGE)
 public class AstralProjectionEvents {
 
     @SubscribeEvent
     public static void onProjectionMoved(net.minecraftforge.event.entity.living.LivingEvent event) {
-        if (event.getEntityLiving() instanceof AstralProjectionEntity projection) {
+        if (event.getEntity() instanceof AstralProjectionEntity projection) {
             if (projection.isOnGround() && projection.getPersistentData().getFloat("astral_magnitude") > 1.0F) {
                 projection.setOnGround(false);
                 projection.setNoGravity(true);
@@ -44,9 +40,9 @@ public class AstralProjectionEvents {
     }
 
     @SubscribeEvent
-    public static void onPotionRemoved(PotionEvent.PotionRemoveEvent event) {
-        if (event.getPotion() instanceof EffectPossession) {
-            LivingEntity entity = event.getEntityLiving();
+    public static void onPotionRemoved(MobEffectEvent.Remove event) {
+        if (event.getEffect() instanceof EffectPossession) {
+            LivingEntity entity = event.getEntity();
             if (entity.level.isClientSide()) return;
             if (entity instanceof Player player) {
                 player.removeEffect(EffectRegistry.ASTRAL_PROJECTION.get());
@@ -61,7 +57,7 @@ public class AstralProjectionEvents {
         });
     }
     @SubscribeEvent
-    public static void onPotionExpired(PotionEvent.PotionExpiryEvent event) {
+    public static void onPotionExpired(MobEffectEvent.Expired event) {
         runOnEffect(event, (instance, entity) -> {
             if (entity.level.isClientSide()) return;
             if (entity instanceof Player) return;
@@ -79,8 +75,8 @@ public class AstralProjectionEvents {
             return; // not sure how we got here but let's bail out just in case.
         }
 
-        if (event instanceof PotionEvent.PotionAddedEvent) {
-            MobEffectInstance instance = ((PotionEvent)event).getPotionEffect();
+        if (event instanceof MobEffectEvent.Added) {
+            MobEffectInstance instance = ((MobEffectEvent)event).getEffectInstance();
             MobEffect effect = instance.getEffect();
             if (effect instanceof AstralProjectionEffect) {
                 EffectRegistry.handle(handler, instance, entity);

@@ -28,8 +28,8 @@ import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.LivingEntity;
 
 public class TransfuseComponent extends SpellEffect implements IDamageComponent {
-    public TransfuseComponent(ResourceLocation registryName, ResourceLocation guiIcon) {
-        super(registryName, guiIcon,
+    public TransfuseComponent(ResourceLocation guiIcon) {
+        super(guiIcon,
                 new AttributeValuePair(Attribute.DAMAGE, 2.0F, 1.0F, 10.0F, 0.5F, 20.0F),
                 new AttributeValuePair(Attribute.MAGNITUDE, 1.0F, 1.0F, 5.0F, 1.0F, 20.0F));
     }

@@ -33,8 +33,8 @@ import java.util.Objects;
 public class IceBlockComponent extends SpellEffect {
     public static String ICEBLOCK_ENTITY_ID = "arcaneadditions:iceblock-entity";
 
-    public IceBlockComponent(ResourceLocation registryName, ResourceLocation guiIcon) {
-        super(registryName, guiIcon, new AttributeValuePair(Attribute.DURATION, 10.0F, 2.0F, 30.0F, 2.0F, 2.0F));
+    public IceBlockComponent(ResourceLocation guiIcon) {
+        super(guiIcon, new AttributeValuePair(Attribute.DURATION, 10.0F, 2.0F, 30.0F, 2.0F, 2.0F));
     }
 
     @Override
@@ -62,21 +62,21 @@ public class IceBlockComponent extends SpellEffect {
         }
         return ComponentApplicationResult.FAIL;
     }
-
-    @Override
-    public boolean canBeChanneled() {
-        return false;
-    }
+//
+//    @Override
+//    public boolean canBeChanneled() {
+//        return false;
+//    }
 
     @Override
     public Affinity getAffinity() {
         return Affinity.ICE;
     }
-
-    @Override
-    public SpellPartTags getUseTag() {
-        return SpellPartTags.UTILITY;
-    }
+//
+//    @Override
+//    public SpellPartTags getUseTag() {
+//        return SpellPartTags.UTILITY;
+//    }
 
     @Override
     public float initialComplexity() {
@@ -87,9 +87,9 @@ public class IceBlockComponent extends SpellEffect {
     public int requiredXPForRote() {
         return 100;
     }
-
-    @Override
-    public SoundEvent SoundEffect() {
-        return SFX.Spell.Buff.ICE;
-    }
+//
+//    @Override
+//    public SoundEvent SoundEffect() {
+//        return SFX.Spell.Buff.ICE;
+//    }
 }

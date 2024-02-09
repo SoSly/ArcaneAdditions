@@ -8,7 +8,6 @@
 package org.sosly.arcaneadditions.spells.components;
 
 import com.mna.api.affinity.Affinity;
-import com.mna.api.capabilities.IPlayerMagic;
 import com.mna.api.capabilities.IPlayerProgression;
 import com.mna.api.sound.SFX;
 import com.mna.api.spells.ComponentApplicationResult;
@@ -25,8 +24,10 @@ import com.mna.config.GeneralModConfig;
 import com.mna.factions.Factions;
 import com.mna.items.ItemInit;
 import com.mna.items.sorcery.PhylacteryStaffItem;
-import net.minecraft.Util;
-import net.minecraft.network.chat.TranslatableComponent;
+import dev.architectury.registry.registries.Registries;
+import net.minecraft.core.Registry;
+import net.minecraft.data.BuiltinRegistries;
+import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvent;
@@ -42,10 +43,10 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.network.PacketDistributor;
+import net.minecraftforge.registries.RegistryObject;
 import org.apache.commons.lang3.mutable.MutableBoolean;
 import org.sosly.arcaneadditions.api.spells.components.IPolymorphProvider;
 import org.sosly.arcaneadditions.capabilities.polymorph.PolymorphProvider;
-import org.sosly.arcaneadditions.compats.BMorph.BMorphRegistryEntries;
 import org.sosly.arcaneadditions.compats.CompatRegistry;
 import org.sosly.arcaneadditions.configs.Config;
 import org.sosly.arcaneadditions.effects.EffectRegistry;
@@ -62,11 +63,20 @@ import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicReference;
 
 public class PolymorphComponent extends SpellEffect {
-    private List<SpellReagent> reagents = new ArrayList<SpellReagent>();
+    private final List<SpellReagent> reagents = new ArrayList<SpellReagent>();
 
-    public PolymorphComponent(ResourceLocation registryName, ResourceLocation guiIcon) {
-        super(registryName, guiIcon, new AttributeValuePair(Attribute.MAGNITUDE, 1.0F, 1.0F, 4.0F, 1.0F, 25.0F));
-        this.reagents.add(new SpellReagent(new ItemStack(ItemInit.ANIMUS_DUST.get()), false, false, true));
+    public PolymorphComponent(ResourceLocation guiIcon) {
+        super(guiIcon, new AttributeValuePair(Attribute.MAGNITUDE, 1.0F, 1.0F, 4.0F, 1.0F, 25.0F));
+    }
+
+    private boolean initReagents() {
+        if (!ItemInit.ANIMUS_DUST.isPresent()) {
+            return false;
+        }
+        if (reagents.isEmpty()) {
+            reagents.add(new SpellReagent(new ItemStack(ItemInit.ANIMUS_DUST.get()), false, false, true));
+        }
+        return true;
     }
 
     @Override
@@ -99,16 +109,16 @@ public class PolymorphComponent extends SpellEffect {
             ServerPlayer casterPlayer = (ServerPlayer)Objects.requireNonNull(caster.getCaster());
 
             if (!PhylacteryStaffItem.isFilled(phylactery)) {
-                casterPlayer.sendMessage(new TranslatableComponent("arcaneadditions:components/polymorph.nonphylactery"), Util.NIL_UUID);
+                casterPlayer.sendSystemMessage(Component.translatable("arcaneadditions:components/polymorph.nonphylactery"));
                 return ComponentApplicationResult.NOT_PRESENT;
             }
 
             EntityType<? extends Mob> type = PhylacteryStaffItem.getEntityType(phylactery);
             if (type == null) {
-                casterPlayer.sendMessage(new TranslatableComponent("arcaneadditions:components/polymorph.nonphylactery"), Util.NIL_UUID);
+                casterPlayer.sendSystemMessage(Component.translatable("arcaneadditions:components/polymorph.nonphylactery"));
                 return ComponentApplicationResult.NOT_PRESENT;
             } else if (!isFormAllowed(type, iModifiedSpellPart)) {
-                casterPlayer.sendMessage(new TranslatableComponent("arcaneadditions:components/polymorph.notallowed"), Util.NIL_UUID);
+                casterPlayer.sendSystemMessage(Component.translatable("arcaneadditions:components/polymorph.notallowed"));
                 return ComponentApplicationResult.FAIL;
             }
 
@@ -122,7 +132,7 @@ public class PolymorphComponent extends SpellEffect {
             });
 
             // transform the target into the creature
-            polymorpher.polymorph(casterPlayer, type.getRegistryName());
+            polymorpher.polymorph(casterPlayer, type.create(level));
 
             // remove bonus health from tiers
             removeBonusHealth(casterPlayer);
@@ -142,10 +152,12 @@ public class PolymorphComponent extends SpellEffect {
         AtomicBoolean allowed = new AtomicBoolean(false);
         AtomicInteger tier = new AtomicInteger();
         AtomicReference<Float> magnitude = new AtomicReference<>(iModifiedSpellPart.getValue(Attribute.MAGNITUDE));
+        String resourceLocation = Registry.ENTITY_TYPE.getKey(type).toString();
+
         Config.SERVER.polymorph.tiers.get().forEach(tierList -> {
             tier.getAndIncrement();
 
-            if (tierList.contains(Objects.requireNonNull(type.getRegistryName()).toString())) {
+            if (tierList.contains(resourceLocation)) {
                 if (magnitude.get() >= tier.get()) {
                     allowed.set(true);
                 }
@@ -181,6 +193,10 @@ public class PolymorphComponent extends SpellEffect {
 
     @Override
     public List<SpellReagent> getRequiredReagents(@Nullable Player caster, @Nullable InteractionHand hand) {
+        if (!initReagents()) {
+            return null;
+        }
+
         if (caster == null) {
             return this.reagents;
         }
@@ -231,9 +247,6 @@ public class PolymorphComponent extends SpellEffect {
         return this.reagents;
     }
 
-
-
-
     public static void resetBonusHealth(ServerPlayer target) {
         int roteTier;
         int index;
@@ -258,7 +271,7 @@ public class PolymorphComponent extends SpellEffect {
 
         for(roteTier = 1; roteTier <= 5; ++roteTier) {
             index = roteTier - 1;
-            modifierAmount = ((List)GeneralModConfig.TIER_HEALTH_BOOSTS.get()).size() >= index ? (Integer)((List)GeneralModConfig.TIER_HEALTH_BOOSTS.get()).get(index) : 0;
+            modifierAmount = (GeneralModConfig.TIER_HEALTH_BOOSTS.get()).size() >= index ? (Integer)((List)GeneralModConfig.TIER_HEALTH_BOOSTS.get()).get(index) : 0;
             modifier = new AttributeModifier(UUID.fromString(IPlayerProgression.Tier_Health_Boost_IDs[index]), "Tier Health Boost " + roteTier, (double)modifierAmount, AttributeModifier.Operation.ADDITION);
             if (modifierAmount > 0 && tier.get() >= roteTier && !inst.hasModifier(modifier)) {
                 inst.addPermanentModifier(modifier);

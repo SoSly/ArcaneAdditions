@@ -29,8 +29,8 @@ import net.minecraft.world.level.block.state.BlockState;
 import java.util.Optional;
 
 public class StripComponent extends SpellEffect {
-    public StripComponent(ResourceLocation registryName, ResourceLocation guiIcon) {
-        super(registryName, guiIcon);
+    public StripComponent(ResourceLocation guiIcon) {
+        super(guiIcon);
     }
 
     @Override

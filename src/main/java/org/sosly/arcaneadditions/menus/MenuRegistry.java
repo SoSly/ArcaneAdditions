@@ -21,7 +21,7 @@ import org.sosly.arcaneadditions.screens.TreeStrideScreen;
 
 @Mod.EventBusSubscriber(modid = ArcaneAdditions.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
 public class MenuRegistry {
-    public static final DeferredRegister<MenuType<?>> MENUS = DeferredRegister.create(ForgeRegistries.CONTAINERS, ArcaneAdditions.MOD_ID);
+    public static final DeferredRegister<MenuType<?>> MENUS = DeferredRegister.create(ForgeRegistries.MENU_TYPES, ArcaneAdditions.MOD_ID);
     public static final RegistryObject<MenuType<TreeStrideMenu>> TREE_STRIDE = MENUS.register("tree_stride", () -> new MenuType<>(TreeStrideMenu::new));
 
     @SubscribeEvent

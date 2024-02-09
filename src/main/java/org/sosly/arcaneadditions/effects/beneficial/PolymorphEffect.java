@@ -15,7 +15,6 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import org.jetbrains.annotations.NotNull;
 import org.sosly.arcaneadditions.capabilities.polymorph.PolymorphProvider;
-import org.sosly.arcaneadditions.compats.BMorph.BMorphRegistryEntries;
 import org.sosly.arcaneadditions.effects.EffectRegistry;
 
 import java.lang.ref.WeakReference;

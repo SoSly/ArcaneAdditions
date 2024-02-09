@@ -57,7 +57,7 @@ public class NewTreeStrideDestination extends BaseMessage {
                     level.getCapability(TreestrideProvider.TREESTRIDE).ifPresent(treestride -> {
                         BlockPos pos = treestride.getCurrentPosition(player);
                         if (pos != null) {
-                            treestride.addDestination(player, msg.name.getContents(), pos);
+                            treestride.addDestination(player, msg.name.getContents().toString(), pos);
                             treestride.clearCurrentPosition(player);
                         }
                     });

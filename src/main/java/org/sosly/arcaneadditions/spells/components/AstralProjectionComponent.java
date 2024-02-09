@@ -40,8 +40,8 @@ import org.sosly.arcaneadditions.effects.EffectRegistry;
 import org.sosly.arcaneadditions.entities.sorcery.AstralProjectionEntity;
 
 public class AstralProjectionComponent extends PotionEffectComponent {
-    public AstralProjectionComponent(ResourceLocation registryName, ResourceLocation guiIcon) {
-        super(registryName, guiIcon, EffectRegistry.ASTRAL_PROJECTION,
+    public AstralProjectionComponent(ResourceLocation guiIcon) {
+        super(guiIcon, EffectRegistry.ASTRAL_PROJECTION,
                 new AttributeValuePair(Attribute.MAGNITUDE, 1.0F, 1.0F, 3.0F, 1.0F, 20.0F),
                 new AttributeValuePair(Attribute.DURATION, 15.0F, 15.0F, 120.0F, 15.0F, 10.0F),
                 new AttributeValuePair(Attribute.SPEED, 0.3F, 0.3F, 1.0F, 0.1F, 1.0F)

@@ -23,7 +23,7 @@ import org.sosly.arcaneadditions.entities.sorcery.SoulSearchersBeamEntity;
 
 @Mod.EventBusSubscriber(bus = Bus.MOD, modid = ArcaneAdditions.MOD_ID)
 public class EntityRegistry {
-    public static final DeferredRegister<EntityType<?>> ENTITY_TYPES = DeferredRegister.create(ForgeRegistries.ENTITIES, org.sosly.arcaneadditions.ArcaneAdditions.MOD_ID);
+    public static final DeferredRegister<EntityType<?>> ENTITY_TYPES = DeferredRegister.create(ForgeRegistries.ENTITY_TYPES, org.sosly.arcaneadditions.ArcaneAdditions.MOD_ID);
     public static final RegistryObject<EntityType<AstralProjectionEntity>> ASTRAL_PROJECTION = ENTITY_TYPES.register("astral_projection", () ->
             EntityType.Builder.<AstralProjectionEntity>of(AstralProjectionEntity::new, MobCategory.MISC)
                     .noSummon()

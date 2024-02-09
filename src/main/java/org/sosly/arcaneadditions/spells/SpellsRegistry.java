@@ -7,35 +7,65 @@
 
 package org.sosly.arcaneadditions.spells;
 
+import com.mna.Registries;
+import com.mna.api.ManaAndArtificeMod;
 import com.mna.api.spells.parts.SpellEffect;
-import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.ModList;
 import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.registries.IForgeRegistry;
+import net.minecraftforge.registries.RegisterEvent;
+import org.sosly.arcaneadditions.compats.CompatModIDs;
 import org.sosly.arcaneadditions.spells.components.*;
 import org.sosly.arcaneadditions.utils.RLoc;
 
 @Mod.EventBusSubscriber(modid = org.sosly.arcaneadditions.ArcaneAdditions.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class SpellsRegistry {
-    public static SpellEffect ASTRAL_PROJECTION = new AstralProjectionComponent(RLoc.create("components/astral_projection"), RLoc.create("textures/spell/component/astral_projection.png"));
-    public static SpellEffect ENRAGE = new EnrageComponent(RLoc.create("components/enrage"), RLoc.create("textures/spell/component/enrage.png"));;
-    public static SpellEffect ICE_BLOCK = new IceBlockComponent(RLoc.create("components/ice_block"), RLoc.create("textures/spell/component/ice_block.png"));
-    public static SpellEffect LIFE_LINK = new LifeLinkComponent(RLoc.create("components/life_link"), RLoc.create("textures/spell/component/life_link.png"));
-    public static SpellEffect PATH = new PathComponent(RLoc.create("components/path"), RLoc.create("textures/spell/component/path.png"));;
-    public static SpellEffect PLOW = new PlowComponent(RLoc.create("components/plow"), RLoc.create("textures/spell/component/plow.png"));;
-    public static SpellEffect STRIP = new StripComponent(RLoc.create("components/strip"), RLoc.create("textures/spell/component/strip.png"));;
-    public static SpellEffect TRANSFUSE = new TransfuseComponent(RLoc.create("components/transfuse"), RLoc.create("textures/spell/component/transfuse.png"));;
-    public static SpellEffect TREE_STRIDE = new TreeStrideComponent(RLoc.create("components/tree_stride"), RLoc.create("textures/spell/component/tree_stride.png"));;
+    public static SpellEffect ASTRAL_PROJECTION;
+    public static SpellEffect ENRAGE;
+    public static SpellEffect ICE_BLOCK;
+    public static SpellEffect LIFE_LINK;
+    public static SpellEffect PATH;
+    public static SpellEffect PLOW;
+    public static SpellEffect POLYMORPH;
+    public static SpellEffect STRIP;
+    public static SpellEffect TRANSFUSE;
+    public static SpellEffect TREE_STRIDE;
 
     @SubscribeEvent
-    public static void registerComponents(RegistryEvent.Register<SpellEffect> event) {
-        event.getRegistry().register(ASTRAL_PROJECTION);
-        event.getRegistry().register(ENRAGE);
-        event.getRegistry().register(ICE_BLOCK);
-        event.getRegistry().register(LIFE_LINK);
-        event.getRegistry().register(PATH);
-        event.getRegistry().register(PLOW);
-        event.getRegistry().register(STRIP);
-        event.getRegistry().register(TRANSFUSE);
-        event.getRegistry().register(TREE_STRIDE);
+    public static void registerComponents(RegisterEvent event) {
+        if (!ModList.get().isLoaded(ManaAndArtificeMod.ID)) {
+            return;
+        }
+
+        event.register(((IForgeRegistry) Registries.SpellEffect.get()).getRegistryKey(), (helper) -> {
+            ASTRAL_PROJECTION = new AstralProjectionComponent(RLoc.create("textures/spell/component/astral_projection.png"));
+            ENRAGE = new EnrageComponent(RLoc.create("textures/spell/component/enrage.png"));
+            ICE_BLOCK = new IceBlockComponent(RLoc.create("textures/spell/component/ice_block.png"));
+            LIFE_LINK = new LifeLinkComponent(RLoc.create("textures/spell/component/life_link.png"));
+            PATH = new PathComponent(RLoc.create("textures/spell/component/path.png"));
+            PLOW = new PlowComponent(RLoc.create("textures/spell/component/plow.png"));
+            STRIP = new StripComponent(RLoc.create("textures/spell/component/strip.png"));
+            TRANSFUSE = new TransfuseComponent(RLoc.create("textures/spell/component/transfuse.png"));
+            TREE_STRIDE = new TreeStrideComponent(RLoc.create("textures/spell/component/tree_stride.png"));
+
+            helper.register(RLoc.create("components/astral_projection"), ASTRAL_PROJECTION);
+            helper.register(RLoc.create("components/enrage"), ENRAGE);
+            helper.register(RLoc.create("components/ice_block"), ICE_BLOCK);
+            helper.register(RLoc.create("components/life_link"), LIFE_LINK);
+            helper.register(RLoc.create("components/path"), PATH);
+            helper.register(RLoc.create("components/plow"), PLOW);
+            helper.register(RLoc.create("components/strip"), STRIP);
+            helper.register(RLoc.create("components/transfuse"), TRANSFUSE);
+            helper.register(RLoc.create("components/tree_stride"), TREE_STRIDE);
+        });
+
+        if (ModList.get().isLoaded(CompatModIDs.IDENTITY)) {
+            POLYMORPH = new PolymorphComponent(RLoc.create("textures/spell/component/polymorph.png"));
+
+            event.register(((IForgeRegistry)Registries.SpellEffect.get()).getRegistryKey(), (helper) -> {
+                helper.register(RLoc.create("components/polymorph"), SpellsRegistry.POLYMORPH);
+            });
+        }
     }
 }

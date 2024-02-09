@@ -36,8 +36,8 @@ import java.util.function.Consumer;
 import java.util.function.Predicate;
 
 public class PlowComponent extends SpellEffect {
-    public PlowComponent(ResourceLocation registryName, ResourceLocation guiIcon) {
-        super(registryName, guiIcon);
+    public PlowComponent(ResourceLocation guiIcon) {
+        super(guiIcon);
     }
 
     @Override

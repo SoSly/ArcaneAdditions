@@ -5,16 +5,13 @@ package org.sosly.arcaneadditions.utils;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
 import net.minecraft.core.Registry;
-import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.BlockTags;
-import net.minecraft.tags.Tag;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.LeavesBlock;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraftforge.common.data.ForgeRegistryTagsProvider;
 import net.minecraftforge.event.TagsUpdatedEvent;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -44,9 +41,8 @@ public class TreeFinder {
         TagKey<Block> leavesTag = BlockTags.create(new ResourceLocation("arcaneadditions:leaves"));
         TagKey<Block> trunksTag = BlockTags.create(new ResourceLocation("arcaneadditions:trunks"));
 
-
-        leaves = event.getTagManager().registryOrThrow(Registry.BLOCK_REGISTRY).getTagOrEmpty(leavesTag);
-        logs = event.getTagManager().registryOrThrow(Registry.BLOCK_REGISTRY).getTagOrEmpty(trunksTag);
+        leaves = event.getRegistryAccess().registryOrThrow(Registry.BLOCK_REGISTRY).getTagOrEmpty(leavesTag);
+        logs = event.getRegistryAccess().registryOrThrow(Registry.BLOCK_REGISTRY).getTagOrEmpty(trunksTag);
     }
 
     public static Set<BlockPos> getConnectedBlocks(Collection<BlockPos> startingPoints, Function<BlockPos, Stream<BlockPos>> searchOffsetsSupplier, int maxNumBlocks, AtomicInteger iterationCounter) {
@@ -119,7 +115,9 @@ public class TreeFinder {
     public static boolean isBlockALog(BlockState blockState) {
         AtomicBoolean isLog = new AtomicBoolean(false);
         logs.forEach(log -> {
-            if (blockState.getBlock().getRegistryName() != null && log.is(blockState.getBlock().getRegistryName())) {
+            ResourceLocation loc = ForgeRegistries.BLOCKS.getKey(blockState.getBlock());
+
+            if (loc != null && log.is(loc)) {
                 isLog.set(true);
             }
         });
@@ -137,8 +135,10 @@ public class TreeFinder {
     public static boolean isBlockLeaves(BlockState blockState) {
         AtomicBoolean isLeaves = new AtomicBoolean(false);
 
-        leaves.forEach(log -> {
-            if (blockState.getBlock().getRegistryName() != null && log.is(blockState.getBlock().getRegistryName())) {
+        leaves.forEach(leaf -> {
+            ResourceLocation loc = ForgeRegistries.BLOCKS.getKey(blockState.getBlock());
+
+            if (loc != null && leaf.is(loc)) {
                 isLeaves.set(true);
             }
         });

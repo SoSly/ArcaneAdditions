@@ -35,8 +35,8 @@ public class PathComponent extends SpellEffect {
     public static IPathableBlockProxy proxy = new DummyPathableBlockProxy();
     private static final ResourceLocation PILGRIM = new ResourceLocation("mna", "pilgrim");
 
-    public PathComponent(ResourceLocation registryName, ResourceLocation guiIcon) {
-        super(registryName, guiIcon, new AttributeValuePair(Attribute.DURATION, 30.0F, 30.0F, 600.0F, 30.0F, 10.0F));
+    public PathComponent(ResourceLocation guiIcon) {
+        super(guiIcon, new AttributeValuePair(Attribute.DURATION, 30.0F, 30.0F, 600.0F, 30.0F, 10.0F));
     }
 
     @Override

@@ -8,7 +8,6 @@
 package org.sosly.arcaneadditions.compats;
 
 public class CompatModIDs {
-    public static final String BMORPH = "bmorph";
     public static final String GRASS_SLABS = "grassslabs";
 
     public static final String IDENTITY = "identity";

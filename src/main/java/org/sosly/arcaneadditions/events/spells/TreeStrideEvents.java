@@ -9,7 +9,7 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
-import net.minecraftforge.event.world.BlockEvent;
+import net.minecraftforge.event.level.BlockEvent;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
@@ -37,7 +37,7 @@ public class TreeStrideEvents {
 
         if (!TreeFinder.isBlockALog(blockState)
                 || event.isCanceled()
-                || !(event.getWorld() instanceof ServerLevel level)
+                || !(event.getLevel() instanceof ServerLevel level)
                 || !(event.getPlayer() instanceof ServerPlayer agent)
                 || !blockState.canHarvestBlock(level, pos, agent)
         ) { return; }
