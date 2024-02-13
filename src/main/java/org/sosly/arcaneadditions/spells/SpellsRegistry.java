@@ -60,7 +60,7 @@ public class SpellsRegistry {
             helper.register(RLoc.create("components/tree_stride"), TREE_STRIDE);
         });
 
-        if (ModList.get().isLoaded(CompatModIDs.IDENTITY)) {
+        if (ModList.get().isLoaded(CompatModIDs.WOODWALKERS)) {
             POLYMORPH = new PolymorphComponent(RLoc.create("textures/spell/component/polymorph.png"));
 
             event.register(((IForgeRegistry)Registries.SpellEffect.get()).getRegistryKey(), (helper) -> {

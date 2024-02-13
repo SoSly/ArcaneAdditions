@@ -54,8 +54,8 @@ public class AstralProjectionComponent extends PotionEffectComponent {
             return ComponentApplicationResult.FAIL;
         }
 
-        assert context.getServerWorld() != null;
-        if (context.getServerWorld().isClientSide() || !caster.isPlayerCaster()) {
+        assert context.getServerLevel() != null;
+        if (context.getServerLevel().isClientSide() || !caster.isPlayerCaster()) {
             return ComponentApplicationResult.FAIL;
         }
 
@@ -65,7 +65,7 @@ public class AstralProjectionComponent extends PotionEffectComponent {
 
         int duration = (int) (mods.getValue(Attribute.DURATION) * 20.0F);
 
-        Level level = context.getWorld();
+        Level level = context.getLevel();
 
         AstralProjectionEntity projection = new AstralProjectionEntity(controller, level);
 

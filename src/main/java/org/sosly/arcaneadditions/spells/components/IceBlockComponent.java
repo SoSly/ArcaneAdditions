@@ -42,7 +42,7 @@ public class IceBlockComponent extends SpellEffect {
         if (target.isLivingEntity() && Objects.requireNonNull(target.getLivingEntity()).getEffect(EffectRegistry.ICE_BLOCK_EXHAUSTION.get()) == null && target.getLivingEntity().getEffect(EffectRegistry.ICE_BLOCK.get()) == null) {
             target.getLivingEntity().addEffect(new MobEffectInstance(EffectRegistry.ICE_BLOCK.get(), (int)mods.getValue(Attribute.DURATION) * 20, 0));
 
-            Level level = context.getWorld();
+            Level level = context.getLevel();
             IceBlockEntity iceBlock = EntityRegistry.ICE_BLOCK.get().create(level);
             LivingEntity caster = source.getCaster();
             if (iceBlock != null && caster != null) {

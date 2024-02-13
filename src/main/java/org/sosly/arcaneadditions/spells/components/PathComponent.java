@@ -42,11 +42,11 @@ public class PathComponent extends SpellEffect {
     @Override
     public ComponentApplicationResult ApplyEffect(SpellSource caster, SpellTarget target, IModifiedSpellPart<SpellEffect> mods, SpellContext context) {
         if (target.isBlock()) {
-            Level level = context.getWorld();
+            Level level = context.getLevel();
             BlockPos pos = target.getBlock();
             BlockState state = level.getBlockState(target.getBlock());
 
-            if (!context.getWorld().isEmptyBlock(target.getBlock()) && context.getWorld().getFluidState(target.getBlock()).isEmpty() && !(state.getBlock() instanceof EntityBlock)) {
+            if (!context.getLevel().isEmptyBlock(target.getBlock()) && context.getLevel().getFluidState(target.getBlock()).isEmpty() && !(state.getBlock() instanceof EntityBlock)) {
                 BlockState state1 = PathComponent.proxy.getPathingState(level, pos, state);
 
                 if (state1 != null && level.isEmptyBlock(pos.above())) {

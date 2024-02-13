@@ -25,7 +25,10 @@ import com.mna.factions.Factions;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.damagesource.DamageSources;
+import net.minecraft.world.damagesource.DamageTypes;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraftforge.registries.ForgeRegistries;
 
 public class TransfuseComponent extends SpellEffect implements IDamageComponent {
     public TransfuseComponent(ResourceLocation guiIcon) {
@@ -55,14 +58,14 @@ public class TransfuseComponent extends SpellEffect implements IDamageComponent 
 
         if (livingSource.isCrouching()) {
             // hurt me to heal them
-            boolean hurt = livingSource.hurt(DamageSource.WITHER, damage);
+            boolean hurt = livingSource.hurt(livingTarget.damageSources().wither(), damage);
             if (!hurt) {
                 return ComponentApplicationResult.FAIL;
             }
             livingTarget.heal(healing);
         } else {
             // hurt them to heal me
-            boolean hurt = livingTarget.hurt(DamageSource.WITHER, damage);
+            boolean hurt = livingTarget.hurt(livingTarget.damageSources().wither(), damage);
             if (!hurt) {
                 return ComponentApplicationResult.FAIL;
             }

@@ -23,6 +23,8 @@
   "effect.arcaneadditions.ice_block-exhaustion": "Hypothermia",
   "effect.arcaneadditions.life_link": "Life Link",
   "effect.arcaneadditions.polymorph": "Polymorph",
+  "effect.arcaneadditions.polymorph.become": "%s is polymorphed into a %s.",
+  "effect.arcaneadditions.polymorph.revert": "%s returns to their natural shape.",
 
   "item.arcaneadditions.soulsearchers_lens": "Soul Searcher's Lens",
   "item.arcaneadditions.soulsearchers_lens.confusion": "You peer through the lens at the creature, but to no particular effect. You will need to learn more before you continue.",

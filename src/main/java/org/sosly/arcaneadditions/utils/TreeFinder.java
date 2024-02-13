@@ -5,6 +5,7 @@ package org.sosly.arcaneadditions.utils;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
 import net.minecraft.core.Registry;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.TagKey;
@@ -41,8 +42,8 @@ public class TreeFinder {
         TagKey<Block> leavesTag = BlockTags.create(new ResourceLocation("arcaneadditions:leaves"));
         TagKey<Block> trunksTag = BlockTags.create(new ResourceLocation("arcaneadditions:trunks"));
 
-        leaves = event.getRegistryAccess().registryOrThrow(Registry.BLOCK_REGISTRY).getTagOrEmpty(leavesTag);
-        logs = event.getRegistryAccess().registryOrThrow(Registry.BLOCK_REGISTRY).getTagOrEmpty(trunksTag);
+        leaves = event.getRegistryAccess().registryOrThrow(Registries.BLOCK).getTagOrEmpty(leavesTag);
+        logs = event.getRegistryAccess().registryOrThrow(Registries.BLOCK).getTagOrEmpty(trunksTag);
     }
 
     public static Set<BlockPos> getConnectedBlocks(Collection<BlockPos> startingPoints, Function<BlockPos, Stream<BlockPos>> searchOffsetsSupplier, int maxNumBlocks, AtomicInteger iterationCounter) {

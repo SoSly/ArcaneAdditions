@@ -39,7 +39,7 @@ public class TreeStrideComponent extends SpellEffect {
             return ComponentApplicationResult.FAIL;
         }
 
-        if (!(spellSource.getPlayer() instanceof ServerPlayer player) || !(player.level instanceof ServerLevel level)) {
+        if (!(spellSource.getPlayer() instanceof ServerPlayer player) || !(player.level() instanceof ServerLevel level)) {
             return ComponentApplicationResult.FAIL;
         }
 

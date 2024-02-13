@@ -36,11 +36,11 @@ public class StripComponent extends SpellEffect {
     @Override
     public ComponentApplicationResult ApplyEffect(SpellSource caster, SpellTarget target, IModifiedSpellPart<SpellEffect> mods, SpellContext context) {
         if (target.isBlock()) {
-            Level level = context.getWorld();
+            Level level = context.getLevel();
             BlockPos pos = target.getBlock();
             BlockState state = level.getBlockState(target.getBlock());
 
-            if (!context.getWorld().isEmptyBlock(target.getBlock()) && context.getWorld().getFluidState(target.getBlock()).isEmpty() && !(state.getBlock() instanceof EntityBlock)) {
+            if (!context.getLevel().isEmptyBlock(target.getBlock()) && context.getLevel().getFluidState(target.getBlock()).isEmpty() && !(state.getBlock() instanceof EntityBlock)) {
                 Optional<BlockState> strippable = Optional.ofNullable(AxeItem.getAxeStrippingState(state));
                 Optional<BlockState> scrapable = WeatheringCopper.getPrevious(state);
                 Optional<BlockState> waxed = Optional.ofNullable(HoneycombItem.WAX_OFF_BY_BLOCK.get().get(state.getBlock())).map((waxable) -> waxable.withPropertiesOf(state));

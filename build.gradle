@@ -1,27 +1,32 @@
+/*
+ *   Arcane Additions Copyright (c)  2022, Kevin Kragenbrink <kevin@writh.net>
+ *           This program comes with ABSOLUTELY NO WARRANTY; for details see <https://www.gnu.org/licenses/gpl-3.0.html>.
+ *           This is free software, and you are welcome to redistribute it under certain
+ *           conditions; detailed at https://www.gnu.org/licenses/gpl-3.0.html
+ */
+
 buildscript {
     repositories {
-        // These repositories are only for Gradle plugins, put any other repositories in the repository block further below
         maven { url = 'https://maven.minecraftforge.net' }
         maven { url = 'https://maven.parchmentmc.org' } // Adds parchment support
         maven { url = "https://plugins.gradle.org/m2/"} // Required for CurseGradle
+        maven { url = 'https://repo.spongepowered.org/repository/maven-public/' } // Required by geckolib
         mavenCentral()
     }
     dependencies {
         classpath group: 'net.minecraftforge.gradle', name: 'ForgeGradle', version: '5.1.+', changing: true
         classpath 'org.parchmentmc:librarian:1.+'
-        classpath "gradle.plugin.com.matthewprenger:CurseGradle:1.4.0" //CurseForge Gradle Plugin
+        classpath 'gradle.plugin.com.matthewprenger:CurseGradle:1.4.0' //CurseForge Gradle Plugin
+        classpath 'org.spongepowered:mixingradle:0.7-SNAPSHOT'
     }
 }
+
 apply plugin: 'net.minecraftforge.gradle'
 apply plugin: 'org.parchmentmc.librarian.forgegradle'
 apply plugin: 'idea'
 apply plugin: 'maven-publish'
-apply plugin: "com.matthewprenger.cursegradle" /*
- *   Arcane Additions Copyright (c)  2022, Kevin Kragenbrink <kevin@writh.net>
- *           This program comes with ABSOLUTELY NO WARRANTY; for details see <https://www.gnu.org/licenses/gpl-3.0.html>.
- *           This is free software, and you are welcome to redistribute it under certain
- *           conditions; detailed at https://www.gnu.org/licenses/gpl-3.0.html
- */ // Required for CurseGradle
+apply plugin: "com.matthewprenger.cursegradle"
+apply plugin: 'org.spongepowered.mixin'
 
 version = "${aa_version}"
 group = 'org.sosly.arcaneadditions' // http://maven.apache.org/guides/mini/guide-naming-conventions.html
@@ -44,7 +49,6 @@ minecraft {
     // Use non-default mappings at your own risk. They may not always work.
     // Simply re-run your setup task after changing the mappings to update your workspace.
     mappings channel: 'parchment', version: "${parchment_version}"
-//    mappings channel: 'official', version: '1.18.2'
 
     // accessTransformer = file('src/main/resources/META-INF/accesstransformer.cfg') // Currently, this location cannot be changed from the default.
 
@@ -119,7 +123,7 @@ minecraft {
             property 'forge.logging.console.level', 'debug'
 
             // Specify the modid for data generation, where to output the resulting resource, and where to look for existing resources.
-            args '--mod', 'arcaneadditions', '--all', '--output', file('src/generated/resources/'), '--existing', file('src/main/resources/'), '--username', 'Dev####'
+            args '--mod', 'arcaneadditions', '--all', '--output', file('src/generated/resources/'), '--existing', file('src/main/resources/')
 
             mods {
                 arcaneadditions {
@@ -148,16 +152,17 @@ repositories {
 dependencies {
     minecraft "net.minecraftforge:forge:${minecraft_version}-${forge_version}"
 
+    implementation fg.deobf("curse.maven:architectury-${architectury_projectId}:${architectury_fileId}")
     implementation fg.deobf("curse.maven:mana-and-artifice-${mna_projectId}:${mna_fileId}")
     implementation fg.deobf("curse.maven:curios-${curios_projectId}:${curios_fileId}")
     implementation fg.deobf("curse.maven:geckolib-${geckolib_projectId}:${geckolib_fileId}")
 
-    // these optional dependencies provide Polymorph support for Identity
-    implementation fg.deobf("curse.maven:architectury-api-${architectury_projectId}:${architectury_fileId}")
-    implementation fg.deobf("curse.maven:identity-${identity_projectId}:${identity_fileId}")
-
     // this optional dependency provides support for grass slabs, stairs, and carpets
     compileOnly fg.deobf("curse.maven:grassslab-${grassslab_projectId}:${grassslab_fileId}")
+
+    // polymorph support is provided by woodwalkers
+    implementation fg.deobf("curse.maven:crafted-core-${crafted_core_projectId}:${crafted_core_fileId}")
+    implementation fg.deobf("curse.maven:woodwalkers-${woodwalkers_projectId}:${woodwalkers_fileId}")
 
     // these mods are included only for the purpose of testing polymorph compatibility with other mods
 //    runtimeOnly fg.deobf("citadel:citadel:1.11.3-1.18.2")

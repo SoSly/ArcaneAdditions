@@ -48,7 +48,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
 public class PolymorphEvents {
     @SubscribeEvent
     public static void onAttachCapability(AttachCapabilitiesEvent<?> event) {
-        if (event.getObject() instanceof Player && ModList.get().isLoaded(CompatModIDs.IDENTITY)) {
+        if (event.getObject() instanceof Player && ModList.get().isLoaded(CompatModIDs.WOODWALKERS)) {
             event.addCapability(IPolymorphCapability.POLYMORPH_CAPABILITY, new PolymorphProvider());
         }
     }
@@ -97,7 +97,7 @@ public class PolymorphEvents {
             if (!(entity instanceof Player)) return; // for now, we can't affect non-players
 
             // demorph the target
-            if (!event.getEntity().getLevel().isClientSide()) {
+            if (!event.getEntity().level().isClientSide()) {
                 // get the polymorpher from the compat registry
                 IPolymorphProvider polymorpher = CompatRegistry.getPolymorphCompat();
                 if (polymorpher == null) {
@@ -132,7 +132,7 @@ public class PolymorphEvents {
             // If they are holding air or a building block, let them continue.
             if (stack.getItem() instanceof AirItem || stack.getItem() instanceof BlockItem) return;
 
-            Level level = event.getEntity().getLevel();
+            Level level = event.getEntity().level();
 
             // If the item is a spell, check if it's polymorph for ending the effect.
             if (!level.isClientSide() && stack.getItem() instanceof ICanContainSpell) {

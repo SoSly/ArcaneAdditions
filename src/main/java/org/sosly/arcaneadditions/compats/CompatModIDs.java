@@ -10,5 +10,5 @@ package org.sosly.arcaneadditions.compats;
 public class CompatModIDs {
     public static final String GRASS_SLABS = "grassslabs";
 
-    public static final String IDENTITY = "identity";
+    public static final String WOODWALKERS = "walkers";
 }

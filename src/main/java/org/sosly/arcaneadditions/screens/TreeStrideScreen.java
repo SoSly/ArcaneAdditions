@@ -7,10 +7,13 @@
 
 package org.sosly.arcaneadditions.screens;
 
+import com.mna.gui.GuiTextures;
+import com.mna.tools.render.GuiRenderUtils;
 import com.mojang.blaze3d.platform.InputConstants;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.EditBox;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.core.BlockPos;
@@ -44,7 +47,7 @@ public class TreeStrideScreen extends AbstractContainerScreen<TreeStrideMenu> {
     }
 
     @Override
-    public void render(PoseStack pPoseStack, int pMouseX, int pMouseY, float pPartialTick) {
+    public void render(GuiGraphics pGuiGraphics, int pMouseX, int pMouseY, float pPartialTick) {
         Minecraft.getInstance().level.getCapability(TreestrideProvider.TREESTRIDE).ifPresent(treestride -> {
             Map<BlockPos, String> destinations = treestride.getPlayerDestinations(Minecraft.getInstance().player);
             if (destinations != null) {
@@ -66,8 +69,16 @@ public class TreeStrideScreen extends AbstractContainerScreen<TreeStrideMenu> {
             }
         });
 
-        super.render(pPoseStack, pMouseX, pMouseY, pPartialTick);
-        this.font.draw(pPoseStack, this.title, this.leftPos + 20, this.topPos + 5, 0x404040);
+        super.render(pGuiGraphics, pMouseX, pMouseY, pPartialTick);
+    }
+
+    @Override
+    protected void renderBg(GuiGraphics pGuiGraphics, float partialTicks, int mouse_x, int mouse_y) {
+        this.renderBackground(pGuiGraphics);
+        int xPos = this.leftPos;
+        int yPos = this.topPos;
+        GuiRenderUtils.renderStandardPlayerInventory(pGuiGraphics, xPos + this.imageWidth / 2, yPos + this.imageHeight - 45);
+        pGuiGraphics.blit(GuiTextures.Items.FILTER_ITEM, xPos + 28, yPos, 0, 0, 120, 98);
     }
 
     @Override
@@ -128,14 +139,4 @@ public class TreeStrideScreen extends AbstractContainerScreen<TreeStrideMenu> {
         PacketHandler.network.sendToServer(new TreeStridePlayer(pos));
         Minecraft.getInstance().player.sendSystemMessage(Component.translatable("arcaneadditions:components/tree_stride.travel", name));
     }
-
-    @Override
-    protected void renderBg(PoseStack pPoseStack, float pPartialTick, int pMouseX, int pMouseY) {
-        renderBackground(pPoseStack);
-        RenderSystem.setShaderTexture(0, TEXTURE);
-        blit(pPoseStack, this.leftPos, this.topPos, 0, 0, this.imageWidth, this.imageHeight);
-    }
-
-    @Override
-    protected void renderLabels(PoseStack stack, int mouseX, int mouseY) {}
 }

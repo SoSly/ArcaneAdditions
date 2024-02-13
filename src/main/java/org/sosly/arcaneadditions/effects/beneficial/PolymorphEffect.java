@@ -31,7 +31,7 @@ public class PolymorphEffect extends MobEffect {
 
         entity.getCapability(PolymorphProvider.POLYMORPH).ifPresent(polymorph -> {
             float complexity = polymorph.getComplexity();
-            WeakReference<Player> caster = polymorph.getCaster(entity.getLevel());
+            WeakReference<Player> caster = polymorph.getCaster(entity.level());
 
             if (caster == null) {
                 entity.removeEffect(EffectRegistry.POLYMORPH.get());

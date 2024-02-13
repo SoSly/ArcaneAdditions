@@ -24,9 +24,6 @@ import com.mna.config.GeneralModConfig;
 import com.mna.factions.Factions;
 import com.mna.items.ItemInit;
 import com.mna.items.sorcery.PhylacteryStaffItem;
-import dev.architectury.registry.registries.Registries;
-import net.minecraft.core.Registry;
-import net.minecraft.data.BuiltinRegistries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
@@ -43,7 +40,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.network.PacketDistributor;
-import net.minecraftforge.registries.RegistryObject;
+import net.minecraftforge.registries.ForgeRegistries;
 import org.apache.commons.lang3.mutable.MutableBoolean;
 import org.sosly.arcaneadditions.api.spells.components.IPolymorphProvider;
 import org.sosly.arcaneadditions.capabilities.polymorph.PolymorphProvider;
@@ -66,7 +63,7 @@ public class PolymorphComponent extends SpellEffect {
     private final List<SpellReagent> reagents = new ArrayList<SpellReagent>();
 
     public PolymorphComponent(ResourceLocation guiIcon) {
-        super(guiIcon, new AttributeValuePair(Attribute.MAGNITUDE, 1.0F, 1.0F, 4.0F, 1.0F, 25.0F));
+        super(guiIcon, new AttributeValuePair(Attribute.MAGNITUDE, 1.0F, 1.0F, 4.0F, 1.0F, 1.0F));
     }
 
     private boolean initReagents() {
@@ -74,7 +71,7 @@ public class PolymorphComponent extends SpellEffect {
             return false;
         }
         if (reagents.isEmpty()) {
-            reagents.add(new SpellReagent(new ItemStack(ItemInit.ANIMUS_DUST.get()), false, false, true));
+            reagents.add(new SpellReagent(this, new ItemStack(ItemInit.ANIMUS_DUST.get()), false, false, true));
         }
         return true;
     }
@@ -102,7 +99,7 @@ public class PolymorphComponent extends SpellEffect {
             return ComponentApplicationResult.SUCCESS;
         }
 
-        Level level = targetEntity.getLevel();
+        Level level = targetEntity.level();
         if (!level.isClientSide()) {
             // get the phylactery from the target
             ItemStack phylactery = caster.getHand() == InteractionHand.MAIN_HAND ? targetEntity.getOffhandItem() : targetEntity.getMainHandItem();
@@ -139,7 +136,7 @@ public class PolymorphComponent extends SpellEffect {
 
             // apply the polymorph effect
             MobEffectInstance instance = new MobEffectInstance(EffectRegistry.POLYMORPH.get(), Integer.MAX_VALUE);
-            instance.setNoCounter(true);
+//            instance.setNoCounter(true);
             targetEntity.addEffect(instance);
             targetEntity.setHealth(targetEntity.getMaxHealth());
 
@@ -152,7 +149,8 @@ public class PolymorphComponent extends SpellEffect {
         AtomicBoolean allowed = new AtomicBoolean(false);
         AtomicInteger tier = new AtomicInteger();
         AtomicReference<Float> magnitude = new AtomicReference<>(iModifiedSpellPart.getValue(Attribute.MAGNITUDE));
-        String resourceLocation = Registry.ENTITY_TYPE.getKey(type).toString();
+
+        String resourceLocation = ForgeRegistries.ENTITY_TYPES.getResourceKey(type).get().location().toString();
 
         Config.SERVER.polymorph.tiers.get().forEach(tierList -> {
             tier.getAndIncrement();
@@ -178,7 +176,7 @@ public class PolymorphComponent extends SpellEffect {
 
     @Override
     public float initialComplexity() {
-        return 25.0f;
+        return 1.0f;
     }
 
     @Override

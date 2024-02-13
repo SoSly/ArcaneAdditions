@@ -29,8 +29,8 @@ public class SoulSearchersBeamRenderer extends EntityRenderer<SoulSearchersBeamE
 
     @Override
     public void render(SoulSearchersBeamEntity entity, float yaw, float partialTicks, PoseStack poseStack, MultiBufferSource buffer, int packedLight) {
-        LivingEntity source = entity.getSource(entity.getLevel());
-        LivingEntity target = entity.getTarget(entity.getLevel());
+        LivingEntity source = entity.getSource(entity.level());
+        LivingEntity target = entity.getTarget(entity.level());
         if (source != null && target != null) {
             Vec3 sourcePos = target.getBoundingBox().getCenter().subtract(entity.position());
             poseStack.pushPose();
@@ -39,7 +39,7 @@ public class SoulSearchersBeamRenderer extends EntityRenderer<SoulSearchersBeamE
                 .radiant(entity, poseStack, buffer, white, white, 128, 0.05F);
             poseStack.popPose();
             ManaAndArtificeMod.getWorldRenderUtils()
-                .beam(entity.getLevel(), partialTicks, poseStack, buffer, packedLight, entity.position(),
+                .beam(entity.level(), partialTicks, poseStack, buffer, packedLight, entity.position(),
                     target.getBoundingBox().getCenter(), 1.0f, white, 0.1f, RenderTypes.SOULSEARCHERS_BEAM);
         }
     }

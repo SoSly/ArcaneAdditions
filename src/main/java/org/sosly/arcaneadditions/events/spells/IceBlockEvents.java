@@ -48,7 +48,7 @@ public class IceBlockEvents {
 
     @SubscribeEvent
     public static void onDamage(LivingDamageEvent event) {
-        if (event.getEntity().level.isClientSide()) return;
+        if (event.getEntity().level().isClientSide()) return;
 
         runOnEffect(event, (instance, entity) -> {
             event.setCanceled(true);
@@ -146,7 +146,7 @@ public class IceBlockEvents {
 
     private static void removeIceBlockEntity(LivingEntity entity) {
         int iceBlockEntityId = entity.getPersistentData().getInt(IceBlockComponent.ICEBLOCK_ENTITY_ID);
-        IceBlockEntity iceBlock = (IceBlockEntity)entity.getLevel().getEntity(iceBlockEntityId);
+        IceBlockEntity iceBlock = (IceBlockEntity)entity.level().getEntity(iceBlockEntityId);
         if (iceBlock != null) {
             iceBlock.remove(Entity.RemovalReason.DISCARDED);
             entity.getPersistentData().remove(IceBlockComponent.ICEBLOCK_ENTITY_ID);

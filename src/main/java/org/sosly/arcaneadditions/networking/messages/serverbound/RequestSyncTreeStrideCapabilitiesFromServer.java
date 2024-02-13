@@ -33,7 +33,7 @@ public class RequestSyncTreeStrideCapabilitiesFromServer extends BaseMessage {
         if (ServerMessageHandler.validateBasics(msg, ctx)) {
             ServerPlayer player = ctx.getSender();
             if (player != null) {
-                player.level.getCapability(TreestrideProvider.TREESTRIDE).ifPresent(cap -> {
+                player.level().getCapability(TreestrideProvider.TREESTRIDE).ifPresent(cap -> {
                     PacketHandler.network.send(PacketDistributor.PLAYER.with(() -> player), new SyncTreeStrideCapabilitiesToClient(cap));
                 });
             }

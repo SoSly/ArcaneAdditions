@@ -8,6 +8,7 @@
 package org.sosly.arcaneadditions.entities.sorcery;
 
 import net.minecraft.network.protocol.Packet;
+import net.minecraft.network.protocol.game.ClientGamePacketListener;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
@@ -19,6 +20,7 @@ import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.network.NetworkHooks;
+import org.jetbrains.annotations.NotNull;
 import org.sosly.arcaneadditions.effects.EffectRegistry;
 import org.sosly.arcaneadditions.entities.EntityRegistry;
 
@@ -49,7 +51,7 @@ public class AstralProjectionEntity extends Mob {
         }
 
         UUID uuid = param.get();
-        this.cachedController = this.level.getPlayerByUUID(uuid);
+        this.cachedController = this.level().getPlayerByUUID(uuid);
         return this.cachedController;
     }
 
@@ -70,7 +72,7 @@ public class AstralProjectionEntity extends Mob {
     public void tick() {
         super.tick();
 
-        if (this.level.isClientSide()) {
+        if (this.level().isClientSide()) {
             return;
         }
 
@@ -91,7 +93,8 @@ public class AstralProjectionEntity extends Mob {
     }
 
     @Override
-    public Packet<?> getAddEntityPacket() {
+    @NotNull
+    public Packet<ClientGamePacketListener> getAddEntityPacket() {
         return NetworkHooks.getEntitySpawningPacket(this);
     }
 

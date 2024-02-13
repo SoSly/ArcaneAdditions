@@ -32,7 +32,7 @@ public class AstralProjectionEvents {
     @SubscribeEvent
     public static void onProjectionMoved(net.minecraftforge.event.entity.living.LivingEvent event) {
         if (event.getEntity() instanceof AstralProjectionEntity projection) {
-            if (projection.isOnGround() && projection.getPersistentData().getFloat("astral_magnitude") > 1.0F) {
+            if (projection.onGround() && projection.getPersistentData().getFloat("astral_magnitude") > 1.0F) {
                 projection.setOnGround(false);
                 projection.setNoGravity(true);
             }
@@ -43,14 +43,14 @@ public class AstralProjectionEvents {
     public static void onPotionRemoved(MobEffectEvent.Remove event) {
         if (event.getEffect() instanceof EffectPossession) {
             LivingEntity entity = event.getEntity();
-            if (entity.level.isClientSide()) return;
+            if (entity.level().isClientSide()) return;
             if (entity instanceof Player player) {
                 player.removeEffect(EffectRegistry.ASTRAL_PROJECTION.get());
             }
         }
 
         runOnEffect(event, (instance, entity) -> {
-            if (entity.level.isClientSide()) return;
+            if (entity.level().isClientSide()) return;
             if (!(entity instanceof Player)) {
                 entity.remove(Entity.RemovalReason.DISCARDED);
             }
@@ -59,7 +59,7 @@ public class AstralProjectionEvents {
     @SubscribeEvent
     public static void onPotionExpired(MobEffectEvent.Expired event) {
         runOnEffect(event, (instance, entity) -> {
-            if (entity.level.isClientSide()) return;
+            if (entity.level().isClientSide()) return;
             if (entity instanceof Player) return;
             entity.remove(Entity.RemovalReason.DISCARDED);
         });

@@ -27,7 +27,7 @@ public class EnragedEffect extends MobEffect {
     public void applyEffectTick(LivingEntity entity, int amplifier) {
         int sourceID = entity.getPersistentData().getInt(EnrageComponent.CASTER);
         if (entity instanceof  Mob mob) {
-            entity.getLevel().getEntitiesOfClass(LivingEntity.class, entity.getBoundingBox().inflate(10.0f),
+            entity.level().getEntitiesOfClass(LivingEntity.class, entity.getBoundingBox().inflate(10.0f),
                     (e) -> e.isAlive() && e.getId() == sourceID).stream().findFirst().ifPresent(mob::setTarget);
         }
     }

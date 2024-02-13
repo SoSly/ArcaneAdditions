@@ -50,7 +50,7 @@ public class RemoveTreeStrideDestination extends BaseMessage {
         if (ServerMessageHandler.validateBasics(msg, ctx)) {
             ServerPlayer player = ctx.getSender();
             if (player != null) {
-                Level level = player.getLevel();
+                Level level = player.level();
 
                 ctx.enqueueWork(() -> {
                     level.getCapability(TreestrideProvider.TREESTRIDE).ifPresent(treestride -> {

@@ -10,7 +10,6 @@ package org.sosly.arcaneadditions.items.artifice;
 import com.mna.api.ManaAndArtificeMod;
 import com.mna.api.entities.construct.IConstruct;
 import com.mna.api.items.IPhylacteryItem;
-import com.mna.api.items.MAItemGroups;
 import com.mna.api.items.TieredItem;
 import com.mna.api.sound.SFX;
 import net.minecraft.client.Minecraft;
@@ -44,7 +43,7 @@ import java.util.concurrent.atomic.AtomicReference;
 public class SoulsearchersLensItem extends TieredItem {
     private static final String TARGET_KEY = "soulsearcher-target";
     public SoulsearchersLensItem() {
-        super(new Properties().stacksTo(1).tab(MAItemGroups.artifice));
+        super(new Properties().stacksTo(1));
     }
 
     @Override
@@ -119,7 +118,7 @@ public class SoulsearchersLensItem extends TieredItem {
                                 if (level.isClientSide()) {
                                     this.PlayLoopingSound(SFX.Loops.ARCANE, player);
                                 } else {
-                                    SoulSearchersBeamEntity beam = new SoulSearchersBeamEntity(EntityRegistry.SOUL_SEARCHERS_BEAM.get(), player.getLevel());
+                                    SoulSearchersBeamEntity beam = new SoulSearchersBeamEntity(EntityRegistry.SOUL_SEARCHERS_BEAM.get(), player.level());
                                     beam.setSource(player);
                                     beam.setTarget(target);
                                     beam.setPos(player.getEyePosition());
@@ -185,7 +184,7 @@ public class SoulsearchersLensItem extends TieredItem {
         @SuppressWarnings(value="unchecked")
         EntityType<? extends Mob> type = (EntityType<? extends Mob>)target.getType();
         float amount = player.isCreative() ? ((IPhylacteryItem) phylactery.getItem()).getMaximumFill() : 1;
-        boolean added = this.addToPhylactery(player, phylactery, type, amount, target.level);
+        boolean added = this.addToPhylactery(player, phylactery, type, amount, target.level());
 
         if (added) {
             player.giveExperienceLevels(-1 * levelsRequired);

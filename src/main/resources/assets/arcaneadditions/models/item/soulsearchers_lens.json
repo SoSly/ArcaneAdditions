@@ -1,7 +1,7 @@
 {
   "parent": "forge:item/default",
   "loader": "forge:composite",
-  "parts": {
+  "children": {
     "crystal": {
       "loader": "forge:obj",
       "detectCullableFaces": true,
@@ -11,7 +11,7 @@
       "model": "arcaneadditions:models/item/obj/soulsearchers_lens.obj"
     }
   },
-  "dissplay": {
+  "display": {
     "gui": {
       "rotation": [0, 0, -45]
     }

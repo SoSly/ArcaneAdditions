@@ -10,9 +10,8 @@ package org.sosly.arcaneadditions.compats;
 import net.minecraftforge.fml.ModList;
 import org.sosly.arcaneadditions.ArcaneAdditions;
 import org.sosly.arcaneadditions.api.spells.components.IPolymorphProvider;
-import org.sosly.arcaneadditions.capabilities.polymorph.PolymorphProvider;
 import org.sosly.arcaneadditions.compats.Grass_Slabs.GrassSlabCompat;
-import org.sosly.arcaneadditions.compats.Identity.IdentityCompat;
+import org.sosly.arcaneadditions.compats.Woodwalkers.WoodwalkersCompat;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -24,7 +23,7 @@ public class CompatRegistry {
     private static final Map<String, Supplier<Callable<ICompat>>> compatFactories = new HashMap<>();
 
     static {
-        compatFactories.put(CompatModIDs.IDENTITY, () -> IdentityCompat::new);
+        compatFactories.put(CompatModIDs.WOODWALKERS, () -> WoodwalkersCompat::new);
         compatFactories.put(CompatModIDs.GRASS_SLABS, () -> GrassSlabCompat::new);
     }
 
@@ -47,8 +46,8 @@ public class CompatRegistry {
             return polymorphProvider;
         }
 
-        if (ModList.get().isLoaded(CompatModIDs.IDENTITY)) {
-            polymorphProvider = new IdentityCompat();
+        if (ModList.get().isLoaded(CompatModIDs.WOODWALKERS)) {
+            polymorphProvider = new WoodwalkersCompat();
             return polymorphProvider;
         }
 

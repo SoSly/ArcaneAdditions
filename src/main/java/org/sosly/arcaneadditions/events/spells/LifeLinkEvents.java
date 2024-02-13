@@ -30,7 +30,7 @@ public class LifeLinkEvents {
         runOnEffect(event, (instance,  entity) -> {
             float total = event.getAmount();
             int linkedID = entity.getPersistentData().getInt(LifeLinkComponent.LINKED);
-            Entity linked = entity.getLevel().getEntity(linkedID);
+            Entity linked = entity.level().getEntity(linkedID);
             if (linked instanceof LivingEntity livingLinked) {
                 float targetHealth = entity.getHealth();
                 float linkedHealth = livingLinked.getHealth();
@@ -52,7 +52,7 @@ public class LifeLinkEvents {
     public static void onDeath(LivingDeathEvent event) {
         runOnEffect(event, (instance, entity) -> {
             int linkedID = entity.getPersistentData().getInt(LifeLinkComponent.LINKED);
-            Entity linked = entity.getLevel().getEntity(linkedID);
+            Entity linked = entity.level().getEntity(linkedID);
             if (linked instanceof LivingEntity livingLinked) {
                 livingLinked.removeEffect(EffectRegistry.LIFE_LINK.get());
             }
@@ -63,7 +63,7 @@ public class LifeLinkEvents {
     public static void onChangeDimensions(PlayerEvent.PlayerChangedDimensionEvent event) {
         runOnEffect(event, (instance, entity) -> {
             int linkedID = entity.getPersistentData().getInt(LifeLinkComponent.LINKED);
-            Entity linked = entity.getLevel().getEntity(linkedID);
+            Entity linked = entity.level().getEntity(linkedID);
             if (linked instanceof LivingEntity livingLinked) {
                 entity.removeEffect(EffectRegistry.LIFE_LINK.get());
                 livingLinked.removeEffect(EffectRegistry.LIFE_LINK.get());

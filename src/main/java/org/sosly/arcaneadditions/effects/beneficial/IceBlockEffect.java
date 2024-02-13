@@ -27,7 +27,7 @@ public class IceBlockEffect extends MobEffect {
 
     @Override
     public void applyEffectTick(LivingEntity entity, int amplifier) {
-        Level level = entity.getLevel();
+        Level level = entity.level();
         int iceBlocKID = entity.getPersistentData().getInt(IceBlockComponent.ICEBLOCK_ENTITY_ID);
         Entity iceBlock = level.getEntity(iceBlocKID);
 
