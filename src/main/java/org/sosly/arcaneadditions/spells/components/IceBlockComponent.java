@@ -19,10 +19,12 @@ import com.mna.api.spells.targeting.SpellContext;
 import com.mna.api.spells.targeting.SpellSource;
 import com.mna.api.spells.targeting.SpellTarget;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.MobSpawnType;
 import net.minecraft.world.level.Level;
 import org.sosly.arcaneadditions.entities.EntityRegistry;
 import org.sosly.arcaneadditions.entities.sorcery.IceBlockEntity;
@@ -31,7 +33,7 @@ import org.sosly.arcaneadditions.effects.EffectRegistry;
 import java.util.Objects;
 
 public class IceBlockComponent extends SpellEffect {
-    public static String ICEBLOCK_ENTITY_ID = "arcaneadditions:iceblock-entity";
+    public static String ICEBLOCK_ENTITY_ID = "arcaneadditions:ice_block_entity";
 
     public IceBlockComponent(ResourceLocation guiIcon) {
         super(guiIcon, new AttributeValuePair(Attribute.DURATION, 10.0F, 2.0F, 30.0F, 2.0F, 2.0F));
@@ -42,9 +44,13 @@ public class IceBlockComponent extends SpellEffect {
         if (target.isLivingEntity() && Objects.requireNonNull(target.getLivingEntity()).getEffect(EffectRegistry.ICE_BLOCK_EXHAUSTION.get()) == null && target.getLivingEntity().getEffect(EffectRegistry.ICE_BLOCK.get()) == null) {
             target.getLivingEntity().addEffect(new MobEffectInstance(EffectRegistry.ICE_BLOCK.get(), (int)mods.getValue(Attribute.DURATION) * 20, 0));
 
-            Level level = context.getLevel();
-            IceBlockEntity iceBlock = EntityRegistry.ICE_BLOCK.get().create(level);
             LivingEntity caster = source.getCaster();
+            if (caster == null) {
+                return ComponentApplicationResult.FAIL;
+            }
+            ServerLevel serverLevel = caster.getServer().overworld();
+            IceBlockEntity iceBlock = EntityRegistry.ICE_BLOCK.get().spawn(serverLevel, caster.blockPosition(), MobSpawnType.EVENT);
+
             if (iceBlock != null && caster != null) {
                 if (target.isEntity() && target.getEntity() != null) {
                     Entity targetEntity = target.getEntity();
@@ -55,28 +61,28 @@ public class IceBlockComponent extends SpellEffect {
                 }
                 iceBlock.setNoGravity(true);
                 iceBlock.setInvulnerable(true);
-                level.addFreshEntity(iceBlock);
+                serverLevel.addFreshEntity(iceBlock);
             }
 
             return ComponentApplicationResult.SUCCESS;
         }
         return ComponentApplicationResult.FAIL;
     }
-//
-//    @Override
-//    public boolean canBeChanneled() {
-//        return false;
-//    }
+
+    @Override
+    public boolean canBeChanneled() {
+        return false;
+    }
 
     @Override
     public Affinity getAffinity() {
         return Affinity.ICE;
     }
-//
-//    @Override
-//    public SpellPartTags getUseTag() {
-//        return SpellPartTags.UTILITY;
-//    }
+
+    @Override
+    public SpellPartTags getUseTag() {
+        return SpellPartTags.UTILITY;
+    }
 
     @Override
     public float initialComplexity() {
@@ -87,9 +93,9 @@ public class IceBlockComponent extends SpellEffect {
     public int requiredXPForRote() {
         return 100;
     }
-//
-//    @Override
-//    public SoundEvent SoundEffect() {
-//        return SFX.Spell.Buff.ICE;
-//    }
+
+    @Override
+    public SoundEvent SoundEffect() {
+        return SFX.Spell.Buff.ICE;
+    }
 }

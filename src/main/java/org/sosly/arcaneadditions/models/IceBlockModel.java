@@ -19,7 +19,7 @@ import org.sosly.arcaneadditions.entities.sorcery.IceBlockEntity;
 import org.sosly.arcaneadditions.utils.RLoc;
 
 public class IceBlockModel<T extends IceBlockEntity> extends EntityModel<T> {
-    public static final ModelLayerLocation LAYER_LOCATION = new ModelLayerLocation(RLoc.create("iceblockmodel"), "main");
+    public static final ModelLayerLocation LAYER_LOCATION = new ModelLayerLocation(RLoc.create("ice_block"), "main");
     private final ModelPart bone;
 
     public IceBlockModel(ModelPart root) {
