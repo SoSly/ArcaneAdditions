@@ -20,7 +20,7 @@ import com.mna.api.spells.targeting.SpellContext;
 import com.mna.api.spells.targeting.SpellSource;
 import com.mna.api.spells.targeting.SpellTarget;
 import com.mna.capabilities.playerdata.progression.PlayerProgressionProvider;
-import com.mna.config.GeneralModConfig;
+import com.mna.config.GeneralConfig;
 import com.mna.factions.Factions;
 import com.mna.items.ItemInit;
 import com.mna.items.sorcery.PhylacteryStaffItem;
@@ -269,7 +269,8 @@ public class PolymorphComponent extends SpellEffect {
 
         for(roteTier = 1; roteTier <= 5; ++roteTier) {
             index = roteTier - 1;
-            modifierAmount = (GeneralModConfig.TIER_HEALTH_BOOSTS.get()).size() >= index ? (Integer)((List)GeneralModConfig.TIER_HEALTH_BOOSTS.get()).get(index) : 0;
+
+            modifierAmount = GeneralConfig.TierHealthBoosts.size() >= index ? GeneralConfig.TierHealthBoosts.get(index) : 0;
             modifier = new AttributeModifier(UUID.fromString(IPlayerProgression.Tier_Health_Boost_IDs[index]), "Tier Health Boost " + roteTier, (double)modifierAmount, AttributeModifier.Operation.ADDITION);
             if (modifierAmount > 0 && tier.get() >= roteTier && !inst.hasModifier(modifier)) {
                 inst.addPermanentModifier(modifier);
@@ -290,7 +291,7 @@ public class PolymorphComponent extends SpellEffect {
 
         for(roteTier = 1; roteTier <= 5; ++roteTier) {
             index = roteTier - 1;
-            modifierAmount = (GeneralModConfig.TIER_HEALTH_BOOSTS.get()).size() >= index ? (Integer)((List)GeneralModConfig.TIER_HEALTH_BOOSTS.get()).get(index) : 0;
+            modifierAmount = GeneralConfig.TierHealthBoosts.size() >= index ? GeneralConfig.TierHealthBoosts.get(index) : 0;
             modifier = new AttributeModifier(UUID.fromString(IPlayerProgression.Tier_Health_Boost_IDs[index]), "Tier Health Boost " + roteTier, modifierAmount, AttributeModifier.Operation.ADDITION);
             if (inst.hasModifier(modifier)) {
                 inst.removeModifier(modifier.getId());

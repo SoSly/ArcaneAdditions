@@ -20,15 +20,11 @@ import com.mna.api.spells.parts.SpellEffect;
 import com.mna.api.spells.targeting.SpellContext;
 import com.mna.api.spells.targeting.SpellSource;
 import com.mna.api.spells.targeting.SpellTarget;
-import com.mna.config.GeneralModConfig;
+import com.mna.config.GeneralConfig;
 import com.mna.factions.Factions;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvent;
-import net.minecraft.world.damagesource.DamageSource;
-import net.minecraft.world.damagesource.DamageSources;
-import net.minecraft.world.damagesource.DamageTypes;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraftforge.registries.ForgeRegistries;
 
 public class TransfuseComponent extends SpellEffect implements IDamageComponent {
     public TransfuseComponent(ResourceLocation guiIcon) {
@@ -41,7 +37,7 @@ public class TransfuseComponent extends SpellEffect implements IDamageComponent 
     public ComponentApplicationResult ApplyEffect(SpellSource source, SpellTarget target, IModifiedSpellPart<SpellEffect> mods, SpellContext context) {
         LivingEntity livingTarget = null;
         LivingEntity livingSource = null;
-        float damage = mods.getValue(Attribute.DAMAGE) * GeneralModConfig.getDamageMultiplier();
+        float damage = mods.getValue(Attribute.DAMAGE) * GeneralConfig.getDamageMultiplier();
         float magnitude = mods.getValue(Attribute.MAGNITUDE);
         float healing = damage * (magnitude / 5);
 
