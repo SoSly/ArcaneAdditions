@@ -27,6 +27,30 @@
       }
     ]
   },
+  "Component: Counterspell": {
+    "index": 2,
+    "category": "sorcery",
+    "sections": [
+      {
+        "type": "title",
+        "value": "Counterspell"
+      },
+      {
+        "type": "text",
+        "json": [
+          {
+            "text": "With the right timing, I can counter and disperse magics which are directed towards me!"
+          }
+        ]
+      }
+    ],
+    "related_recipes": [
+      {
+        "type": "spell_part",
+        "location": "arcaneadditions:components/counterspell"
+      }
+    ]
+  },
   "Component: Enrage": {
     "index": 2,
     "category": "sorcery",

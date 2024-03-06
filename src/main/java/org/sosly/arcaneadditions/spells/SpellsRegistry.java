@@ -21,7 +21,9 @@ import org.sosly.arcaneadditions.utils.RLoc;
 
 @Mod.EventBusSubscriber(modid = org.sosly.arcaneadditions.ArcaneAdditions.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class SpellsRegistry {
+
     public static SpellEffect ASTRAL_PROJECTION;
+    public static SpellEffect COUNTERSPELL;
     public static SpellEffect ENRAGE;
     public static SpellEffect ICE_BLOCK;
     public static SpellEffect LIFE_LINK;
@@ -40,6 +42,7 @@ public class SpellsRegistry {
 
         event.register(((IForgeRegistry) Registries.SpellEffect.get()).getRegistryKey(), (helper) -> {
             ASTRAL_PROJECTION = new AstralProjectionComponent(RLoc.create("textures/spell/component/astral_projection.png"));
+            COUNTERSPELL = new CounterspellComponent(RLoc.create("textures/spell/component/counterspell.png"));
             ENRAGE = new EnrageComponent(RLoc.create("textures/spell/component/enrage.png"));
             ICE_BLOCK = new IceBlockComponent(RLoc.create("textures/spell/component/ice_block.png"));
             LIFE_LINK = new LifeLinkComponent(RLoc.create("textures/spell/component/life_link.png"));
@@ -50,6 +53,7 @@ public class SpellsRegistry {
             TREE_STRIDE = new TreeStrideComponent(RLoc.create("textures/spell/component/tree_stride.png"));
 
             helper.register(RLoc.create("components/astral_projection"), ASTRAL_PROJECTION);
+            helper.register(RLoc.create("components/counterspell"), COUNTERSPELL);
             helper.register(RLoc.create("components/enrage"), ENRAGE);
             helper.register(RLoc.create("components/ice_block"), ICE_BLOCK);
             helper.register(RLoc.create("components/life_link"), LIFE_LINK);
@@ -60,6 +64,7 @@ public class SpellsRegistry {
             helper.register(RLoc.create("components/tree_stride"), TREE_STRIDE);
         });
 
+        // Interop Spells - todo: move this to compats
         if (ModList.get().isLoaded(CompatModIDs.WOODWALKERS)) {
             POLYMORPH = new PolymorphComponent(RLoc.create("textures/spell/component/polymorph.png"));
 
