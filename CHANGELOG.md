@@ -11,7 +11,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - counterspell component for council wizards
 
 ### Changed
-- update to mna-3.0.0.9
+- update to mna-3.0.0.10
+- update to neoforge-47.1.100
 
 ### Fixed
 - fix the component name for astral projection

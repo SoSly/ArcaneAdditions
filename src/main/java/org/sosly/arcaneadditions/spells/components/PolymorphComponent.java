@@ -7,8 +7,10 @@
 
 package org.sosly.arcaneadditions.spells.components;
 
+import com.mna.api.ManaAndArtificeMod;
 import com.mna.api.affinity.Affinity;
 import com.mna.api.capabilities.IPlayerProgression;
+import com.mna.api.config.GeneralConfigValues;
 import com.mna.api.sound.SFX;
 import com.mna.api.spells.ComponentApplicationResult;
 import com.mna.api.spells.SpellReagent;
@@ -269,9 +271,9 @@ public class PolymorphComponent extends SpellEffect {
 
         for(roteTier = 1; roteTier <= 5; ++roteTier) {
             index = roteTier - 1;
-
-            modifierAmount = GeneralConfig.TierHealthBoosts.size() >= index ? GeneralConfig.TierHealthBoosts.get(index) : 0;
-            modifier = new AttributeModifier(UUID.fromString(IPlayerProgression.Tier_Health_Boost_IDs[index]), "Tier Health Boost " + roteTier, (double)modifierAmount, AttributeModifier.Operation.ADDITION);
+            int boost = GeneralConfigValues.TierHealthBoosts.get(index);
+            modifierAmount = boost >= index ? boost : 0;
+            modifier = new AttributeModifier(UUID.fromString(IPlayerProgression.Tier_Health_Boost_IDs[index]), "Tier Health Boost " + roteTier, modifierAmount, AttributeModifier.Operation.ADDITION);
             if (modifierAmount > 0 && tier.get() >= roteTier && !inst.hasModifier(modifier)) {
                 inst.addPermanentModifier(modifier);
             }
@@ -291,7 +293,8 @@ public class PolymorphComponent extends SpellEffect {
 
         for(roteTier = 1; roteTier <= 5; ++roteTier) {
             index = roteTier - 1;
-            modifierAmount = GeneralConfig.TierHealthBoosts.size() >= index ? GeneralConfig.TierHealthBoosts.get(index) : 0;
+            int boost = GeneralConfigValues.TierHealthBoosts.get(index);
+            modifierAmount = boost >= index ? boost : 0;
             modifier = new AttributeModifier(UUID.fromString(IPlayerProgression.Tier_Health_Boost_IDs[index]), "Tier Health Boost " + roteTier, modifierAmount, AttributeModifier.Operation.ADDITION);
             if (inst.hasModifier(modifier)) {
                 inst.removeModifier(modifier.getId());
