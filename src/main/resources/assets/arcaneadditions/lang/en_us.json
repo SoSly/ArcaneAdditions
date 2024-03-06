@@ -1,5 +1,6 @@
 {
   "arcaneadditions:components/astral_projection": "Astral Projection",
+  "arcaneadditions:components/counterspell": "Counterspell",
   "arcaneadditions:components/enrage": "Enrage",
   "arcaneadditions:components/ice_block": "Ice Block",
   "arcaneadditions:components/life_link": "Life Link",
@@ -17,6 +18,7 @@
   "arcaneadditions:components/tree_stride.save": "Save",
   "arcaneadditions:components/tree_stride.travel": "You travel through the root network to %s.",
 
+  "effect.arcaneadditions.anti_magic": "Anti-Magic",
   "effect.arcaneadditions.astral_projection": "Astral Projection",
   "effect.arcaneadditions.enraged": "Enraged",
   "effect.arcaneadditions.ice_block": "Ice Block",

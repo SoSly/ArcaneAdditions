@@ -10,6 +10,8 @@ package org.sosly.arcaneadditions.events.spells;
 import com.mna.api.ManaAndArtificeMod;
 import com.mna.api.spells.ICanContainSpell;
 import com.mna.api.spells.base.ISpellDefinition;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.telemetry.events.WorldLoadEvent;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.Entity;
