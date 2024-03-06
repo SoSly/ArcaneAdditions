@@ -1,32 +1,37 @@
 modLoader="javafml" #mandatory
-loaderVersion="[39,)" #mandatory This is typically bumped every Minecraft version by Forge. See our download page for lists of versions.
-license="GPLv3"
+loaderVersion="${loader_version_range}" #mandatory This is typically bumped every Minecraft version by Forge. See our download page for lists of versions.
+license="${mod_license}"
 
 [[mods]] #mandatory
-modId="arcaneadditions"
-version="${file.jarVersion}"
-displayName="Arcane Additions"
+modId="${mod_id}"
+version="${mod_version}"
+displayName="${mod_name}"
 # A URL to query for updates for this mod. See the JSON update specification https://mcforge.readthedocs.io/en/latest/gettingstarted/autoupdate/
 #updateJSONURL="https://change.me.example.invalid/updates.json" #optional
 # A URL for the "homepage" for this mod, displayed in the mod UI
 #displayURL="https://change.me.to.your.mods.homepage.example.invalid/" #optional
 # A file name (in the root of the mod JAR) containing a logo for display
-logoFile="arcane-additions.png" #optional
+logoFile="${mod_logo}" #optional
 # A text field displayed in the mod UI
-credits="Thanks to Joefoxe of Hexerei for inspiring me to start modding, and to Mithion for making my minecraft experience magical.  Thanks to NotNova for their incredible pixel art and to Aranai for models and textures."
-authors="nivthefox, anomalagous"
-description='''
-A wealth of new magical mysteries for the Mana and Artifice mod.'''
+credits="${mod_credits}"
+authors="${mod_authors}"
+description='''${mod_description}'''
 
-[[dependencies.arcaneadditions]]
-    modId="forge"
+[[dependencies.${mod_id}]]
+    modId="${api_name}"
     mandatory=true
-    versionRange="[47.2,48)"
+    versionRange="${api_version_range}"
     ordering="NONE"
     side="BOTH"
-[[dependencies.arcaneadditions]]
+[[dependencies.${mod_id}]]
     modId="mna"
     mandatory=true
-    versionRange="[3,4)"
+    versionRange="${mna_version_range}"
+    ordering="NONE"
+    sides="BOTH"
+[[dependencies.${mod_id}]]
+    modId="minecraft"
+    mandatory=true
+    versionRange="${minecraft_version_range}"
     ordering="NONE"
     sides="BOTH"

@@ -16,6 +16,7 @@ import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.config.ModConfig;
+import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import org.apache.logging.log4j.LogManager;
@@ -43,18 +44,18 @@ public class ArcaneAdditions {
         instance = this;
 
         // Initialize Registries
-        IEventBus modBus = FMLJavaModLoadingContext.get().getModEventBus();
-        EffectRegistry.EFFECTS.register(modBus);
-        EntityRegistry.ENTITY_TYPES.register(modBus);
-        ItemRegistry.ITEMS.register(modBus);
-        MenuRegistry.MENUS.register(modBus);
+        IEventBus modbus = FMLJavaModLoadingContext.get().getModEventBus();
+        EffectRegistry.EFFECTS.register(modbus);
+        EntityRegistry.ENTITY_TYPES.register(modbus);
+        ItemRegistry.ITEMS.register(modbus);
+        MenuRegistry.MENUS.register(modbus);
         MinecraftForge.EVENT_BUS.register(this);
-        modBus.addListener(ArcaneAdditions::setup);
+        modbus.addListener(ArcaneAdditions::setupCommon);
 
-        DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () -> {
-            modBus.register(RendererRegistry.class);
+        if (Dist.CLIENT.isClient()) {
+            modbus.register(RendererRegistry.class);
             this.proxy = new ClientProxy();
-        });
+        }
     }
 
     @SubscribeEvent
@@ -63,7 +64,7 @@ public class ArcaneAdditions {
         org.sosly.arcaneadditions.ArcaneAdditions.LOGGER.info("arcaneadditions: guide registered");
     }
 
-    private static void setup(FMLCommonSetupEvent event) {
+    private static void setupCommon(FMLCommonSetupEvent event) {
         CompatRegistry.registerCompats();
     }
 }
