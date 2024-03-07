@@ -7,12 +7,10 @@ import com.mna.api.spells.parts.Shape;
 import com.mna.api.spells.targeting.SpellSource;
 import com.mna.api.spells.targeting.SpellTarget;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.server.level.ServerLevel;
-import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.TamableAnimal;
+import net.minecraft.world.entity.Mob;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
-import org.sosly.arcaneadditions.capabilities.familiar.FamiliarProvider;
-import org.sosly.arcaneadditions.capabilities.familiar.IFamiliarCapability;
+import org.sosly.arcaneadditions.utils.FamiliarHelper;
 
 import java.util.List;
 
@@ -22,28 +20,21 @@ public class FamiliarShape extends Shape {
     }
 
     public List<SpellTarget> Target(SpellSource source, Level level, IModifiedSpellPart<Shape> modifiedData, ISpellDefinition recipe) {
-        ServerLevel serverLevel = level.getServer().getLevel(level.dimension());
-
-        if (source.getCaster() == null) {
+        if (source.getCaster() == null || !(source.getCaster() instanceof Player)) {
             return null;
         }
 
-        IFamiliarCapability cap = source.getCaster().getCapability(FamiliarProvider.FAMILIAR).orElse(null);
-        if (cap == null || cap.getFamiliar(serverLevel) == null) {
+        Player player = (Player) source.getCaster();
+        if (!FamiliarHelper.hasFamiliar(player)) {
             return null;
         }
 
-        TamableAnimal familiar = cap.getFamiliar(serverLevel).get();
+        Mob familiar = FamiliarHelper.getFamiliar(player);
         if (familiar == null) {
             return null;
         }
 
-        Entity entity = serverLevel.getEntity(familiar.getId());
-        if (entity == null) {
-            return null;
-        }
-
-        return List.of(new SpellTarget(entity));
+        return List.of(new SpellTarget(familiar));
     }
 
     public float initialComplexity() {
