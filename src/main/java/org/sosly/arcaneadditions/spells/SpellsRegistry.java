@@ -19,22 +19,24 @@ import net.minecraftforge.registries.RegisterEvent;
 import org.sosly.arcaneadditions.compats.CompatModIDs;
 import org.sosly.arcaneadditions.spells.components.*;
 import org.sosly.arcaneadditions.spells.shapes.FamiliarShape;
+import org.sosly.arcaneadditions.spells.shapes.SharedShape;
 import org.sosly.arcaneadditions.utils.RLoc;
 
 @Mod.EventBusSubscriber(modid = org.sosly.arcaneadditions.ArcaneAdditions.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class SpellsRegistry {
     public static final Shape FAMILIAR = new FamiliarShape(RLoc.create("textures/spell/shape/familiar.png"));
-    public static SpellEffect ASTRAL_PROJECTION;
-    public static SpellEffect COUNTERSPELL;
-    public static SpellEffect ENRAGE;
-    public static SpellEffect ICE_BLOCK;
-    public static SpellEffect LIFE_LINK;
-    public static SpellEffect PATH;
-    public static SpellEffect PLOW;
-    public static SpellEffect POLYMORPH;
-    public static SpellEffect STRIP;
-    public static SpellEffect TRANSFUSE;
-    public static SpellEffect TREE_STRIDE;
+    public static final Shape SHARED = new SharedShape(RLoc.create("textures/spell/shape/shared.png"));
+    public static final SpellEffect ASTRAL_PROJECTION = new AstralProjectionComponent(RLoc.create("textures/spell/component/astral_projection.png"));
+    public static final SpellEffect COUNTERSPELL = new CounterspellComponent(RLoc.create("textures/spell/component/counterspell.png"));
+    public static final SpellEffect ENRAGE = new EnrageComponent(RLoc.create("textures/spell/component/enrage.png"));
+    public static final SpellEffect ICE_BLOCK = new IceBlockComponent(RLoc.create("textures/spell/component/ice_block.png"));
+    public static final SpellEffect LIFE_LINK = new LifeLinkComponent(RLoc.create("textures/spell/component/life_link.png"));
+    public static final SpellEffect PATH = new PathComponent(RLoc.create("textures/spell/component/path.png"));
+    public static final SpellEffect PLOW = new PlowComponent(RLoc.create("textures/spell/component/plow.png"));
+    public static final SpellEffect POLYMORPH = new PolymorphComponent(RLoc.create("textures/spell/component/polymorph.png"));
+    public static final SpellEffect STRIP = new StripComponent(RLoc.create("textures/spell/component/strip.png"));
+    public static final SpellEffect TRANSFUSE = new TransfuseComponent(RLoc.create("textures/spell/component/transfuse.png"));
+    public static final SpellEffect TREE_STRIDE = new TreeStrideComponent(RLoc.create("textures/spell/component/tree_stride.png"));
 
     @SubscribeEvent
     public static void registerComponents(RegisterEvent event) {
@@ -43,17 +45,6 @@ public class SpellsRegistry {
         }
 
         event.register(((IForgeRegistry) Registries.SpellEffect.get()).getRegistryKey(), (helper) -> {
-            ASTRAL_PROJECTION = new AstralProjectionComponent(RLoc.create("textures/spell/component/astral_projection.png"));
-            COUNTERSPELL = new CounterspellComponent(RLoc.create("textures/spell/component/counterspell.png"));
-            ENRAGE = new EnrageComponent(RLoc.create("textures/spell/component/enrage.png"));
-            ICE_BLOCK = new IceBlockComponent(RLoc.create("textures/spell/component/ice_block.png"));
-            LIFE_LINK = new LifeLinkComponent(RLoc.create("textures/spell/component/life_link.png"));
-            PATH = new PathComponent(RLoc.create("textures/spell/component/path.png"));
-            PLOW = new PlowComponent(RLoc.create("textures/spell/component/plow.png"));
-            STRIP = new StripComponent(RLoc.create("textures/spell/component/strip.png"));
-            TRANSFUSE = new TransfuseComponent(RLoc.create("textures/spell/component/transfuse.png"));
-            TREE_STRIDE = new TreeStrideComponent(RLoc.create("textures/spell/component/tree_stride.png"));
-
             helper.register(RLoc.create("components/astral_projection"), ASTRAL_PROJECTION);
             helper.register(RLoc.create("components/counterspell"), COUNTERSPELL);
             helper.register(RLoc.create("components/enrage"), ENRAGE);
@@ -68,8 +59,6 @@ public class SpellsRegistry {
 
         // Interop Spells - todo: move this to compats
         if (ModList.get().isLoaded(CompatModIDs.WOODWALKERS)) {
-            POLYMORPH = new PolymorphComponent(RLoc.create("textures/spell/component/polymorph.png"));
-
             event.register(((IForgeRegistry)Registries.SpellEffect.get()).getRegistryKey(), (helper) -> {
                 helper.register(RLoc.create("components/polymorph"), SpellsRegistry.POLYMORPH);
             });
@@ -84,6 +73,7 @@ public class SpellsRegistry {
 
         event.register(((IForgeRegistry) Registries.Shape.get()).getRegistryKey(), (helper) -> {
             helper.register(RLoc.create("shapes/familiar"), FAMILIAR);
+            helper.register(RLoc.create("shapes/shared"), SHARED);
         });
     }
 }
