@@ -12,13 +12,14 @@ import net.minecraftforge.fml.ModList;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.config.ModConfigEvent;
 import org.apache.commons.lang3.tuple.Pair;
+import org.sosly.arcaneadditions.ArcaneAdditions;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-@Mod.EventBusSubscriber
+@Mod.EventBusSubscriber(modid = ArcaneAdditions.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class Config {
 
     private Config() {}
@@ -33,13 +34,14 @@ public class Config {
     }
 
     public static class Server {
-
+        public final FamiliarConfig familiar;
         public final PolymorphConfig polymorph;
         public final SoulSearchersLensConfig soulSearchersLens;
 
         public Server(ForgeConfigSpec.Builder builder) {
             builder.comment("Server settings").push("server");
 
+            familiar = new FamiliarConfig(builder);
             polymorph = new PolymorphConfig(builder);
             soulSearchersLens = new SoulSearchersLensConfig(builder);
 
