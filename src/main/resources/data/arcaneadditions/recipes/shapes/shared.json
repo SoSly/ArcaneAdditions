@@ -1,0 +1,17 @@
+{
+  "type": "mna:shape",
+  "tier": 5,
+  "output": "arcaneadditions:shapes/shared",
+  "items": [
+    "mna:vinteum_dust",
+    "minecraft:book",
+    "minecraft:lead",
+    "mna:animus_dust",
+    "minecraft:armor_stand"
+  ],
+  "patterns": [
+    "mna:manaweave_patterns/circle",
+    "mna:manaweave_patterns/star",
+    "mna:manaweave_patterns/circle"
+  ]
+}

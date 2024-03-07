@@ -11,6 +11,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - counterspell component for council wizards
 - a ritual to summon your familiar
 - familiar shape for affecting familiars with spells
+- shared shape for affecting your familiar and yourself at the same time
 
 ### Changed
 - update to mna-3.0.0.10

@@ -75,11 +75,13 @@ public class BindFamiliarRitual extends RitualEffect {
         IFamiliarCapability playerCap = player.getCapability(FamiliarProvider.FAMILIAR).orElseGet(FamiliarCapability::new);
         if (playerCap.hasFamiliar()) {
             player.sendSystemMessage(Component.translatable("arcaneadditions:rituals/bind-familiar.already_bound"));
-            TamableAnimal oldFamiliar = playerCap.getFamiliar(level).get();
-            if (oldFamiliar != null) {
-                IFamiliarCapability familiarCap = oldFamiliar.getCapability(FamiliarProvider.FAMILIAR).orElseGet(FamiliarCapability::new);
-                familiarCap.remove();
-                oldFamiliar.remove(Entity.RemovalReason.DISCARDED);
+            if (playerCap.getFamiliar(level) != null) {
+                TamableAnimal oldFamiliar = playerCap.getFamiliar(level).get();
+                if (oldFamiliar != null) {
+                    IFamiliarCapability familiarCap = oldFamiliar.getCapability(FamiliarProvider.FAMILIAR).orElseGet(FamiliarCapability::new);
+                    familiarCap.remove();
+                    oldFamiliar.remove(Entity.RemovalReason.DISCARDED);
+                }
             }
             playerCap.remove();
         }

@@ -68,7 +68,7 @@ minecraft {
         }
 
         client {
-            args '--username', 'Dev####'
+//            args '--username', 'Dev####'
         }
 
         server {
