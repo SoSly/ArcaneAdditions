@@ -6,10 +6,12 @@ import com.mna.api.rituals.IRitualContext;
 import com.mna.api.rituals.RitualEffect;
 import com.mna.capabilities.playerdata.progression.PlayerProgressionProvider;
 import com.mna.items.ItemInit;
+import com.mna.tools.SummonUtils;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.TamableAnimal;
@@ -44,6 +46,7 @@ public class BindFamiliarRitual extends RitualEffect {
         Iterator reagents = context.getCollectedReagents().iterator();
         Player player = context.getCaster();
         Level level = context.getLevel();
+        ServerLevel serverLevel = level.getServer().getLevel(level.dimension());
         BlockPos pos = context.getCenter();
 
         while (reagents.hasNext()) {
@@ -75,8 +78,8 @@ public class BindFamiliarRitual extends RitualEffect {
         IFamiliarCapability playerCap = player.getCapability(FamiliarProvider.FAMILIAR).orElseGet(FamiliarCapability::new);
         if (playerCap.hasFamiliar()) {
             player.sendSystemMessage(Component.translatable("arcaneadditions:rituals/bind-familiar.already_bound"));
-            if (playerCap.getFamiliar(level) != null) {
-                TamableAnimal oldFamiliar = playerCap.getFamiliar(level).get();
+            if (playerCap.getFamiliar(serverLevel) != null) {
+                TamableAnimal oldFamiliar = playerCap.getFamiliar(serverLevel).get();
                 if (oldFamiliar != null) {
                     IFamiliarCapability familiarCap = oldFamiliar.getCapability(FamiliarProvider.FAMILIAR).orElseGet(FamiliarCapability::new);
                     familiarCap.remove();
@@ -87,7 +90,7 @@ public class BindFamiliarRitual extends RitualEffect {
         }
 
         // Attempt to summon the familiar
-        TamableAnimal familiar = this.bindFamiliar(player, level, phylacteryStack, phylactery, pos);
+        TamableAnimal familiar = this.bindFamiliar(player, serverLevel, phylacteryStack, phylactery, pos);
         if (familiar == null) {
             player.sendSystemMessage(Component.translatable("arcaneadditions:rituals/bind-familiar.failed"));
             return false;
@@ -111,7 +114,7 @@ public class BindFamiliarRitual extends RitualEffect {
         return 20;
     }
 
-    private TamableAnimal bindFamiliar(Player player, Level level, ItemStack stack, IPhylacteryItem phylactery, BlockPos pos) {
+    private TamableAnimal bindFamiliar(Player player, ServerLevel level, ItemStack stack, IPhylacteryItem phylactery, BlockPos pos) {
         EntityType<?> type = phylactery.getContainedEntity(stack);
         String name = player.getDisplayName().getString();
         MutableComponent familiarName = Component.literal(name)

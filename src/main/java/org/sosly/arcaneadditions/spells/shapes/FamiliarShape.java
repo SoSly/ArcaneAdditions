@@ -7,6 +7,7 @@ import com.mna.api.spells.parts.Shape;
 import com.mna.api.spells.targeting.SpellSource;
 import com.mna.api.spells.targeting.SpellTarget;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.TamableAnimal;
 import net.minecraft.world.level.Level;
@@ -21,21 +22,23 @@ public class FamiliarShape extends Shape {
     }
 
     public List<SpellTarget> Target(SpellSource source, Level level, IModifiedSpellPart<Shape> modifiedData, ISpellDefinition recipe) {
+        ServerLevel serverLevel = level.getServer().getLevel(level.dimension());
+
         if (source.getCaster() == null) {
             return null;
         }
 
         IFamiliarCapability cap = source.getCaster().getCapability(FamiliarProvider.FAMILIAR).orElse(null);
-        if (cap == null || cap.getFamiliar(level) == null) {
+        if (cap == null || cap.getFamiliar(serverLevel) == null) {
             return null;
         }
 
-        TamableAnimal familiar = cap.getFamiliar(level).get();
+        TamableAnimal familiar = cap.getFamiliar(serverLevel).get();
         if (familiar == null) {
             return null;
         }
 
-        Entity entity = level.getEntity(familiar.getId());
+        Entity entity = serverLevel.getEntity(familiar.getId());
         if (entity == null) {
             return null;
         }

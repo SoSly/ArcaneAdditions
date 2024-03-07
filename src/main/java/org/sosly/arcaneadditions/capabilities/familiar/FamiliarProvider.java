@@ -24,8 +24,8 @@ public class FamiliarProvider implements ICapabilitySerializable<Tag> {
     public Tag serializeNBT() {
         IFamiliarCapability instance = this.holder.orElse(new FamiliarCapability());
         CompoundTag nbt = new CompoundTag();
-        if (instance.getFamiliarID() != 0) {
-            nbt.putInt("familiar", instance.getFamiliarID());
+        if (instance.getFamiliarUUID() != null) {
+            nbt.putUUID("familiar", instance.getFamiliarUUID());
         }
         if (instance.getCasterUUID() != null) {
             nbt.putUUID("caster", instance.getCasterUUID());
@@ -38,7 +38,7 @@ public class FamiliarProvider implements ICapabilitySerializable<Tag> {
         IFamiliarCapability instance = this.holder.orElse(new FamiliarCapability());
         if (nbt instanceof CompoundTag cnbt) {
             if (cnbt.contains("familiar")) {
-                instance.setFamiliarID(cnbt.getInt("familiar"));
+                instance.setFamiliarUUID(cnbt.getUUID("familiar"));
             }
             if (cnbt.contains("caster")) {
                 instance.setCasterUUID(cnbt.getUUID("caster"));
