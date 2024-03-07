@@ -18,10 +18,11 @@ build
 .gradle
 
 # other
-eclipse
-libs
-run
-mcmodsrepo
+/eclipse
+/libs
+/run
+/mcmodsrepo
+/repo
 
 # Files from Forge MDK
 forge*changelog.txt

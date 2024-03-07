@@ -12,11 +12,9 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.config.ModConfig;
-import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import org.apache.logging.log4j.LogManager;
@@ -27,7 +25,6 @@ import org.sosly.arcaneadditions.effects.EffectRegistry;
 import org.sosly.arcaneadditions.entities.EntityRegistry;
 import org.sosly.arcaneadditions.items.ItemRegistry;
 import org.sosly.arcaneadditions.menus.MenuRegistry;
-import org.sosly.arcaneadditions.renderers.RendererRegistry;
 import org.sosly.arcaneadditions.utils.ClientProxy;
 import org.sosly.arcaneadditions.utils.ISidedProxy;
 import org.sosly.arcaneadditions.utils.RLoc;
@@ -51,11 +48,6 @@ public class ArcaneAdditions {
         MenuRegistry.MENUS.register(modbus);
         MinecraftForge.EVENT_BUS.register(this);
         modbus.addListener(ArcaneAdditions::setupCommon);
-
-        if (Dist.CLIENT.isClient()) {
-            modbus.register(RendererRegistry.class);
-            this.proxy = new ClientProxy();
-        }
     }
 
     @SubscribeEvent
@@ -64,7 +56,16 @@ public class ArcaneAdditions {
         org.sosly.arcaneadditions.ArcaneAdditions.LOGGER.info("arcaneadditions: guide registered");
     }
 
-    private static void setupCommon(FMLCommonSetupEvent event) {
+    @SubscribeEvent
+    public static void setupCommon(FMLCommonSetupEvent event) {
         CompatRegistry.registerCompats();
+    }
+
+    @Mod.EventBusSubscriber(modid = ArcaneAdditions.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
+    public static class ClientSetup {
+        @SubscribeEvent
+        public static void setupClient(FMLCommonSetupEvent event) {
+                instance.proxy = new ClientProxy();
+        }
     }
 }
