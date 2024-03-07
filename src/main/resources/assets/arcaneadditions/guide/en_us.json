@@ -1,32 +1,4 @@
 {
-  "Soulsearcher's Lens": {
-    "index": 1,
-    "category": "artifice",
-    "sections": [
-      {
-        "type": "title",
-        "value": "Soul Searcher's Lens"
-      },
-      {
-        "type": "text",
-        "json": [
-          {
-            "text": "It may be possible for me to attain the essentia needed to fill a Crystal Phylactery without causing harm to the subject.  It will, however, require a crystals of exceptional purity."
-          }
-        ]
-      }
-    ],
-    "related_recipes": [
-      {
-        "type": "manaweaving_altar",
-        "location": "mna:manaweaving/crystal_phylactery"
-      },
-      {
-        "type": "manaweaving_altar",
-        "location": "arcaneadditions:manaweaving/soulsearchers_lens"
-      }
-    ]
-  },
   "Component: Counterspell": {
     "index": 2,
     "category": "sorcery",
@@ -296,5 +268,83 @@
       }
     ]
   },
-  "version": "1.0.0a"
+  "Item: Soulsearcher's Lens": {
+    "index": 1,
+    "category": "artifice",
+    "sections": [
+      {
+        "type": "title",
+        "value": "Soul Searcher's Lens"
+      },
+      {
+        "type": "text",
+        "json": [
+          {
+            "text": "It may be possible for me to attain the essentia needed to fill a Crystal Phylactery without causing harm to the subject.  It will, however, require a crystals of exceptional purity."
+          }
+        ]
+      }
+    ],
+    "related_recipes": [
+      {
+        "type": "manaweaving_altar",
+        "location": "mna:manaweaving/crystal_phylactery"
+      },
+      {
+        "type": "manaweaving_altar",
+        "location": "arcaneadditions:manaweaving/soulsearchers_lens"
+      }
+    ]
+  },
+  "Ritual: Bind Familiar": {
+    "index": 1,
+    "category": "rituals",
+    "sections": [
+      {
+        "type": "title",
+        "value": "Ritual of Familiar Binding"
+      },
+      {
+        "type": "text",
+        "value": "",
+        "json": [
+          {
+            "text": "This creature calls forth a fey, demon, soul, or spirit and shapes its body based on a "
+          },
+          {
+            "text": "Phylactery ",
+            "color": "blue"
+          },
+          {
+            "text": "which I have provided."
+          },
+          {
+            "text": "\n\n"
+          },
+          {
+            "text": "The creature will be bound to me, and I can affect it with appropriately shaped spells.  "
+          },
+          {
+            "text": "It will follow me like a pet, returning to my side whenever it strays too far."
+          },
+          {
+            "text": "\n\n"
+          },
+          {
+            "text": "It seems I can only have one of these familiars at a time, "
+          },
+          {
+            "text": "but if my familiar dies I can always call another."
+          }
+        ]
+      }
+    ],
+    "related_recipes": [
+      {
+        "type": "ritual",
+        "location": "arcaneadditions:rituals/bind-familiar"
+      }
+    ]
+  },
+  "version": "1.8.0"
 }
