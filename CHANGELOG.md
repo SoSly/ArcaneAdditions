@@ -7,7 +7,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased](https://github.com/SoSly/ArcaneAdditions/tree/main)
 
-## [120.1-forge-1.8.1](https://github.com/SoSly/ArcaneAdditions/releases/tag/1.18.2-1.8.1)
+## [1.20.1-forge-1.8.1](https://github.com/SoSly/ArcaneAdditions/releases/tag/1.20.1-1.8.1)
 
 ### Fixed
 - ensure client events only run on the client
