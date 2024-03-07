@@ -1,0 +1,14 @@
+{
+  "type": "mna:shape",
+  "tier": 3,
+  "output": "arcaneadditions:shapes/familiar",
+  "items": [
+    "mna:vinteum_dust",
+    "minecraft:book",
+    "minecraft:lead",
+    "mna:animus_dust"
+  ],
+  "patterns": [
+    "mna:manaweave_patterns/circle"
+  ]
+}

@@ -9,6 +9,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 - counterspell component for council wizards
+- a ritual to summon your familiar
+- familiar shape for affecting familiars with spells
 
 ### Changed
 - update to mna-3.0.0.10

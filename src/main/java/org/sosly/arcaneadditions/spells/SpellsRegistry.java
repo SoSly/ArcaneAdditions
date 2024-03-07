@@ -9,6 +9,7 @@ package org.sosly.arcaneadditions.spells;
 
 import com.mna.Registries;
 import com.mna.api.ManaAndArtificeMod;
+import com.mna.api.spells.parts.Shape;
 import com.mna.api.spells.parts.SpellEffect;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.ModList;
@@ -17,11 +18,12 @@ import net.minecraftforge.registries.IForgeRegistry;
 import net.minecraftforge.registries.RegisterEvent;
 import org.sosly.arcaneadditions.compats.CompatModIDs;
 import org.sosly.arcaneadditions.spells.components.*;
+import org.sosly.arcaneadditions.spells.shapes.FamiliarShape;
 import org.sosly.arcaneadditions.utils.RLoc;
 
 @Mod.EventBusSubscriber(modid = org.sosly.arcaneadditions.ArcaneAdditions.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class SpellsRegistry {
-
+    public static final Shape FAMILIAR = new FamiliarShape(RLoc.create("textures/spell/shape/familiar.png"));
     public static SpellEffect ASTRAL_PROJECTION;
     public static SpellEffect COUNTERSPELL;
     public static SpellEffect ENRAGE;
@@ -72,5 +74,16 @@ public class SpellsRegistry {
                 helper.register(RLoc.create("components/polymorph"), SpellsRegistry.POLYMORPH);
             });
         }
+    }
+
+    @SubscribeEvent
+    public static void registerShapes(RegisterEvent event) {
+        if (!ModList.get().isLoaded(ManaAndArtificeMod.ID)) {
+            return;
+        }
+
+        event.register(((IForgeRegistry) Registries.Shape.get()).getRegistryKey(), (helper) -> {
+            helper.register(RLoc.create("shapes/familiar"), FAMILIAR);
+        });
     }
 }

@@ -21,7 +21,7 @@
   ],
   "keys": {
     "C": {
-      "item": "minecraft:coal",
+      "item": "minecraft:charcoal",
       "optional": false,
       "consume": true
     },
