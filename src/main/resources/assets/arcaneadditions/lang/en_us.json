@@ -24,6 +24,9 @@
   "arcaneadditions:rituals/bind-familiar.failed": "Your familiar could not be summoned into the world.",
   "arcaneadditions:rituals/bind-familiar.success": "You bind a %s familiar.",
 
+  "arcaneadditions:shapes/familiar": "Familiar",
+  "arcaneadditions:shapes/shared": "Shared",
+
   "effect.arcaneadditions.anti_magic": "Anti-Magic",
   "effect.arcaneadditions.astral_projection": "Astral Projection",
   "effect.arcaneadditions.enraged": "Enraged",
@@ -34,11 +37,11 @@
   "effect.arcaneadditions.polymorph.become": "%s is polymorphed into a %s.",
   "effect.arcaneadditions.polymorph.revert": "%s returns to their natural shape.",
 
+  "entity.arcaneadditions.ice_block": "Ice Block",
+
   "item.arcaneadditions.soulsearchers_lens": "Soul Searcher's Lens",
   "item.arcaneadditions.soulsearchers_lens.confusion": "You peer through the lens at the creature, but to no particular effect. You will need to learn more before you continue.",
   "item.arcaneadditions.soulsearchers_lens.distance": "I must stay near the creature if I intend to study it.",
   "item.arcaneadditions.soulsearchers_lens.experience": "I lack the required experience to study this creature.",
-  "item.arcaneadditions.soulsearchers_lens.nonphylactery": "I need an empty or partially filled relevant Crystal Phylactery in my other hand to study this creature.",
-
-  "itemGroup.arcaneadditions": "Arcane Additions"
+  "item.arcaneadditions.soulsearchers_lens.nonphylactery": "I need an empty or partially filled relevant Crystal Phylactery in my other hand to study this creature."
 }

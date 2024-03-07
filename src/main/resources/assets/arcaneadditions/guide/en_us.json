@@ -346,5 +346,55 @@
       }
     ]
   },
+  "Shape: Familiar": {
+    "index": 1,
+    "category": "sorcery",
+    "sections": [
+      {
+        "type": "title",
+        "value": "Shape: Familiar"
+      },
+      {
+        "type": "text",
+        "value": "This shape will cause the spell to affect my familiar.",
+        "json": [
+          {
+            "text": "This shape will cause the spell to affect my familiar."
+          }
+        ]
+      }
+    ],
+    "related_recipes": [
+      {
+        "type": "spell_part",
+        "location": "arcaneadditions:shapes/familiar"
+      }
+    ]
+  },
+  "Shape: Shared": {
+    "index": 1,
+    "category": "sorcery",
+    "sections": [
+      {
+        "type": "title",
+        "value": "Shape: Shared"
+      },
+      {
+        "type": "text",
+        "value": "This shape will cause the spell to affect both me and my familiar.",
+        "json": [
+          {
+            "text": "This shape will cause the spell to affect both me and my familiar."
+          }
+        ]
+      }
+    ],
+    "related_recipes": [
+      {
+        "type": "spell_part",
+        "location": "arcaneadditions:shapes/shared"
+      }
+    ]
+  },
   "version": "1.8.0"
 }
