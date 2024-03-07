@@ -1,5 +1,6 @@
 package org.sosly.arcaneadditions.capabilities.familiar;
 
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.TamableAnimal;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
@@ -10,7 +11,7 @@ import java.util.UUID;
 public class FamiliarCapability implements IFamiliarCapability {
     private UUID caster;
     private WeakReference<Player> casterPlayer;
-    private int familiar;
+    private UUID familiar;
     private WeakReference<TamableAnimal> familiarAnimal;
 
     @Override
@@ -40,9 +41,9 @@ public class FamiliarCapability implements IFamiliarCapability {
     }
 
     @Override
-    public WeakReference<TamableAnimal> getFamiliar(Level level) {
+    public WeakReference<TamableAnimal> getFamiliar(ServerLevel level) {
         if (familiarAnimal != null) return this.familiarAnimal;
-        if (familiar != 0) {
+        if (familiar != null) {
             TamableAnimal animal = (TamableAnimal) level.getEntity(familiar);
             if (animal != null) {
                 this.familiarAnimal = new WeakReference<>(animal);
@@ -54,22 +55,22 @@ public class FamiliarCapability implements IFamiliarCapability {
 
     @Override
     public boolean hasFamiliar() {
-        return familiar != 0;
+        return familiar != null;
     }
 
     @Override
-    public int getFamiliarID() {
+    public UUID getFamiliarUUID() {
         return familiar;
     }
 
     @Override
     public void setFamiliar(TamableAnimal familiar) {
         this.familiarAnimal = new WeakReference<>(familiar);
-        this.familiar = familiar.getId();
+        this.familiar = familiar.getUUID();
     }
 
     @Override
-    public void setFamiliarID(int familiar) {
+    public void setFamiliarUUID(UUID familiar) {
         this.familiar = familiar;
     }
 
@@ -78,6 +79,6 @@ public class FamiliarCapability implements IFamiliarCapability {
         this.caster = null;
         this.casterPlayer = null;
         this.familiarAnimal = null;
-        this.familiar = 0;
+        this.familiar = null;
     }
 }
