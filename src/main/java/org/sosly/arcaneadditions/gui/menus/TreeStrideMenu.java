@@ -5,16 +5,17 @@
  *           conditions; detailed at https://www.gnu.org/licenses/gpl-3.0.html
  */
 
-package org.sosly.arcaneadditions.menus;
+package org.sosly.arcaneadditions.gui.menus;
 
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.item.ItemStack;
+import org.sosly.arcaneadditions.gui.menus.MenuRegistry;
 
 public class TreeStrideMenu extends AbstractContainerMenu {
     public TreeStrideMenu(int id, Inventory playerInv) {
-        this(id, playerInv, null);
+        this(id, playerInv, playerInv.player);
     }
 
     public TreeStrideMenu(int id, Inventory playerInv, Player player) {

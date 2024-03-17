@@ -5,13 +5,9 @@
  *           conditions; detailed at https://www.gnu.org/licenses/gpl-3.0.html
  */
 
-package org.sosly.arcaneadditions.screens;
+package org.sosly.arcaneadditions.gui.screens;
 
-import com.mna.gui.GuiTextures;
-import com.mna.tools.render.GuiRenderUtils;
 import com.mojang.blaze3d.platform.InputConstants;
-import com.mojang.blaze3d.systems.RenderSystem;
-import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.EditBox;
@@ -20,9 +16,12 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.entity.player.Player;
 import net.minecraftforge.client.gui.widget.ExtendedButton;
 import org.sosly.arcaneadditions.capabilities.treestride.TreestrideProvider;
-import org.sosly.arcaneadditions.menus.TreeStrideMenu;
+import org.sosly.arcaneadditions.gui.menus.TreeStrideMenu;
+import org.sosly.arcaneadditions.gui.widgets.TreeStrideDelete;
+import org.sosly.arcaneadditions.gui.widgets.TreeStrideDestination;
 import org.sosly.arcaneadditions.networking.PacketHandler;
 import org.sosly.arcaneadditions.networking.messages.serverbound.NewTreeStrideDestination;
 import org.sosly.arcaneadditions.networking.messages.serverbound.RemoveTreeStrideDestination;
@@ -30,20 +29,25 @@ import org.sosly.arcaneadditions.networking.messages.serverbound.RequestSyncTree
 import org.sosly.arcaneadditions.networking.messages.serverbound.TreeStridePlayer;
 import org.sosly.arcaneadditions.utils.RLoc;
 
+import java.awt.*;
 import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class TreeStrideScreen extends AbstractContainerScreen<TreeStrideMenu> {
+    private Player player;
     private static final ResourceLocation TEXTURE = RLoc.create("textures/gui/tree_stride.png");
     private ExtendedButton createDestinationButton;
     private EditBox createDestinationBox;
 
     public TreeStrideScreen(TreeStrideMenu menu, Inventory inventory, Component title) {
         super(menu, inventory, title);
+        this.player = inventory.player;
         this.leftPos = 0;
         this.topPos = 0;
         this.imageWidth = 176;
         this.imageHeight = 150;
+        this.titleLabelX = 8;
+        this.titleLabelY = 5;
     }
 
     @Override
@@ -51,15 +55,15 @@ public class TreeStrideScreen extends AbstractContainerScreen<TreeStrideMenu> {
         Minecraft.getInstance().level.getCapability(TreestrideProvider.TREESTRIDE).ifPresent(treestride -> {
             Map<BlockPos, String> destinations = treestride.getPlayerDestinations(Minecraft.getInstance().player);
             if (destinations != null) {
-                AtomicInteger topPos = new AtomicInteger();
+                AtomicInteger topPos = new AtomicInteger(2);
 
                 destinations.entrySet()
                     .stream()
                     .sorted(Map.Entry.<BlockPos, String>comparingByValue())
                     .forEach(destination -> {
-                        topPos.addAndGet(18);
-                        addRenderableWidget(new ExtendedButton(this.leftPos + 7, this.topPos + topPos.get(), 140, 16, Component.literal(destination.getValue()), btn -> this.teleportPlayer(destination.getKey(), destination.getValue())));
-                        addRenderableWidget(new ExtendedButton(this.leftPos + 152, this.topPos + topPos.get(), 16, 16, Component.literal("X"), btn -> this.deleteDestination(destination.getKey(), destination.getValue())));
+                        topPos.addAndGet(12);
+                        addRenderableWidget(new TreeStrideDestination(this.leftPos + 20, this.topPos + topPos.get(), 130, 14, Component.literal(destination.getValue()), btn -> this.teleportPlayer(destination.getKey(), destination.getValue())));
+                        addRenderableWidget(new TreeStrideDelete(this.leftPos + 10, this.topPos + topPos.get(), 14, 14, Component.literal("X"), btn -> this.deleteDestination(destination.getKey(), destination.getValue())));
                     });
 
                 if (destinations.size() >= 7) {
@@ -73,12 +77,16 @@ public class TreeStrideScreen extends AbstractContainerScreen<TreeStrideMenu> {
     }
 
     @Override
+    protected void renderLabels(GuiGraphics pGuiGraphics, int pMouseX, int pMouseY) {
+        pGuiGraphics.drawString(this.font, this.title, this.titleLabelX, this.titleLabelY, Color.lightGray.getRGB(), true);
+    }
+
+    @Override
     protected void renderBg(GuiGraphics pGuiGraphics, float partialTicks, int mouse_x, int mouse_y) {
         this.renderBackground(pGuiGraphics);
         int xPos = this.leftPos;
         int yPos = this.topPos;
-        GuiRenderUtils.renderStandardPlayerInventory(pGuiGraphics, xPos + this.imageWidth / 2, yPos + this.imageHeight - 45);
-        pGuiGraphics.blit(GuiTextures.Items.FILTER_ITEM, xPos + 28, yPos, 0, 0, 120, 98);
+        pGuiGraphics.blit(TEXTURE, xPos, yPos, 0.0F, 0.0F, imageWidth, imageHeight, imageWidth, imageHeight);
     }
 
     @Override
@@ -86,10 +94,12 @@ public class TreeStrideScreen extends AbstractContainerScreen<TreeStrideMenu> {
         PacketHandler.network.sendToServer(new RequestSyncTreeStrideCapabilitiesFromServer());
         super.init();
 
-        this.createDestinationBox = addRenderableWidget(new EditBox(this.font, this.leftPos + 15,
-                this.topPos + 126, 100, 15, this.createDestinationBox,
-                Component.translatable("arcaneadditions:components/tree_stride.new_destination")));
-        this.createDestinationButton = addRenderableWidget(new ExtendedButton(this.leftPos + 120,
+        EditBox newDestination = new EditBox(this.font, this.leftPos + 8,
+                this.topPos + 128, 117, 12, this.createDestinationBox,
+                Component.translatable("arcaneadditions:components/tree_stride.new_destination"));
+        newDestination.setMaxLength(24);
+        this.createDestinationBox = addRenderableWidget(newDestination);
+        this.createDestinationButton = addRenderableWidget(new ExtendedButton(this.leftPos + 128,
                 this.topPos + 126, 40, 16, Component.translatable("arcaneadditions:components/tree_stride.save"),
                 btn -> this.handleNewDestination()));
     }

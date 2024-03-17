@@ -24,7 +24,7 @@ import org.sosly.arcaneadditions.configs.Config;
 import org.sosly.arcaneadditions.effects.EffectRegistry;
 import org.sosly.arcaneadditions.entities.EntityRegistry;
 import org.sosly.arcaneadditions.items.ItemRegistry;
-import org.sosly.arcaneadditions.menus.MenuRegistry;
+import org.sosly.arcaneadditions.gui.menus.MenuRegistry;
 import org.sosly.arcaneadditions.utils.ClientProxy;
 import org.sosly.arcaneadditions.utils.ISidedProxy;
 import org.sosly.arcaneadditions.utils.RLoc;
