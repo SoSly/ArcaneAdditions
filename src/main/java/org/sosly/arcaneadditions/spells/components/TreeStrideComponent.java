@@ -22,7 +22,7 @@ import net.minecraft.world.SimpleMenuProvider;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.network.NetworkHooks;
 import org.sosly.arcaneadditions.capabilities.treestride.TreestrideProvider;
-import org.sosly.arcaneadditions.menus.TreeStrideMenu;
+import org.sosly.arcaneadditions.gui.menus.TreeStrideMenu;
 import org.sosly.arcaneadditions.utils.TreeFinder;
 
 import java.util.Set;
