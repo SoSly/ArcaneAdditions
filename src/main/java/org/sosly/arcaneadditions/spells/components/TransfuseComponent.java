@@ -68,7 +68,7 @@ public class TransfuseComponent extends SpellEffect implements IDamageComponent 
             livingSource.heal(healing);
         }
 
-        return ComponentApplicationResult.NOT_PRESENT;
+        return ComponentApplicationResult.SUCCESS;
     }
 
     @Override
