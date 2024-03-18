@@ -1,4 +1,7 @@
 {
+  "arcaneadditions:advancements/summon_familiar.title": "Familiar Bond",
+  "arcaneadditions:advancements/summon_familiar.description": "Bind a familiar to assist you.",
+
   "arcaneadditions:components/astral_projection": "Astral Projection",
   "arcaneadditions:components/astral_projection.desc.delay": "A delay in seconds before applying this component.",
   "arcaneadditions:components/astral_projection.desc.duration": "The maximum duration of the projection.  Can be ended early by double tapping space.",
@@ -41,12 +44,12 @@
   "arcaneadditions:components/tree_stride.save": "Save",
   "arcaneadditions:components/tree_stride.travel": "You travel through the root network to %s.",
 
-  "arcaneadditions:rituals/bind-familiar": "Ritual of Familiar Binding",
-  "arcaneadditions:rituals/bind-familiar.already_bound": "Your previous familiar has been dismissed.",
-  "arcaneadditions:rituals/bind-familiar.invalid_familiar": "You cannot bind a familiar of that type.",
-  "arcaneadditions:rituals/bind-familiar.no_phylactery": "This ritual will not work without a filled phylactery",
-  "arcaneadditions:rituals/bind-familiar.failed": "Your familiar could not be summoned into the world.",
-  "arcaneadditions:rituals/bind-familiar.success": "You bind a %s familiar.",
+  "arcaneadditions:rituals/bind_familiar": "Ritual of Familiar Binding",
+  "arcaneadditions:rituals/bind_familiar.already_bound": "Your previous familiar has been dismissed.",
+  "arcaneadditions:rituals/bind_familiar.invalid_familiar": "You cannot bind a familiar of that type.",
+  "arcaneadditions:rituals/bind_familiar.no_phylactery": "This ritual will not work without a filled phylactery",
+  "arcaneadditions:rituals/bind_familiar.failed": "Your familiar could not be summoned into the world.",
+  "arcaneadditions:rituals/bind_familiar.success": "You bind a %s familiar.",
 
   "arcaneadditions:shapes/familiar": "Familiar",
   "arcaneadditions:shapes/shared": "Shared",

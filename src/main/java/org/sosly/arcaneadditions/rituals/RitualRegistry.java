@@ -13,7 +13,7 @@ public class RitualRegistry {
     @SubscribeEvent
     public static void registerRitualEffects(RegisterEvent event) {
         event.register(Registries.RitualEffect.get().getRegistryKey(), helper -> {
-            helper.register(RLoc.create("ritual-bind-familiar"), new BindFamiliarRitual(RLoc.create("rituals/bind-familiar")));
+            helper.register(RLoc.create("ritual/bind_familiar"), new BindFamiliarRitual(RLoc.create("rituals/bind_familiar")));
         });
     }
 }

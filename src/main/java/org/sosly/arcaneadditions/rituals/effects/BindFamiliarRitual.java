@@ -73,30 +73,30 @@ public class BindFamiliarRitual extends RitualEffect {
         }
 
         if (stack.isEmpty()) {
-            player.sendSystemMessage(Component.translatable("arcaneadditions:rituals/bind-familiar.no_phylactery"));
+            player.sendSystemMessage(Component.translatable("arcaneadditions:rituals/bind_familiar.no_phylactery"));
             return false;
         }
 
         Item item = stack.getItem();
         if (!(item instanceof IPhylacteryItem)) {
-            player.sendSystemMessage(Component.translatable("arcaneadditions:rituals/bind-familiar.no_phylactery"));
+            player.sendSystemMessage(Component.translatable("arcaneadditions:rituals/bind_familiar.no_phylactery"));
             return false;
         }
 
         IPhylacteryItem phylactery = (IPhylacteryItem) item;
         if (!phylactery.isFull(stack)) {
-            player.sendSystemMessage(Component.translatable("arcaneadditions:rituals/bind-familiar.no_phylactery"));
+            player.sendSystemMessage(Component.translatable("arcaneadditions:rituals/bind_familiar.no_phylactery"));
             return false;
         }
 
         EntityType<?> type = phylactery.getContainedEntity(stack);
         if (type == null) {
-            player.sendSystemMessage(Component.translatable("arcaneadditions:rituals/bind-familiar.no_phylactery"));
+            player.sendSystemMessage(Component.translatable("arcaneadditions:rituals/bind_familiar.no_phylactery"));
             return false;
         }
 
         if (!Config.SERVER.familiar.familiars.get().contains(EntityType.getKey(type).toString())) {
-            player.sendSystemMessage(Component.translatable("arcaneadditions:rituals/bind-familiar.invalid_familiar"));
+            player.sendSystemMessage(Component.translatable("arcaneadditions:rituals/bind_familiar.invalid_familiar"));
             return false;
         }
 
@@ -105,20 +105,20 @@ public class BindFamiliarRitual extends RitualEffect {
         if (oldFamiliar != null) {
             oldFamiliar.remove(Entity.RemovalReason.DISCARDED);
             player.getPersistentData().remove(FamiliarHelper.FAMILIAR);
-            player.sendSystemMessage(Component.translatable("arcaneadditions:rituals/bind-familiar.already_bound"));
+            player.sendSystemMessage(Component.translatable("arcaneadditions:rituals/bind_familiar.already_bound"));
         }
 
         // Bind the familiar, then perform a last minute sanity check before attempting to add it to the level
         Mob familiar = bindFamiliar(player, level, type, pos);
         if (!(familiar instanceof PathfinderMob) || !level.addFreshEntity(familiar)) {
-            player.sendSystemMessage(Component.translatable("arcaneadditions:rituals/bind-familiar.failed"));
+            player.sendSystemMessage(Component.translatable("arcaneadditions:rituals/bind_familiar.failed"));
             return false;
         }
 
         familiar.getPersistentData().putUUID(FamiliarHelper.CASTER, player.getUUID());
         player.getPersistentData().putUUID(FamiliarHelper.FAMILIAR, familiar.getUUID());
         Component name = type.getDescription();
-        player.sendSystemMessage(Component.translatable("arcaneadditions:rituals/bind-familiar.success", name));
+        player.sendSystemMessage(Component.translatable("arcaneadditions:rituals/bind_familiar.success", name));
 
         return true;
     }

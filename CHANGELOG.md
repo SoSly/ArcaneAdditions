@@ -7,6 +7,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased](https://github.com/SoSly/ArcaneAdditions/tree/main)
 
+### Added
+- a new scribe's table was added for copying written spells onto blank vellum
+- you will now get an advancement when you summon your first familiar
+
+### Changed
+- the treestride gui was reworked and now better matches those included in mana & artifice
+
+### Fixed
+- added the missing counterspell recipe
+- added modifier descriptions for all spell components
+
 ## [1.20.1-forge-1.8.1](https://github.com/SoSly/ArcaneAdditions/releases/tag/1.20.1-forge-1.8.1)
 
 ### Fixed

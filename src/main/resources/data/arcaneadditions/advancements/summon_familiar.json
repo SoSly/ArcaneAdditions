@@ -1,0 +1,26 @@
+{
+  "parent": "mna:tier_2/advance_tier_3",
+  "display": {
+    "icon": {
+      "item": "minecraft:sweet_berries"
+    },
+    "title": {
+      "translate": "arcaneadditions:advancements/summon_familiar.title"
+    },
+    "description": {
+      "translate": "arcaneadditions:advancements/summon_familiar.description"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": false,
+    "hidden": true
+  },
+  "criteria": {
+    "familiar": {
+      "trigger": "mna:perform_ritual",
+      "conditions": {
+        "ritualID": "arcaneadditions:rituals/bind_familiar"
+      }
+    }
+  }
+}

@@ -14,9 +14,9 @@
     "       ",
     "       ",
     " T   T ",
-    " C   C ",
+    " C P C ",
     "       ",
-    "   P   ",
+    "   B   ",
     "       "
   ],
   "keys": {
@@ -34,6 +34,11 @@
       "item": "mna:crystal_phylactery",
       "optional": false,
       "consume": false
+    },
+    "B": {
+      "item": "minecraft:sweet_berries",
+      "optional": false,
+      "consume": true
     }
   },
   "parameters": {

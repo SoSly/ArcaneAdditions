@@ -120,8 +120,9 @@ dependencies {
 //    runtimeOnly fg.deobf("lilwings:lilwings:forge-1.18.2-1.2.4")
 //    runtimeOnly fg.deobf("naturalist:naturalist:forge-1.1.1-1.18.2")
 
-    // jei is included only for the purpose of testing jei compatibility
+    // these mods are included only for the purpose of testing
     runtimeOnly fg.deobf("curse.maven:jei-${jei_projectId}:${jei_fileId}")
+    runtimeOnly fg.deobf("curse.maven:better-advancements-${advancements_projectId}:${advancements_fileId}")
 }
 
 
