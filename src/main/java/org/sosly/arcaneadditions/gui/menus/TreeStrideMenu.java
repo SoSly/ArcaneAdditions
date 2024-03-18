@@ -15,6 +15,7 @@ import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.item.ItemStack;
 import org.sosly.arcaneadditions.capabilities.treestride.ITreestrideCapability;
 import org.sosly.arcaneadditions.capabilities.treestride.TreestrideProvider;
+import org.sosly.arcaneadditions.gui.MenuRegistry;
 
 public class TreeStrideMenu extends AbstractContainerMenu {
     ITreestrideCapability capability;

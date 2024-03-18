@@ -396,5 +396,44 @@
       }
     ]
   },
+  "Scribe's Bench": {
+    "index": 0,
+    "category": "artifice",
+    "sections": [
+      {
+        "type": "title",
+        "value": "Scribe's Bench"
+      },
+      {
+        "type": "text",
+        "value": "The scribe's bench allows me to create a copy of a spell I have already researched and inscribed onto a new sheet of vellum.",
+        "json": [
+          {
+            "text": "The "
+          },
+          {
+            "text": "Scribe's Bench",
+            "color": "blue"
+          },
+          {
+            "text": " allows me to create a copy of a spell I have already researched and inscribed onto a new sheet of "
+          },
+          {
+            "text": "vellum",
+            "color": "blue"
+          },
+          {
+            "text": "."
+          }
+        ]
+      }
+    ],
+    "related_recipes": [
+      {
+        "type": "manaweaving_altar",
+        "location": "arcaneadditions:manaweaving/artifice/scribes_bench"
+      }
+    ]
+  },
   "version": "1.8.0"
 }

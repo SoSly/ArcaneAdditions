@@ -1,0 +1,43 @@
+{
+  "format_version": "1.12.0",
+  "minecraft:geometry": [
+    {
+      "description": {
+        "identifier": "geometry.scribes_desk",
+        "texture_width": 16,
+        "texture_height": 16,
+        "visible_bounds_width": 2,
+        "visible_bounds_height": 2.5,
+        "visible_bounds_offset": [0, 0.75, 0]
+      },
+      "bones": [
+        {
+          "name": "STATICS",
+          "pivot": [0, 0, 0]
+        },
+        {
+          "name": "BASE_TABLE",
+          "parent": "STATICS",
+          "pivot": [0, 0, 0]
+        },
+        {
+          "name": "TABLETOP_ITEMS",
+          "parent": "STATICS",
+          "pivot": [0, 0, 0]
+        },
+        {
+          "name": "SPELL_SOURCE",
+          "pivot": [0, 1, 7]
+        },
+        {
+          "name": "SPELL_TARGET",
+          "pivot": [0, 1, 7]
+        },
+        {
+          "name": "SPELL_TARGET_WRITTEN",
+          "pivot": [0, 1, 7]
+        }
+      ]
+    }
+  ]
+}

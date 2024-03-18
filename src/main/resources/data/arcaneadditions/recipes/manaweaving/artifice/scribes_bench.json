@@ -1,0 +1,19 @@
+{
+  "type": "mna:manaweaving-recipe",
+  "output": "arcaneadditions:scribes_bench",
+  "tier": 2,
+  "items": [
+    "minecraft:flint",
+    "minecraft:oak_sign",
+    "minecraft:feather",
+    "mna:purified_vinteum_dust",
+    "mna:basic_table",
+    "mna:purified_vinteum_dust"
+  ],
+  "patterns": [
+    "mna:slash",
+    "mna:slash",
+    "mna:circle",
+    "mna:square"
+  ]
+}
