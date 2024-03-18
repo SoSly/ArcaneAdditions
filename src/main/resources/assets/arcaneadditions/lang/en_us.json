@@ -51,6 +51,8 @@
   "arcaneadditions:shapes/familiar": "Familiar",
   "arcaneadditions:shapes/shared": "Shared",
 
+  "block.arcaneadditions.scribes_bench": "Scribe's Bench",
+
   "effect.arcaneadditions.anti_magic": "Anti-Magic",
   "effect.arcaneadditions.astral_projection": "Astral Projection",
   "effect.arcaneadditions.enraged": "Enraged",
