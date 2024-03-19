@@ -13,6 +13,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 - the treestride gui was reworked and now better matches those included in mana & artifice
+- improved familiar AI a little bit, but it still needs a lot of work.
 
 ### Fixed
 - added the missing counterspell recipe
