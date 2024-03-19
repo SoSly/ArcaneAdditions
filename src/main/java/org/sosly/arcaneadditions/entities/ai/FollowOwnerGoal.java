@@ -50,11 +50,10 @@ public class FollowOwnerGoal extends Goal {
     @Override
     public boolean canUse() {
         if (!FamiliarHelper.isFamiliar(mob)) {
-            mob.remove(Entity.RemovalReason.DISCARDED);
             return false;
         }
 
-        if (FamiliarHelper.isSitting(mob)) {
+        if (FamiliarHelper.isOrderedToStay(mob)) {
             return false;
         }
 

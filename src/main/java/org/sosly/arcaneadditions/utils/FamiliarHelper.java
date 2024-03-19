@@ -1,22 +1,23 @@
 package org.sosly.arcaneadditions.utils;
 
+import com.mna.api.entities.ai.CastSpellAtTargetGoal;
+import com.mna.api.entities.ai.CastSpellOnSelfGoal;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.Mob;
-import net.minecraft.world.entity.PathfinderMob;
 import net.minecraft.world.entity.TamableAnimal;
-import net.minecraft.world.entity.ai.goal.FloatGoal;
-import net.minecraft.world.entity.ai.goal.LookAtPlayerGoal;
-import net.minecraft.world.entity.ai.goal.PanicGoal;
-import net.minecraft.world.entity.ai.goal.WaterAvoidingRandomStrollGoal;
+import net.minecraft.world.entity.ai.goal.*;
 import net.minecraft.world.entity.ambient.Bat;
 import net.minecraft.world.entity.animal.Fox;
-import net.minecraft.world.entity.animal.Rabbit;
-import net.minecraft.world.entity.animal.frog.Frog;
+import net.minecraft.world.entity.animal.Parrot;
+import net.minecraft.world.entity.animal.goat.Goat;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
+import org.sosly.arcaneadditions.ArcaneAdditions;
+import org.sosly.arcaneadditions.entities.ai.*;
 import org.sosly.arcaneadditions.entities.ai.FollowOwnerGoal;
 
 import java.util.UUID;
@@ -24,8 +25,8 @@ import java.util.UUID;
 public class FamiliarHelper {
     public static final String CASTER = "arcaneadditions:caster";
     public static final String FAMILIAR = "arcaneadditions:familiar";
-    public static final String LAST_INTERACT = "arcaneadditions:familiar-interact";
-    public static final String SITTING = "arcaneadditions:familiar-sitting";
+    public static final String LAST_INTERACT = "arcaneadditions:familiar/last_interact";
+    public static final String ORDERED_TO_STAY = "arcaneadditions:familiar/ordered_to_stay";
 
     public static Mob getFamiliar(Player player) {
         if (!hasFamiliar(player)) {
@@ -33,10 +34,6 @@ public class FamiliarHelper {
         }
 
         UUID familiarID = player.getPersistentData().getUUID(FAMILIAR);
-        if (familiarID == null) {
-            return null;
-        }
-
         MinecraftServer server = player.getServer();
         if (server == null) {
             return null;
@@ -101,40 +98,55 @@ public class FamiliarHelper {
         return mob.getPersistentData().hasUUID(CASTER);
     }
 
-    public static boolean isSitting(Mob familiar) {
-        return familiar.getPersistentData().getBoolean(SITTING);
+    public static boolean isOrderedToStay(Mob familiar) {
+        return familiar.getPersistentData().getBoolean(ORDERED_TO_STAY);
     }
 
-    public static void orderFamiliarToSit(Mob familiar) {
+    public static void setInStayingPose(Mob familiar, boolean shouldStay) {
         long interact = familiar.getPersistentData().getLong(LAST_INTERACT);
         if (interact > familiar.level().getGameTime() - 20L) {
             return;
         }
 
-        boolean goal = !familiar.getPersistentData().getBoolean(SITTING);
-        if (goal) {
-            familiar.setTarget(null);
-            familiar.getNavigation().stop();
-        }
-
         // todo: add more familiar types?  Maybe there's something less hacky we can do with mixins or something
         if (familiar instanceof TamableAnimal animal) {
-            animal.setOrderedToSit(goal);
+            if (animal instanceof Parrot parrot && parrot.canSitOnShoulder()) {
+                parrot.setEntityOnShoulder((ServerPlayer) FamiliarHelper.getCaster(familiar));
+            }
+            animal.setOrderedToSit(shouldStay);
         } else if (familiar instanceof Fox fox) {
-            fox.setSitting(goal);
+            fox.setSitting(shouldStay);
+        } else if (familiar instanceof Bat bat) {
+            bat.setResting(shouldStay);
         }
 
         familiar.getPersistentData().putLong(LAST_INTERACT, familiar.level().getGameTime());
-        familiar.getPersistentData().putBoolean(SITTING, goal);
+        familiar.getPersistentData().putBoolean(ORDERED_TO_STAY, shouldStay);
     }
 
-    public static void setFamiliar(PathfinderMob familiar) {
-        // Familiar AI
-        familiar.goalSelector.getAvailableGoals().clear();
-        familiar.goalSelector.addGoal(0, new FollowOwnerGoal(familiar, 1.0D, 10.0F, 2.0F, 5.0F, true));
-        familiar.goalSelector.addGoal(1, new FloatGoal(familiar));
-        familiar.goalSelector.addGoal(1, new PanicGoal(familiar, 1.5D));
-        familiar.goalSelector.addGoal(11, new WaterAvoidingRandomStrollGoal(familiar, 0.8D, 1.0000001E-5F));
-        familiar.goalSelector.addGoal(12, new LookAtPlayerGoal(familiar, Player.class, 10.0F));
+    public static void addFamiliarAI(Mob familiar, Player owner) {
+        ArcaneAdditions.LOGGER.info("here");
+
+        // Remove goals that we don't want
+        familiar.goalSelector.getAvailableGoals().removeIf(g -> g.getGoal() instanceof AvoidEntityGoal);
+        familiar.goalSelector.getAvailableGoals().removeIf(g -> g.getGoal() instanceof BreedGoal);
+        familiar.goalSelector.getAvailableGoals().removeIf(g -> g.getGoal() instanceof CastSpellAtTargetGoal);
+        familiar.goalSelector.getAvailableGoals().removeIf(g -> g.getGoal() instanceof CastSpellOnSelfGoal);
+        familiar.goalSelector.getAvailableGoals().removeIf(g -> g.getGoal() instanceof EatBlockGoal);
+        familiar.goalSelector.getAvailableGoals().removeIf(g -> g.getGoal() instanceof PanicGoal);
+        familiar.goalSelector.getAvailableGoals().removeIf(g -> g.getGoal() instanceof PathfindToRaidGoal);
+        familiar.goalSelector.getAvailableGoals().removeIf(g -> g.getGoal() instanceof TemptGoal);
+        familiar.targetSelector.removeAllGoals((g) -> true);
+
+        // Add new goals
+        familiar.goalSelector.addGoal(2, new StayWhenOrderedToGoal(familiar));
+        familiar.goalSelector.addGoal(6, new FollowOwnerGoal(familiar, 1.0D, 10.0F, 2.0F, 5.0F, true));
+        familiar.targetSelector.addGoal(0, new NeverTargetOwnerGoal(familiar));
+        familiar.targetSelector.addGoal(1, new OwnerHurtByTargetGoal(familiar));
+        familiar.targetSelector.addGoal(2, new OwnerHurtTargetGoal(familiar));
+
+        ArcaneAdditions.LOGGER.info("here");
+        // todo: add a defend owner (see: OwnerHurtByTargetGoal and TargetDefendOwnerGoal) p1
+        // todo: add goals for spellcasting p1
     }
 }

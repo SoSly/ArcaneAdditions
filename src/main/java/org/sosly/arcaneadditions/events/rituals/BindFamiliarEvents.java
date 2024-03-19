@@ -1,6 +1,7 @@
 package org.sosly.arcaneadditions.events.rituals;
 
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.PathfinderMob;
 import net.minecraft.world.entity.player.Player;
 import net.minecraftforge.event.entity.EntityJoinLevelEvent;
@@ -16,12 +17,13 @@ public class BindFamiliarEvents {
     @SubscribeEvent
     public static void onJoinLevel(EntityJoinLevelEvent event) {
         Entity entity = event.getEntity();
-        if (!(entity instanceof PathfinderMob mob)) {
+        if (!(entity instanceof Mob mob)) {
             return;
         }
 
         if (FamiliarHelper.isFamiliar(mob)) {
-            FamiliarHelper.setFamiliar(mob);
+            Player owner = FamiliarHelper.getCaster(mob);
+             FamiliarHelper.addFamiliarAI(mob, owner);
         }
     }
 
@@ -32,19 +34,16 @@ public class BindFamiliarEvents {
         }
 
         Entity target = event.getTarget();
-        if (!(target instanceof PathfinderMob mob)) {
+        if (!FamiliarHelper.isFamiliar(target)) {
             return;
         }
 
+        Mob familiar = (Mob) target;
         Player player = event.getEntity();
-        if (!FamiliarHelper.isFamiliar(mob)) {
-            return;
+        if (!FamiliarHelper.isCaster(familiar, player)) {
+           return;
         }
 
-         if (!FamiliarHelper.isCaster(mob, player)) {
-            return;
-         }
-
-         FamiliarHelper.orderFamiliarToSit(mob);
+        FamiliarHelper.setInStayingPose(familiar, !FamiliarHelper.isOrderedToStay(familiar));
     }
 }
