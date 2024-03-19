@@ -62,8 +62,8 @@ public class TreeStrideScreen extends AbstractContainerScreen<TreeStrideMenu> {
                     .sorted(Map.Entry.<BlockPos, String>comparingByValue())
                     .forEach(destination -> {
                         topPos.addAndGet(12);
-                        addRenderableWidget(new TreeStrideDestination(this.leftPos + 20, this.topPos + topPos.get(), 130, 14, Component.literal(destination.getValue()), btn -> this.teleportPlayer(destination.getKey(), destination.getValue())));
                         addRenderableWidget(new TreeStrideDelete(this.leftPos + 10, this.topPos + topPos.get(), 14, 14, Component.literal("X"), btn -> this.deleteDestination(destination.getKey(), destination.getValue())));
+                        addRenderableWidget(new TreeStrideDestination(this.leftPos + 24, this.topPos + topPos.get(), 130, 14, Component.literal(destination.getValue()), btn -> this.teleportPlayer(destination.getKey(), destination.getValue())));
                     });
 
                 if (destinations.size() >= 7) {
