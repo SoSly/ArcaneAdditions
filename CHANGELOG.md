@@ -17,6 +17,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 - added the missing counterspell recipe
 - added modifier descriptions for all spell components
+- updated the treestride gui so that the delete button does not overlap the teleport text 
 
 ## [1.20.1-forge-1.8.1](https://github.com/SoSly/ArcaneAdditions/releases/tag/1.20.1-forge-1.8.1)
 
