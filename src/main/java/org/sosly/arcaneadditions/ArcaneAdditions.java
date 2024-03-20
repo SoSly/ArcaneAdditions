@@ -8,15 +8,12 @@
 package org.sosly.arcaneadditions;
 
 import com.mna.api.guidebook.RegisterGuidebooksEvent;
-import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.config.ModConfig;
-import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.fml.loading.FMLEnvironment;
@@ -28,8 +25,8 @@ import org.sosly.arcaneadditions.compats.CompatRegistry;
 import org.sosly.arcaneadditions.configs.Config;
 import org.sosly.arcaneadditions.effects.EffectRegistry;
 import org.sosly.arcaneadditions.entities.EntityRegistry;
-import org.sosly.arcaneadditions.items.ItemRegistry;
 import org.sosly.arcaneadditions.gui.MenuRegistry;
+import org.sosly.arcaneadditions.items.ItemRegistry;
 import org.sosly.arcaneadditions.utils.ClientProxy;
 import org.sosly.arcaneadditions.utils.ISidedProxy;
 import org.sosly.arcaneadditions.utils.RLoc;
