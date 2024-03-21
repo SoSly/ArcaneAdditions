@@ -5,6 +5,7 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.event.entity.EntityJoinLevelEvent;
@@ -17,6 +18,7 @@ import org.sosly.arcaneadditions.ArcaneAdditions;
 import org.sosly.arcaneadditions.capabilities.familiar.FamiliarProvider;
 import org.sosly.arcaneadditions.capabilities.familiar.IFamiliarCapability;
 import org.sosly.arcaneadditions.utils.FamiliarHelper;
+import org.sosly.arcaneadditions.utils.RLoc;
 
 @Mod.EventBusSubscriber(modid = ArcaneAdditions.MOD_ID, bus = Mod.EventBusSubscriber.Bus.FORGE)
 public class BindFamiliarEvents {
@@ -30,17 +32,42 @@ public class BindFamiliarEvents {
     @SubscribeEvent
     public static void onJoinLevel(EntityJoinLevelEvent event) {
         Entity entity = event.getEntity();
-        if (!(entity instanceof ServerPlayer player)) {
-            return;
+
+        // resummon the player's familiar if they have one
+        if (entity instanceof ServerPlayer player) {
+            IFamiliarCapability cap = FamiliarHelper.getFamiliarCapability(player);
+            if (cap == null) {
+                return;
+            }
+
+            if (cap.getType() != null && !cap.isBapped()) {
+                FamiliarHelper.createFamiliar(player, cap.getType(), Component.literal(cap.getName()), event.getLevel(), player.getOnPos());
+            }
         }
 
-        IFamiliarCapability cap = FamiliarHelper.getFamiliarCapability(player);
-        if (cap == null) {
-            return;
-        }
+        // ensure this isn't a familiar missing a player
+        if (entity instanceof Mob mob && FamiliarHelper.isFamiliar(mob)) {
+            IFamiliarCapability fCap = FamiliarHelper.getFamiliarCapability(mob);
+            if (fCap == null) {
+                mob.remove(Entity.RemovalReason.DISCARDED);
+                return;
+            }
 
-        if (cap.getType() != null) {
-            FamiliarHelper.createFamiliar(player, cap.getType(), Component.literal(cap.getName()), event.getLevel(), player.getOnPos());
+            if (fCap.getCaster() == null) {
+                mob.remove(Entity.RemovalReason.DISCARDED);
+                return;
+            }
+
+            IFamiliarCapability pCap = FamiliarHelper.getFamiliarCapability(fCap.getCaster());
+            if (pCap == null) {
+                mob.remove(Entity.RemovalReason.DISCARDED);
+                return;
+            }
+
+            if (pCap.getFamiliar() != mob) {
+                mob.remove(Entity.RemovalReason.DISCARDED);
+                return;
+            }
         }
     }
 
@@ -74,7 +101,23 @@ public class BindFamiliarEvents {
             return;
         }
 
-        if (!cap.getFamiliar().equals(event.getTarget())) {
+        Mob familiar = cap.getFamiliar();
+        if (!familiar.equals(event.getTarget())) {
+            return;
+        }
+
+        ServerPlayer player = (ServerPlayer) event.getEntity();
+        if (!cap.getCaster().equals(player)) {
+            return;
+        }
+
+        // bap!
+        // bolt, upside down triangle, circle (I _call you down_, _here_, _from anywhere_) cantrip to reverse
+        ItemStack stack = event.getItemStack();
+        if (stack.getTags().anyMatch(tag -> tag.location().equals(RLoc.create("can_bap_familiars")))) {
+            cap.setBapped(true);
+            familiar.remove(Entity.RemovalReason.DISCARDED);
+            event.setCanceled(true);
             return;
         }
 
@@ -83,6 +126,7 @@ public class BindFamiliarEvents {
             return;
         }
 
+        // osuwari!
         cap.setOrderedToStay(!cap.isOrderedToStay());
     }
 

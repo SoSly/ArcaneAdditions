@@ -56,6 +56,9 @@
 
   "block.arcaneadditions.scribes_bench": "Scribe's Bench",
 
+  "cantrip.arcaneadditions.cantrips/unbap": "Resummon Familiar",
+  "cantrip.arcaneadditions.cantrips/unbap.desc": "After dismissing your familiar with your wand, you can use this cantrip to resummon it.",
+
   "effect.arcaneadditions.anti_magic": "Anti-Magic",
   "effect.arcaneadditions.astral_projection": "Astral Projection",
   "effect.arcaneadditions.enraged": "Enraged",

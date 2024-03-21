@@ -21,6 +21,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.sosly.arcaneadditions.blocks.BlockRegistry;
 import org.sosly.arcaneadditions.blocks.TileEntityRegistry;
+import org.sosly.arcaneadditions.cantrips.Cantrips;
 import org.sosly.arcaneadditions.compats.CompatRegistry;
 import org.sosly.arcaneadditions.configs.Config;
 import org.sosly.arcaneadditions.effects.EffectRegistry;
@@ -70,5 +71,6 @@ public class ArcaneAdditions {
     @SubscribeEvent
     public static void setupCommon(FMLCommonSetupEvent event) {
         CompatRegistry.registerCompats();
+        Cantrips.registerCantrips();
     }
 }

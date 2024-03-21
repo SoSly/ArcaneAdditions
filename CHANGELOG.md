@@ -13,6 +13,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - familiars now have their own mana pool based on their caster's level
 - familiars now regenerate health over time if they have enough mana to do so
 - familiars now have damage resistance based on their caster's level
+- you can now bap your familiar with a wand to temporarily unsummon them
+- there is a cantrip to re-summon your familiar after you have bapped them
 
 ### Changed
 - the treestride gui was reworked and now better matches those included in mana & artifice
