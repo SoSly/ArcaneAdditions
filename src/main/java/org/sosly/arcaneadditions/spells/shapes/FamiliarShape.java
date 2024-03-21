@@ -20,21 +20,27 @@ public class FamiliarShape extends Shape {
     }
 
     public List<SpellTarget> Target(SpellSource source, Level level, IModifiedSpellPart<Shape> modifiedData, ISpellDefinition recipe) {
-        if (source.getCaster() == null || !(source.getCaster() instanceof Player)) {
+        if (source.getCaster() == null) {
             return null;
         }
 
-        Player player = (Player) source.getCaster();
-        if (!FamiliarHelper.hasFamiliar(player)) {
-            return null;
+        Player player;
+        Mob familiar;
+        if (source.getCaster() instanceof Player) {
+            player = (Player) source.getCaster();
+            familiar = FamiliarHelper.getFamiliar(player);
+            if (familiar == null) {
+                return null;
+            }
+            return List.of(new SpellTarget(familiar));
+        } else {
+            familiar = (Mob) source.getCaster();
+            player = FamiliarHelper.getCaster(familiar);
+            if (player == null) {
+                return null;
+            }
+            return List.of(new SpellTarget(player));
         }
-
-        Mob familiar = FamiliarHelper.getFamiliar(player);
-        if (familiar == null) {
-            return null;
-        }
-
-        return List.of(new SpellTarget(familiar));
     }
 
     public float initialComplexity() {

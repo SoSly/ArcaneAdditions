@@ -7,7 +7,6 @@ import com.mna.api.spells.parts.Shape;
 import com.mna.api.spells.targeting.SpellSource;
 import com.mna.api.spells.targeting.SpellTarget;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
@@ -25,17 +24,21 @@ public class SharedShape extends Shape {
             return null;
         }
 
-        Player player = (Player) source.getCaster();
-        if (!FamiliarHelper.hasFamiliar(player)) {
+        Player player;
+        Mob familiar;
+        if (source.getCaster() instanceof Player) {
+            player = (Player) source.getCaster();
+            familiar = FamiliarHelper.getFamiliar(player);
+        } else {
+            familiar = (Mob) source.getCaster();
+            player = FamiliarHelper.getCaster(familiar);
+        }
+
+        if (familiar == null || player == null) {
             return null;
         }
 
-        Mob familiar = FamiliarHelper.getFamiliar(player);
-        if (familiar == null) {
-            return null;
-        }
-
-        return List.of(new SpellTarget(familiar), new SpellTarget(source.getCaster()));
+        return List.of(new SpellTarget(familiar), new SpellTarget(player));
     }
 
     public float initialComplexity() {

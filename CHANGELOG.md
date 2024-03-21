@@ -10,10 +10,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 - a new scribe's table was added for copying written spells onto blank vellum
 - you will now get an advancement when you summon your first familiar
+- familiars now have their own mana pool based on their caster's level
+- familiars now regenerate health over time if they have enough mana to do so
+- familiars now have damage resistance based on their caster's level
 
 ### Changed
 - the treestride gui was reworked and now better matches those included in mana & artifice
-- improved familiar AI a little bit, but it still needs a lot of work.
+- improved familiar AI a little bit, but it still needs a lot of work
+- familiars now disconnect when their caster leaves the server. Don't worry, they'll be back when you log in again.
+- familiars may now wander a little farther from you
 
 ### Fixed
 - added the missing counterspell recipe
