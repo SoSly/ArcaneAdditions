@@ -11,6 +11,7 @@ import net.minecraftforge.common.capabilities.RegisterCapabilitiesEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import org.sosly.arcaneadditions.ArcaneAdditions;
+import org.sosly.arcaneadditions.capabilities.familiar.IFamiliarCapability;
 import org.sosly.arcaneadditions.capabilities.polymorph.IPolymorphCapability;
 import org.sosly.arcaneadditions.capabilities.treestride.ITreestrideCapability;
 
@@ -18,6 +19,7 @@ import org.sosly.arcaneadditions.capabilities.treestride.ITreestrideCapability;
 public class CapabilityRegistry {
     @SubscribeEvent
     public void registerCapabilities(RegisterCapabilitiesEvent event) {
+        event.register(IFamiliarCapability.class);
         event.register(IPolymorphCapability.class);
         event.register(ITreestrideCapability.class);
     }

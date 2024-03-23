@@ -13,14 +13,13 @@ import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerLevel;
-import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.phys.Vec3;
+import org.sosly.arcaneadditions.capabilities.familiar.IFamiliarCapability;
 import org.sosly.arcaneadditions.configs.Config;
 import org.sosly.arcaneadditions.utils.FamiliarHelper;
 
@@ -36,7 +35,7 @@ public class BindFamiliarRitual extends RitualEffect {
             return Component.literal("No player reference found for ritual, aborting.");
         }
 
-        IPlayerProgression p = (IPlayerProgression) context.getCaster().getCapability(PlayerProgressionProvider.PROGRESSION).orElse(null);
+        IPlayerProgression p = context.getCaster().getCapability(PlayerProgressionProvider.PROGRESSION).orElse(null);
         return p != null && p.getTier() >= 3 ? null : Component.literal("You must be at least tier 3 to bind a familiar.");
     }
 
@@ -56,9 +55,8 @@ public class BindFamiliarRitual extends RitualEffect {
         }
 
         BlockPos pos = context.getCenter();
-
         while (reagents.hasNext()) {
-            ItemStack itemStack = (ItemStack) reagents.next();
+            ItemStack itemStack = reagents.next();
             if (itemStack.getItem() == ItemInit.CRYSTAL_PHYLACTERY.get()) {
                 stack = itemStack;
                 break;
@@ -71,18 +69,17 @@ public class BindFamiliarRitual extends RitualEffect {
         }
 
         Item item = stack.getItem();
-        if (!(item instanceof IPhylacteryItem)) {
+        if (!(item instanceof IPhylacteryItem phylactery)) {
             player.sendSystemMessage(Component.translatable("arcaneadditions:rituals/bind_familiar.no_phylactery"));
             return false;
         }
 
-        IPhylacteryItem phylactery = (IPhylacteryItem) item;
         if (!phylactery.isFull(stack)) {
             player.sendSystemMessage(Component.translatable("arcaneadditions:rituals/bind_familiar.no_phylactery"));
             return false;
         }
 
-        EntityType<?> type = phylactery.getContainedEntity(stack);
+        EntityType<? extends Mob> type = phylactery.getContainedEntity(stack);
         if (type == null) {
             player.sendSystemMessage(Component.translatable("arcaneadditions:rituals/bind_familiar.no_phylactery"));
             return false;
@@ -94,48 +91,27 @@ public class BindFamiliarRitual extends RitualEffect {
         }
 
         // Check if the player already has a familiar
-        Mob oldFamiliar = FamiliarHelper.getFamiliar(player);
-        if (oldFamiliar != null) {
-            oldFamiliar.remove(Entity.RemovalReason.DISCARDED);
-            player.getPersistentData().remove(FamiliarHelper.FAMILIAR);
-            player.sendSystemMessage(Component.translatable("arcaneadditions:rituals/bind_familiar.already_bound"));
+        if (FamiliarHelper.hasFamiliar(player)) {
+            FamiliarHelper.removeFamiliar(player);
         }
-
-        // Bind the familiar, then perform a last minute sanity check before attempting to add it to the level
-        Mob familiar = bindFamiliar(player, level, type, pos);
-        if (familiar == null || !level.addFreshEntity(familiar)) {
-            player.sendSystemMessage(Component.translatable("arcaneadditions:rituals/bind_familiar.failed"));
-            return false;
-        }
-
-        familiar.getPersistentData().putUUID(FamiliarHelper.CASTER, player.getUUID());
-        player.getPersistentData().putUUID(FamiliarHelper.FAMILIAR, familiar.getUUID());
-        Component name = type.getDescription();
-        player.sendSystemMessage(Component.translatable("arcaneadditions:rituals/bind_familiar.success", name));
-
-        return true;
-    }
-
-    protected int getApplicationTicks(IRitualContext context) {
-        return 20;
-    }
-
-    private Mob bindFamiliar(Player player, ServerLevel level, EntityType<?> type, BlockPos pos) {
         String name = player.getDisplayName().getString();
         MutableComponent familiarName = Component.literal(name)
                 .append("'s ")
                 .append(Component.translatable(type.getDescriptionId()))
                 .append(" Familiar");
-        Mob familiar = (Mob) type.create(level);
-        if (familiar == null) {
-            return null;
+        if (!FamiliarHelper.createFamiliar(player, type, familiarName, level, pos)) {
+            player.sendSystemMessage(Component.translatable("arcaneadditions:rituals/bind_familiar.failed"));
+            return false;
         }
-        familiar.setPos(Vec3.atBottomCenterOf(pos.above()));
+        IFamiliarCapability cap = FamiliarHelper.getFamiliarCapability(player);
+        if (cap != null) {
+            cap.getCastingResource().setAmount(0);
+        }
+        player.sendSystemMessage(Component.translatable("arcaneadditions:rituals/bind_familiar.success", name));
+        return true;
+    }
 
-        familiar.setCustomName(familiarName);
-        familiar.setCustomNameVisible(true);
-        FamiliarHelper.addFamiliarAI(familiar, player);
-
-        return familiar;
+    protected int getApplicationTicks(IRitualContext context) {
+        return 20;
     }
 }

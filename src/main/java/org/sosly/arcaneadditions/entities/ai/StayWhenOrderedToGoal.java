@@ -1,9 +1,9 @@
 package org.sosly.arcaneadditions.entities.ai;
 
-import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.ai.goal.Goal;
 import net.minecraft.world.entity.player.Player;
+import org.sosly.arcaneadditions.capabilities.familiar.IFamiliarCapability;
 import org.sosly.arcaneadditions.utils.FamiliarHelper;
 
 import java.util.EnumSet;
@@ -17,11 +17,13 @@ public class StayWhenOrderedToGoal extends Goal {
     }
 
     public boolean canContinueToUse() {
-        return FamiliarHelper.isOrderedToStay(familiar);
+        IFamiliarCapability cap = FamiliarHelper.getFamiliarCapability(familiar);
+        return cap != null && cap.isOrderedToStay();
     }
 
     public boolean canUse() {
-        if (!FamiliarHelper.isFamiliar(familiar)) {
+        IFamiliarCapability cap = FamiliarHelper.getFamiliarCapability(familiar);
+        if (cap == null) {
             return false;
         }
 
@@ -29,20 +31,26 @@ public class StayWhenOrderedToGoal extends Goal {
             return false;
         }
 
-        Player owner = FamiliarHelper.getCaster(familiar);
-        if (owner == null) {
+        Player caster = cap.getCaster();
+        if (caster == null) {
             return false;
         }
 
-        return (!(familiar.distanceToSqr(owner) < 144.0D) || owner.getLastHurtByMob() == null) && FamiliarHelper.isOrderedToStay(familiar);
+        return (!(familiar.distanceToSqr(caster) < 144.0D) || caster.getLastHurtByMob() == null) && cap.isOrderedToStay();
     }
 
     public void start() {
         familiar.getNavigation().stop();
-        FamiliarHelper.setInStayingPose(familiar, true);
+        IFamiliarCapability cap = FamiliarHelper.getFamiliarCapability(familiar);
+        if (cap != null) {
+            cap.setOrderedToStay(true);
+        }
     }
 
     public void stop() {
-        FamiliarHelper.setInStayingPose(familiar, false);
+        IFamiliarCapability cap = FamiliarHelper.getFamiliarCapability(familiar);
+        if (cap != null) {
+            cap.setOrderedToStay(false);
+        }
     }
 }

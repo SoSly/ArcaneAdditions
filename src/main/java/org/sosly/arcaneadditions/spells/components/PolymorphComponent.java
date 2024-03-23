@@ -7,7 +7,6 @@
 
 package org.sosly.arcaneadditions.spells.components;
 
-import com.mna.api.ManaAndArtificeMod;
 import com.mna.api.affinity.Affinity;
 import com.mna.api.capabilities.IPlayerProgression;
 import com.mna.api.config.GeneralConfigValues;
@@ -22,7 +21,6 @@ import com.mna.api.spells.targeting.SpellContext;
 import com.mna.api.spells.targeting.SpellSource;
 import com.mna.api.spells.targeting.SpellTarget;
 import com.mna.capabilities.playerdata.progression.PlayerProgressionProvider;
-import com.mna.config.GeneralConfig;
 import com.mna.factions.Factions;
 import com.mna.items.ItemInit;
 import com.mna.items.sorcery.PhylacteryStaffItem;
@@ -138,7 +136,6 @@ public class PolymorphComponent extends SpellEffect {
 
             // apply the polymorph effect
             MobEffectInstance instance = new MobEffectInstance(EffectRegistry.POLYMORPH.get(), Integer.MAX_VALUE);
-//            instance.setNoCounter(true);
             targetEntity.addEffect(instance);
             targetEntity.setHealth(targetEntity.getMaxHealth());
 
