@@ -5,6 +5,8 @@ import com.mna.api.capabilities.resource.ICastingResource;
 import com.mna.capabilities.playerdata.magic.PlayerMagicProvider;
 import com.mna.capabilities.playerdata.magic.resources.CastingResourceRegistry;
 import com.mna.capabilities.playerdata.magic.resources.Mana;
+import net.minecraft.core.BlockPos;
+import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerLevel;
@@ -18,7 +20,9 @@ import net.minecraft.world.entity.ambient.Bat;
 import net.minecraft.world.entity.animal.Fox;
 import net.minecraft.world.entity.animal.Parrot;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.level.Level;
 import org.sosly.arcaneadditions.ArcaneAdditions;
+import org.sosly.arcaneadditions.utils.FamiliarHelper;
 
 import java.util.UUID;
 
@@ -35,6 +39,8 @@ public class FamiliarCapability implements IFamiliarCapability {
     private long lastResourceTick;
     private long lastMaintenanceTick;
     private long lastHealingTick;
+    private Level loadLevel;
+    private BlockPos loadPos;
     private String name = "";
     private boolean orderedToStay = false;
     private EntityType<? extends Mob> type;
@@ -125,6 +131,12 @@ public class FamiliarCapability implements IFamiliarCapability {
     }
 
     @Override
+    public void loadOnNextTick(Level level, BlockPos pos) {
+        loadLevel = level;
+        loadPos = pos;
+    }
+
+    @Override
     public String getName() {
         return name;
     }
@@ -171,6 +183,15 @@ public class FamiliarCapability implements IFamiliarCapability {
 
     @Override
     public void tick() {
+        // if the familiar is scheduled to load, then we need to load it.
+        if (loadLevel != null && loadPos != null) {
+            if (FamiliarHelper.createFamiliar(caster, type, Component.literal(name), loadLevel, loadPos)) {
+                loadLevel = null;
+                loadPos = null;
+            }
+            return;
+        }
+
         if (caster == null || familiar == null) {
             return;
         }
@@ -179,8 +200,8 @@ public class FamiliarCapability implements IFamiliarCapability {
         lastHealingTick = lastHealingTick > 0 ? lastHealingTick : caster.level().getGameTime();
         lastMaintenanceTick = lastMaintenanceTick > 0 ? lastMaintenanceTick : caster.level().getGameTime();
 
+        // validate the familiar's max mana every 40 ticks
         if (lastMaintenanceTick < (caster.level().getGameTime() - 40L)) {
-            // check whether the familiar's max mana needs to be updated based on the caster's magic level
             castingResource.setMaxAmountByLevel(this.getMagicLevel());
             lastMaintenanceTick = caster.level().getGameTime();
 

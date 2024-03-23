@@ -1,10 +1,12 @@
 package org.sosly.arcaneadditions.capabilities.familiar;
 
 import com.mna.api.capabilities.resource.ICastingResource;
+import net.minecraft.core.BlockPos;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.level.Level;
 import org.sosly.arcaneadditions.utils.RLoc;
 
 import java.util.UUID;
@@ -28,12 +30,13 @@ public interface IFamiliarCapability {
     long getLastInteract();
     void setLastInteract(long value);
 
+    void loadOnNextTick(Level level, BlockPos pos);
+
     String getName();
     void setName(String value);
 
     EntityType<? extends Mob> getType();
     void setType(EntityType<? extends Mob> value);
-
 
     boolean isOrderedToStay();
     void setOrderedToStay(boolean value);

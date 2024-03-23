@@ -1,6 +1,5 @@
 package org.sosly.arcaneadditions.events.rituals;
 
-import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.Mob;
@@ -33,18 +32,6 @@ public class BindFamiliarEvents {
     public static void onJoinLevel(EntityJoinLevelEvent event) {
         Entity entity = event.getEntity();
 
-        // resummon the player's familiar if they have one
-        if (entity instanceof ServerPlayer player) {
-            IFamiliarCapability cap = FamiliarHelper.getFamiliarCapability(player);
-            if (cap == null) {
-                return;
-            }
-
-            if (cap.getType() != null && !cap.isBapped()) {
-                FamiliarHelper.createFamiliar(player, cap.getType(), Component.literal(cap.getName()), event.getLevel(), player.getOnPos());
-            }
-        }
-
         // ensure this isn't a familiar missing a player
         if (entity instanceof Mob mob && FamiliarHelper.isFamiliar(mob)) {
             IFamiliarCapability fCap = FamiliarHelper.getFamiliarCapability(mob);
@@ -67,6 +54,19 @@ public class BindFamiliarEvents {
             if (pCap.getFamiliar() != mob) {
                 mob.remove(Entity.RemovalReason.DISCARDED);
                 return;
+            }
+        }
+
+        // resummon the player's familiar if they have one
+        if (entity instanceof ServerPlayer player) {
+            IFamiliarCapability cap = FamiliarHelper.getFamiliarCapability(player);
+            if (cap == null) {
+                return;
+            }
+
+            if (cap.getType() != null && !cap.isBapped()) {
+                cap.setCaster(player);
+                cap.loadOnNextTick(event.getLevel(), player.blockPosition());
             }
         }
     }
