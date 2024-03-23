@@ -302,14 +302,14 @@
     "sections": [
       {
         "type": "title",
-        "value": "Ritual of Familiar Binding"
+        "value": "Ritual of the Little Friend"
       },
       {
         "type": "text",
         "value": "",
         "json": [
           {
-            "text": "This creature calls forth a fey, demon, soul, or spirit and shapes its body based on a "
+            "text": "This ritual calls forth a fey, demon, soul, or spirit and shapes its body based on a "
           },
           {
             "text": "Phylactery ",
@@ -322,19 +322,48 @@
             "text": "\n\n"
           },
           {
-            "text": "The creature will be bound to me, and I can affect it with appropriately shaped spells.  "
+            "text": "The creature will be bound to me, and I can affect it from any distance with sorcery using the "
           },
           {
-            "text": "It will follow me like a pet, returning to my side whenever it strays too far."
+            "text": "Familiar",
+            "color": "blue"
+          },
+          {
+            "text": " or"
+          },
+          {
+              "text": " Shared",
+              "color": "blue"
+          },
+          {
+            "text": " shapes. It will follow me like a pet, returning to my side whenever it strays too far."
           },
           {
             "text": "\n\n"
           },
           {
-            "text": "It seems I can only have one of these familiars at a time, "
+            "text": "It seems I can only have one of these familiars at a time, but if my familiar dies I can always call another."
           },
           {
-            "text": "but if my familiar dies I can always call another."
+            "text": "\n\n"
+          },
+          {
+            "text": "Using a manaweaver's wand, I can gently bap my familiar on the head to temporarily dismiss them."
+          },
+          {
+            "text": " There is probably a cantrip I can learn to summon them back from wherever it is they are dismissed to."
+          },
+          {
+            "text": "\n\n"
+          },
+          {
+            "text": "My familiar has their own mana, and they seem to use it to regenerate their health, as well as to"
+          },
+          {
+            "text": " defend themself from harm, although I am sure there is a limit to their resistances.  With some"
+          },
+          {
+            "text": " effort, I can probably teach them to use their mana to cast spells."
           }
         ]
       }

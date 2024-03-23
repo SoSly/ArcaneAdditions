@@ -1,5 +1,5 @@
 {
-  "arcaneadditions:advancements/summon_familiar.title": "Familiar Bond",
+  "arcaneadditions:advancements/summon_familiar.title": "Say Hello to my Little Friend",
   "arcaneadditions:advancements/summon_familiar.description": "Bind a familiar to assist you.",
 
   "arcaneadditions:components/astral_projection": "Astral Projection",
@@ -44,7 +44,7 @@
   "arcaneadditions:components/tree_stride.save": "Save",
   "arcaneadditions:components/tree_stride.travel": "You travel through the root network to %s.",
 
-  "arcaneadditions:rituals/bind_familiar": "Ritual of Familiar Binding",
+  "arcaneadditions:rituals/bind_familiar": "Ritual of the Little Friend",
   "arcaneadditions:rituals/bind_familiar.already_bound": "Your previous familiar has been dismissed.",
   "arcaneadditions:rituals/bind_familiar.invalid_familiar": "You cannot bind a familiar of that type.",
   "arcaneadditions:rituals/bind_familiar.no_phylactery": "This ritual will not work without a filled phylactery",

@@ -17,7 +17,9 @@ public class Cantrips {
     private static final ResourceLocation INVERSE_TRIANGLE = new ResourceLocation("mna", "manaweave_patterns/inverted_triangle");
 
     public static void registerCantrips() {
-        CantripRegistry.INSTANCE.registerCantrip(RLoc.create("cantrips/unbap"), RLoc.create("textures/gui/cantrips/unbap.png"), 3, Cantrips::summonFamiliarAfterBap, ItemStack.EMPTY, BOLT, INVERSE_TRIANGLE, CIRCLE);
+        CantripRegistry.INSTANCE.registerCantrip(RLoc.create("cantrips/unbap"),
+                RLoc.create("textures/gui/cantrips/unbap.png"), 3, Cantrips::summonFamiliarAfterBap,
+                ItemStack.EMPTY, BOLT, INVERSE_TRIANGLE, CIRCLE).setRequiredAdvancement(RLoc.create("summon_familiar"));
     }
 
     public static void summonFamiliarAfterBap(Player player, ICantrip cantrip, InteractionHand hand) {
