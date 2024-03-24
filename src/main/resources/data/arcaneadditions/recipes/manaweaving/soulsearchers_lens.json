@@ -6,10 +6,11 @@
     "minecraft:amethyst_shard",
     "minecraft:amethyst_shard",
     "minecraft:amethyst_shard",
-    "minecraft:amethyst_shard",
+    "mna:transmuted_silver",
     "forge:glass_panes",
-    "mna:purified_vinteum_ingot",
+    "mna:transmuted_silver",
     "minecraft:stick",
+    "minecraft:amethyst_shard",
     "minecraft:leather"
   ],
   "patterns": [
