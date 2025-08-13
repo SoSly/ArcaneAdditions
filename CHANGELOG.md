@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 - Added a loot table to the scribe's bench so that it properly drops when broken
+- Fixed a typo in the Soul Searcher's Lens guidebook description
 
 ## [1.20.1-forge-1.9.6](https://github.com/SoSly/ArcaneAdditions/releases/tag/1.20.1-forge-1.9.6)
 ### Changed
