@@ -7,10 +7,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased](https://github.com/SoSly/ArcaneAdditions/tree/1.20.1
 
-## [1.20.1-forge-1.9.6](https://github.com/SoSly/ArcaneAdditions/releases/tag/1.20.1-forge-1.9.5)
-### Changed
-- updated to mna-
-
 ## [1.20.1-forge-1.9.6](https://github.com/SoSly/ArcaneAdditions/releases/tag/1.20.1-forge-1.9.6)
 ### Changed
 - updated to MnA 3.1.0.1
