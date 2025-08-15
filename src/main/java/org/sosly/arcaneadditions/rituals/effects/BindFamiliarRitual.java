@@ -20,7 +20,7 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import org.sosly.arcaneadditions.capabilities.familiar.IFamiliarCapability;
-import org.sosly.arcaneadditions.configs.Config;
+import org.sosly.arcaneadditions.config.ServerConfig;
 import org.sosly.arcaneadditions.utils.FamiliarHelper;
 
 import java.util.Iterator;
@@ -85,7 +85,7 @@ public class BindFamiliarRitual extends RitualEffect {
             return false;
         }
 
-        if (!Config.SERVER.familiar.familiars.get().contains(EntityType.getKey(type).toString())) {
+        if (!ServerConfig.familiars.contains(EntityType.getKey(type).toString())) {
             player.sendSystemMessage(Component.translatable("arcaneadditions:rituals/bind_familiar.invalid_familiar"));
             return false;
         }

@@ -23,7 +23,7 @@ import org.sosly.arcaneadditions.blocks.BlockRegistry;
 import org.sosly.arcaneadditions.blocks.TileEntityRegistry;
 import org.sosly.arcaneadditions.cantrips.Cantrips;
 import org.sosly.arcaneadditions.compats.CompatRegistry;
-import org.sosly.arcaneadditions.configs.Config;
+import org.sosly.arcaneadditions.config.ServerConfig;
 import org.sosly.arcaneadditions.effects.EffectRegistry;
 import org.sosly.arcaneadditions.entities.EntityRegistry;
 import org.sosly.arcaneadditions.gui.MenuRegistry;
@@ -41,7 +41,7 @@ public class ArcaneAdditions {
     public IEventBus modbus;
 
     public ArcaneAdditions() {
-        ModLoadingContext.get().registerConfig(ModConfig.Type.SERVER, Config.SERVER_SPEC);
+        ModLoadingContext.get().registerConfig(ModConfig.Type.SERVER, ServerConfig.SPEC);
         instance = this;
 
         // Initialize Registries

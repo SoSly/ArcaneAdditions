@@ -32,7 +32,7 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 import org.apache.commons.lang3.mutable.MutableBoolean;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import org.sosly.arcaneadditions.configs.Config;
+import org.sosly.arcaneadditions.config.ServerConfig;
 import org.sosly.arcaneadditions.entities.EntityRegistry;
 import org.sosly.arcaneadditions.entities.sorcery.SoulSearchersBeamEntity;
 import org.sosly.arcaneadditions.sounds.UseItemTickingSoundInstance;
@@ -165,9 +165,9 @@ public class SoulsearchersLensItem extends TieredItem {
 
     private boolean useOn(@NotNull Level level, @NotNull Player player, @NotNull Mob target, ItemStack phylactery) {
         float adjustedHealth = target.getMaxHealth() * this.getAdjustmentForType(target.getType());
-        int levelsRequired = (int)Math.max(1, Math.floor(adjustedHealth / Config.SERVER.soulSearchersLens.healthPerLevel.get()));
+        int levelsRequired = (int)Math.max(1, Math.floor(adjustedHealth / ServerConfig.soulSearchersLensHealthPerLevel));
 
-        if (target.distanceTo(player) > (float) Config.SERVER.soulSearchersLens.maxDistance.get()) {
+        if (target.distanceTo(player) > (float) ServerConfig.soulSearchersLensMaxDistance) {
             if (level.isClientSide) {
                 player.sendSystemMessage(Component.translatable("item.arcaneadditions.soulsearchers_lens.distance"));
             }
@@ -197,7 +197,7 @@ public class SoulsearchersLensItem extends TieredItem {
     private float getAdjustmentForType(EntityType entityType) {
         String type = entityType.getDescriptionId();
         AtomicReference<Float> modifier = new AtomicReference<>(1.0f);
-        Config.SERVER.soulSearchersLens.creatureModifiers.get().stream().forEach((mod) -> {
+        ServerConfig.soulSearchersLensCreatureModifiers.stream().forEach((mod) -> {
             String[] parts = mod.split(",");
             String registryName = parts[0];
             String stringModifier = parts[1];

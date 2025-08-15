@@ -45,7 +45,7 @@ import org.apache.commons.lang3.mutable.MutableBoolean;
 import org.sosly.arcaneadditions.api.spells.components.IPolymorphProvider;
 import org.sosly.arcaneadditions.capabilities.polymorph.PolymorphProvider;
 import org.sosly.arcaneadditions.compats.CompatRegistry;
-import org.sosly.arcaneadditions.configs.Config;
+import org.sosly.arcaneadditions.config.ServerConfig;
 import org.sosly.arcaneadditions.effects.EffectRegistry;
 import org.sosly.arcaneadditions.networking.PacketHandler;
 import org.sosly.arcaneadditions.networking.messages.clientbound.SyncPolymorphCapabilitiesToClient;
@@ -140,7 +140,7 @@ public class PolymorphComponent extends SpellEffect {
 
         String resourceLocation = ForgeRegistries.ENTITY_TYPES.getResourceKey(type).get().location().toString();
 
-        Config.SERVER.polymorph.tiers.get().forEach(tierList -> {
+        ServerConfig.polymorphTiers.forEach(tierList -> {
             tier.getAndIncrement();
 
             if (tierList.contains(resourceLocation)) {

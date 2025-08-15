@@ -36,7 +36,7 @@ import org.sosly.arcaneadditions.capabilities.polymorph.IPolymorphCapability;
 import org.sosly.arcaneadditions.capabilities.polymorph.PolymorphProvider;
 import org.sosly.arcaneadditions.compats.CompatModIDs;
 import org.sosly.arcaneadditions.compats.CompatRegistry;
-import org.sosly.arcaneadditions.configs.Config;
+import org.sosly.arcaneadditions.config.ServerConfig;
 import org.sosly.arcaneadditions.effects.EffectRegistry;
 import org.sosly.arcaneadditions.effects.beneficial.PolymorphEffect;
 import org.sosly.arcaneadditions.spells.components.PolymorphComponent;
@@ -146,7 +146,7 @@ public class PolymorphEvents {
                 if (isPolymorph.get()) return;
 
                 // If the spell is not polymorph, check if spellcasting is allowed.
-                if (Config.SERVER.polymorph.allowSpellcasting.get()) return;
+                if (ServerConfig.polymorphAllowSpellcasting) return;
             }
 
             // Otherwise, cancel the action.
