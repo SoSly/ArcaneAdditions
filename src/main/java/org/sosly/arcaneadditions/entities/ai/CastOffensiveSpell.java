@@ -69,7 +69,7 @@ public class CastOffensiveSpell extends Goal {
                     if (sinceLastCast < (spell.getFrequency().getSeconds()/4)) {
                         return false;
                     }
-                    int possibility = Math.max(FamiliarHelper.calculateSpellcastingProbabilitypublic(spell.getFrequency().getSeconds(), sinceLastCast), 1);
+                    int possibility = Math.max(FamiliarHelper.calculateSpellcastingProbability(spell.getFrequency().getSeconds(), sinceLastCast), 1);
                     int random = familiar.getServer().overworld().getRandom().nextInt(possibility);
                     return random == 0;
                 })

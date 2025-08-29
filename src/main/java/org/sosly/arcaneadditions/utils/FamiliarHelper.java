@@ -167,7 +167,7 @@ public class FamiliarHelper {
         familiar.targetSelector.addGoal(2, new CasterHurtTargetGoal(familiar));
     }
 
-    public static int calculateSpellcastingProbabilitypublic(int initialProbability, int elapsedSeconds) {
+    public static int calculateSpellcastingProbability(int initialProbability, int elapsedSeconds) {
         double linearStart = initialProbability * 0.75;
         double exponentialEnd = initialProbability * 1.25;
 
