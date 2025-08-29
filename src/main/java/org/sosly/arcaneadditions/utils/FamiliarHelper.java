@@ -128,7 +128,11 @@ public class FamiliarHelper {
         return cap.isPresent();
     }
 
-    public static boolean isFamiliar(Mob familiar) {
+    public static boolean isFamiliar(Mob mob) {
+        return mob.getPersistentData().hasUUID(CASTER);
+    }
+
+    public static boolean isOrphaned(Mob familiar) {
         if (!familiar.getPersistentData().hasUUID(CASTER)) {
             return false;
         }

@@ -33,7 +33,7 @@ public class BindFamiliarEvents {
         Entity entity = event.getEntity();
 
         // ensure this isn't a familiar missing a player
-        if (entity instanceof Mob mob && FamiliarHelper.isFamiliar(mob)) {
+        if (entity instanceof Mob mob && FamiliarHelper.isFamiliar(mob) && FamiliarHelper.isOrphaned(mob)) {
             IFamiliarCapability fCap = FamiliarHelper.getFamiliarCapability(mob);
             if (fCap == null) {
                 mob.remove(Entity.RemovalReason.DISCARDED);
