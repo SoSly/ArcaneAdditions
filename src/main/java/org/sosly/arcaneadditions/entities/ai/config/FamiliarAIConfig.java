@@ -22,4 +22,12 @@ public final class FamiliarAIConfig {
     
     public static final double WANDER_VERTICAL_OFFSET = 0.0D;
     public static final float WANDER_PATH_COST_THRESHOLD = 0.0F;
+    
+    public static final float CAST_DISTANCE_SQUARED = 256.0F;
+    
+    public static final int MAGIC_LEVEL_DIVISOR = 5;
+    
+    public static final long MAINTENANCE_TICK_INTERVAL = 40L;
+    
+    public static final int TRANSFUSE_EFFICIENCY_DIVISOR = 5;
 }

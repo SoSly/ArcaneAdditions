@@ -26,6 +26,8 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import org.sosly.arcaneadditions.ArcaneAdditions;
 import org.sosly.arcaneadditions.spells.FamiliarSpell;
+import org.sosly.arcaneadditions.config.ServerConfig;
+import org.sosly.arcaneadditions.entities.ai.config.FamiliarAIConfig;
 import org.sosly.arcaneadditions.utils.FamiliarHelper;
 
 import java.util.Collection;
@@ -34,7 +36,6 @@ import java.util.UUID;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class FamiliarCapability implements IFamiliarCapability {
-    private static final float FAMILIAR_HEALING_RATE = 25.0f;
 
 
     private boolean bapped = false;
@@ -280,7 +281,7 @@ public class FamiliarCapability implements IFamiliarCapability {
         lastHealingTick = lastHealingTick > 0 ? lastHealingTick : caster.level().getGameTime();
         lastMaintenanceTick = lastMaintenanceTick > 0 ? lastMaintenanceTick : caster.level().getGameTime();
 
-        if (lastMaintenanceTick < (caster.level().getGameTime() - 40L)) {
+        if (lastMaintenanceTick < (caster.level().getGameTime() - FamiliarAIConfig.MAINTENANCE_TICK_INTERVAL)) {
             // check whether the familiar's max mana needs to be updated based on the caster's magic level
             castingResource.setMaxAmountByLevel(this.getMagicLevel());
             lastMaintenanceTick = caster.level().getGameTime();
@@ -307,19 +308,19 @@ public class FamiliarCapability implements IFamiliarCapability {
         }
 
         // regenerate the familiar's health at the cost of mana
-        if (familiar.getHealth() < familiar.getMaxHealth() && lastHealingTick < (caster.level().getGameTime() - 20L)) {
-            int toRestore = (int) (caster.level().getGameTime() - lastHealingTick) / 20;
+        if (familiar.getHealth() < familiar.getMaxHealth() && lastHealingTick < (caster.level().getGameTime() - ServerConfig.familiarHealingTickInterval)) {
+            int toRestore = (int) (caster.level().getGameTime() - lastHealingTick) / ServerConfig.familiarHealingTickInterval;
             while (toRestore > 0) {
-                if (familiar.getHealth() >= familiar.getMaxHealth() || castingResource.getAmount() < FAMILIAR_HEALING_RATE) {
+                if (familiar.getHealth() >= familiar.getMaxHealth() || castingResource.getAmount() < ServerConfig.familiarHealingRate) {
                     // no healing needed or not enough mana
                     break;
                 }
                 familiar.heal(1);
-                castingResource.consume(familiar, FAMILIAR_HEALING_RATE);
+                castingResource.consume(familiar, (float)ServerConfig.familiarHealingRate);
                 toRestore--;
             }
             lastHealingTick = caster.level().getGameTime();
-        } else if (lastHealingTick < (caster.level().getGameTime() - 20L)) {
+        } else if (lastHealingTick < (caster.level().getGameTime() - ServerConfig.familiarHealingTickInterval)) {
             lastHealingTick = caster.level().getGameTime();
         }
     }
@@ -336,6 +337,6 @@ public class FamiliarCapability implements IFamiliarCapability {
 
     private int getMagicLevel() {
         IPlayerMagic magic = caster.getCapability(PlayerMagicProvider.MAGIC).orElse(null);
-        return magic.getMagicLevel() / 5; // todo: configure?
+        return magic.getMagicLevel() / FamiliarAIConfig.MAGIC_LEVEL_DIVISOR;
     }
 }

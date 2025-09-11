@@ -193,6 +193,17 @@ public class ServerConfig {
             .translation("config.arcaneadditions.wander_max_attempts")
             .defineInRange("wanderMaxAttempts", 10, 1, 50);
 
+    // Familiar Healing
+    private static final ForgeConfigSpec.DoubleValue FAMILIAR_HEALING_RATE = BUILDER
+            .comment("Mana cost per health point when familiar heals")
+            .translation("config.arcaneadditions.familiar_healing_rate")
+            .defineInRange("familiarHealingRate", 25.0, 1.0, 100.0);
+
+    private static final ForgeConfigSpec.IntValue FAMILIAR_HEALING_TICK_INTERVAL = BUILDER
+            .comment("Ticks between familiar healing attempts")
+            .translation("config.arcaneadditions.familiar_healing_tick_interval")
+            .defineInRange("familiarHealingTickInterval", 20, 1, 200);
+
     static {
         BUILDER.pop();
     }
@@ -227,6 +238,8 @@ public class ServerConfig {
     public static int wanderSearchRadius;
     public static int wanderSearchHeight;
     public static int wanderMaxAttempts;
+    public static double familiarHealingRate;
+    public static int familiarHealingTickInterval;
 
     @SubscribeEvent
     static void onLoad(final ModConfigEvent event) {
@@ -257,6 +270,8 @@ public class ServerConfig {
         wanderSearchRadius = WANDER_SEARCH_RADIUS.get();
         wanderSearchHeight = WANDER_SEARCH_HEIGHT.get();
         wanderMaxAttempts = WANDER_MAX_ATTEMPTS.get();
+        familiarHealingRate = FAMILIAR_HEALING_RATE.get();
+        familiarHealingTickInterval = FAMILIAR_HEALING_TICK_INTERVAL.get();
     }
 
     public static <T> boolean isValidEntityList(T entry) {
