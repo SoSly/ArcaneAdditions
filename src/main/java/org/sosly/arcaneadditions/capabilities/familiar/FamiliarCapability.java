@@ -79,19 +79,28 @@ public class FamiliarCapability implements IFamiliarCapability {
 
     @Override
     public void setCastingResourceType(ResourceLocation resourceLocation) {
-        if (resourceLocation != null && resourceLocation.getPath().isEmpty() && !this.getCastingResource().getRegistryName().equals(resourceLocation)) {
-            Class<? extends ICastingResource> resource = CastingResourceRegistry.Instance.getRegisteredClass(resourceLocation);
-            float amount = (this.castingResource.getAmount() != 0 ? this.castingResource.getAmount() : 0);
+        if (resourceLocation == null) {
+            return;
+        }
+        
+        if (resourceLocation.getPath().isEmpty()) {
+            return;
+        }
+        
+        if (this.getCastingResource().getRegistryName().equals(resourceLocation)) {
+            return;
+        }
+        
+        Class<? extends ICastingResource> resource = CastingResourceRegistry.Instance.getRegisteredClass(resourceLocation);
+        float amount = this.castingResource.getAmount();
 
-            try {
-                this.castingResource = resource.getConstructor().newInstance();
-                this.castingResource.setMaxAmountByLevel(this.getMagicLevel());
-                this.castingResource.setAmount(amount);
-            } catch (Exception err) {
-                ArcaneAdditions.LOGGER.error("Failed to set casting resource type from identifier " + resourceLocation);
-                ArcaneAdditions.LOGGER.error(err);
-            }
-
+        try {
+            this.castingResource = resource.getConstructor().newInstance();
+            this.castingResource.setMaxAmountByLevel(this.getMagicLevel());
+            this.castingResource.setAmount(amount);
+        } catch (Exception err) {
+            ArcaneAdditions.LOGGER.error("Failed to set casting resource type from identifier " + resourceLocation);
+            ArcaneAdditions.LOGGER.error(err);
         }
     }
 
