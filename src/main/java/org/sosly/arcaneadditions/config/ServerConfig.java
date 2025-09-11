@@ -89,6 +89,114 @@ public class ServerConfig {
         BUILDER.pop();
     }
 
+    // Familiar AI Settings
+    static {
+        BUILDER.push("familiar_ai");
+        BUILDER.comment("Familiar AI behavior settings");
+    }
+
+    // Familiar Behavior
+    private static final ForgeConfigSpec.DoubleValue FAMILIAR_STAY_DISTANCE_THRESHOLD = BUILDER
+            .comment("Distance in blocks at which familiar ignores stay order if caster is hurt")
+            .translation("config.arcaneadditions.familiar_stay_distance_threshold")
+            .defineInRange("stayDistanceThreshold", 144.0, 1.0, 1024.0);
+
+    private static final ForgeConfigSpec.IntValue FAMILIAR_TELEPORT_DISTANCE = BUILDER
+            .comment("Random blocks offset when teleporting to caster")
+            .translation("config.arcaneadditions.familiar_teleport_distance")
+            .defineInRange("teleportDistance", 3, 1, 10);
+
+    private static final ForgeConfigSpec.IntValue FAMILIAR_TELEPORT_ATTEMPTS = BUILDER
+            .comment("Maximum attempts to find safe teleport location")
+            .translation("config.arcaneadditions.familiar_teleport_attempts")
+            .defineInRange("teleportAttempts", 10, 1, 50);
+
+    private static final ForgeConfigSpec.IntValue FAMILIAR_PATH_RECALC_DELAY = BUILDER
+            .comment("Ticks between path recalculations")
+            .translation("config.arcaneadditions.familiar_path_recalc_delay")
+            .defineInRange("pathRecalcDelay", 10, 1, 100);
+
+    private static final ForgeConfigSpec.DoubleValue FAMILIAR_LOOK_AT_SPEED = BUILDER
+            .comment("Rotation speed when looking at caster")
+            .translation("config.arcaneadditions.familiar_look_at_speed")
+            .defineInRange("lookAtSpeed", 10.0, 1.0, 45.0);
+
+    // Spellcasting
+    private static final ForgeConfigSpec.IntValue SPELL_CAST_ATTEMPT_COOLDOWN = BUILDER
+            .comment("Minimum ticks between spell cast attempts")
+            .translation("config.arcaneadditions.spell_cast_attempt_cooldown")
+            .defineInRange("spellCastAttemptCooldown", 20, 1, 100);
+
+    private static final ForgeConfigSpec.IntValue SPELL_MINIMUM_MANA_BUFFER = BUILDER
+            .comment("Mana to keep in reserve after casting")
+            .translation("config.arcaneadditions.spell_minimum_mana_buffer")
+            .defineInRange("spellMinimumManaBuffer", 10, 0, 100);
+
+    private static final ForgeConfigSpec.IntValue SPELL_SIGHT_REQUIRED_TIME = BUILDER
+            .comment("Ticks target must be visible before casting")
+            .translation("config.arcaneadditions.spell_sight_required_time")
+            .defineInRange("spellSightRequiredTime", 20, 1, 100);
+
+    private static final ForgeConfigSpec.IntValue SPELL_STRAFING_RECALC_TIME = BUILDER
+            .comment("Ticks before changing strafe direction")
+            .translation("config.arcaneadditions.spell_strafing_recalc_time")
+            .defineInRange("spellStrafingRecalcTime", 20, 1, 100);
+
+    private static final ForgeConfigSpec.DoubleValue SPELL_STRAFING_CHANCE = BUILDER
+            .comment("Chance to change strafe direction")
+            .translation("config.arcaneadditions.spell_strafing_chance")
+            .defineInRange("spellStrafingChance", 0.3, 0.0, 1.0);
+
+    private static final ForgeConfigSpec.DoubleValue SPELL_STRAFING_SPEED = BUILDER
+            .comment("Movement speed multiplier while strafing")
+            .translation("config.arcaneadditions.spell_strafing_speed")
+            .defineInRange("spellStrafingSpeed", 0.5, 0.1, 2.0);
+
+    private static final ForgeConfigSpec.DoubleValue SPELL_STRAFING_BACKWARD_THRESHOLD = BUILDER
+            .comment("Distance ratio to stop backing up")
+            .translation("config.arcaneadditions.spell_strafing_backward_threshold")
+            .defineInRange("spellStrafingBackwardThreshold", 0.75, 0.1, 1.0);
+
+    private static final ForgeConfigSpec.DoubleValue SPELL_STRAFING_FORWARD_THRESHOLD = BUILDER
+            .comment("Distance ratio to start backing up")
+            .translation("config.arcaneadditions.spell_strafing_forward_threshold")
+            .defineInRange("spellStrafingForwardThreshold", 0.25, 0.1, 1.0);
+
+    private static final ForgeConfigSpec.DoubleValue SPELL_LOOK_AT_SPEED = BUILDER
+            .comment("Rotation speed when targeting for spells")
+            .translation("config.arcaneadditions.spell_look_at_speed")
+            .defineInRange("spellLookAtSpeed", 30.0, 1.0, 90.0);
+
+    private static final ForgeConfigSpec.DoubleValue SPELL_NAVIGATION_SPEED = BUILDER
+            .comment("Movement speed toward spell target")
+            .translation("config.arcaneadditions.spell_navigation_speed")
+            .defineInRange("spellNavigationSpeed", 1.0, 0.1, 3.0);
+
+    // Wandering
+    private static final ForgeConfigSpec.IntValue WANDER_IDLE_THRESHOLD = BUILDER
+            .comment("No-action ticks before wandering")
+            .translation("config.arcaneadditions.wander_idle_threshold")
+            .defineInRange("wanderIdleThreshold", 100, 20, 1000);
+
+    private static final ForgeConfigSpec.IntValue WANDER_SEARCH_RADIUS = BUILDER
+            .comment("Horizontal blocks to search for wander target")
+            .translation("config.arcaneadditions.wander_search_radius")
+            .defineInRange("wanderSearchRadius", 10, 1, 32);
+
+    private static final ForgeConfigSpec.IntValue WANDER_SEARCH_HEIGHT = BUILDER
+            .comment("Vertical blocks to search for wander target")
+            .translation("config.arcaneadditions.wander_search_height")
+            .defineInRange("wanderSearchHeight", 7, 1, 16);
+
+    private static final ForgeConfigSpec.IntValue WANDER_MAX_ATTEMPTS = BUILDER
+            .comment("Maximum attempts to find valid wander position")
+            .translation("config.arcaneadditions.wander_max_attempts")
+            .defineInRange("wanderMaxAttempts", 10, 1, 50);
+
+    static {
+        BUILDER.pop();
+    }
+
     public static final ForgeConfigSpec SPEC = BUILDER.build();
 
     // Runtime cached values
@@ -98,6 +206,27 @@ public class ServerConfig {
     public static List<String> soulSearchersLensCreatureModifiers;
     public static int soulSearchersLensHealthPerLevel;
     public static int soulSearchersLensMaxDistance;
+    
+    // Familiar AI cached values
+    public static double familiarStayDistanceThreshold;
+    public static int familiarTeleportDistance;
+    public static int familiarTeleportAttempts;
+    public static int familiarPathRecalcDelay;
+    public static double familiarLookAtSpeed;
+    public static int spellCastAttemptCooldown;
+    public static int spellMinimumManaBuffer;
+    public static int spellSightRequiredTime;
+    public static int spellStrafingRecalcTime;
+    public static double spellStrafingChance;
+    public static double spellStrafingSpeed;
+    public static double spellStrafingBackwardThreshold;
+    public static double spellStrafingForwardThreshold;
+    public static double spellLookAtSpeed;
+    public static double spellNavigationSpeed;
+    public static int wanderIdleThreshold;
+    public static int wanderSearchRadius;
+    public static int wanderSearchHeight;
+    public static int wanderMaxAttempts;
 
     @SubscribeEvent
     static void onLoad(final ModConfigEvent event) {
@@ -107,6 +236,27 @@ public class ServerConfig {
         soulSearchersLensCreatureModifiers = SOUL_SEARCHERS_LENS_CREATURE_MODIFIERS.get();
         soulSearchersLensHealthPerLevel = SOUL_SEARCHERS_LENS_HEALTH_PER_LEVEL.get();
         soulSearchersLensMaxDistance = SOUL_SEARCHERS_LENS_MAX_DISTANCE.get();
+        
+        // Load familiar AI config values
+        familiarStayDistanceThreshold = FAMILIAR_STAY_DISTANCE_THRESHOLD.get();
+        familiarTeleportDistance = FAMILIAR_TELEPORT_DISTANCE.get();
+        familiarTeleportAttempts = FAMILIAR_TELEPORT_ATTEMPTS.get();
+        familiarPathRecalcDelay = FAMILIAR_PATH_RECALC_DELAY.get();
+        familiarLookAtSpeed = FAMILIAR_LOOK_AT_SPEED.get();
+        spellCastAttemptCooldown = SPELL_CAST_ATTEMPT_COOLDOWN.get();
+        spellMinimumManaBuffer = SPELL_MINIMUM_MANA_BUFFER.get();
+        spellSightRequiredTime = SPELL_SIGHT_REQUIRED_TIME.get();
+        spellStrafingRecalcTime = SPELL_STRAFING_RECALC_TIME.get();
+        spellStrafingChance = SPELL_STRAFING_CHANCE.get();
+        spellStrafingSpeed = SPELL_STRAFING_SPEED.get();
+        spellStrafingBackwardThreshold = SPELL_STRAFING_BACKWARD_THRESHOLD.get();
+        spellStrafingForwardThreshold = SPELL_STRAFING_FORWARD_THRESHOLD.get();
+        spellLookAtSpeed = SPELL_LOOK_AT_SPEED.get();
+        spellNavigationSpeed = SPELL_NAVIGATION_SPEED.get();
+        wanderIdleThreshold = WANDER_IDLE_THRESHOLD.get();
+        wanderSearchRadius = WANDER_SEARCH_RADIUS.get();
+        wanderSearchHeight = WANDER_SEARCH_HEIGHT.get();
+        wanderMaxAttempts = WANDER_MAX_ATTEMPTS.get();
     }
 
     public static <T> boolean isValidEntityList(T entry) {

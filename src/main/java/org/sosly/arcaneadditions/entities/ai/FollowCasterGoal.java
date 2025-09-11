@@ -2,7 +2,6 @@ package org.sosly.arcaneadditions.entities.ai;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.entity.Mob;
-import net.minecraft.world.entity.ai.goal.Goal;
 import net.minecraft.world.entity.ai.navigation.FlyingPathNavigation;
 import net.minecraft.world.entity.ai.navigation.GroundPathNavigation;
 import net.minecraft.world.entity.ai.navigation.PathNavigation;
@@ -13,13 +12,12 @@ import net.minecraft.world.level.block.LeavesBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.pathfinder.BlockPathTypes;
 import net.minecraft.world.level.pathfinder.WalkNodeEvaluator;
-import org.sosly.arcaneadditions.capabilities.familiar.IFamiliarCapability;
-import org.sosly.arcaneadditions.utils.FamiliarHelper;
+import org.sosly.arcaneadditions.config.ServerConfig;
+import org.sosly.arcaneadditions.entities.ai.config.FamiliarAIConfig;
 
 import java.util.EnumSet;
 
-public class FollowCasterGoal extends Goal {
-    private final Mob familiar;
+public class FollowCasterGoal extends AbstractFamiliarGoal {
     private final LevelReader level;
     private final double followSpeed;
     private final PathNavigation navigator;
@@ -31,12 +29,12 @@ public class FollowCasterGoal extends Goal {
     private final boolean teleportToLeaves;
 
     public FollowCasterGoal(Mob familiar, double speed, float pathDist, float attackDist, float snapDist, boolean teleportToLeaves) {
-        this.setFlags(EnumSet.of(Goal.Flag.MOVE, Goal.Flag.LOOK));
+        super(familiar);
+        this.setFlags(EnumSet.of(Flag.MOVE, Flag.LOOK));
         if (!(familiar.getNavigation() instanceof GroundPathNavigation) && !(familiar.getNavigation() instanceof FlyingPathNavigation) && !(familiar.getNavigation() instanceof WaterBoundPathNavigation)) {
             throw new IllegalArgumentException("Unsupported mob type for FollowOwnerGoal");
         }
 
-        this.familiar = familiar;
         this.level = familiar.level();
         this.followSpeed = speed;
         this.navigator = familiar.getNavigation();
@@ -48,12 +46,11 @@ public class FollowCasterGoal extends Goal {
 
     @Override
     public boolean canUse() {
-        IFamiliarCapability cap = FamiliarHelper.getFamiliarCapability(familiar);
-        if (cap == null || cap.isOrderedToStay()) {
+        if (!hasValidCapability() || isOrderedToStay()) {
             return false;
         }
 
-        Player caster = cap.getCaster();
+        Player caster = getCaster();
         if (caster == null) {
             return false;
         }
@@ -75,30 +72,31 @@ public class FollowCasterGoal extends Goal {
     }
 
     public void start() {
+        super.start();
         timeToRecalcPath = 0;
         oldWaterCost = familiar.getPathfindingMalus(BlockPathTypes.WATER);
-        familiar.setPathfindingMalus(BlockPathTypes.WATER, 0.0F);
+        familiar.setPathfindingMalus(BlockPathTypes.WATER, FamiliarAIConfig.WATER_PATH_COST_FOLLOWING);
     }
 
     public void stop() {
         navigator.stop();
         familiar.setPathfindingMalus(BlockPathTypes.WATER, oldWaterCost);
+        super.stop();
     }
 
     public void tick() {
-        IFamiliarCapability cap = FamiliarHelper.getFamiliarCapability(familiar);
-        if (cap == null) {
+        if (!hasValidCapability()) {
             return;
         }
 
-        Player caster = cap.getCaster();
+        Player caster = getCaster();
         if (caster == null) {
             return;
         }
 
-        familiar.getLookControl().setLookAt(caster, 10.0F, (float) familiar.getMaxHeadXRot());
+        familiar.getLookControl().setLookAt(caster, (float)ServerConfig.familiarLookAtSpeed, (float) familiar.getMaxHeadXRot());
         if (--timeToRecalcPath <= 0) {
-            timeToRecalcPath = 10;
+            timeToRecalcPath = ServerConfig.familiarPathRecalcDelay;
             if (!familiar.isLeashed() && !familiar.isPassenger()) {
                 if (familiar.distanceToSqr(caster) >= (double)(pathDist * pathDist)) {
                     tryToTeleportNearEntity();
@@ -110,22 +108,21 @@ public class FollowCasterGoal extends Goal {
     }
 
     private void tryToTeleportNearEntity() {
-        IFamiliarCapability cap = FamiliarHelper.getFamiliarCapability(familiar);
-        if (cap == null) {
+        if (!hasValidCapability()) {
             return;
         }
 
-        Player caster = cap.getCaster();
+        Player caster = getCaster();
         if (caster == null) {
             return;
         }
 
         BlockPos blockpos = caster.blockPosition();
 
-        for(int i = 0; i < 10; ++i) {
-            int j = getRandomNumber(-3, 3);
+        for(int i = 0; i < ServerConfig.familiarTeleportAttempts; ++i) {
+            int j = getRandomNumber(-ServerConfig.familiarTeleportDistance, ServerConfig.familiarTeleportDistance);
             int k = getRandomNumber(-1, 1);
-            int l = getRandomNumber(-3, 3);
+            int l = getRandomNumber(-ServerConfig.familiarTeleportDistance, ServerConfig.familiarTeleportDistance);
             boolean flag = tryToTeleportToLocation(blockpos.getX() + j, blockpos.getY() + k, blockpos.getZ() + l);
             if (flag) {
                 return;
@@ -134,24 +131,23 @@ public class FollowCasterGoal extends Goal {
     }
 
     private boolean tryToTeleportToLocation(int x, int y, int z) {
-        IFamiliarCapability cap = FamiliarHelper.getFamiliarCapability(familiar);
-        if (cap == null) {
+        if (!hasValidCapability()) {
             return false;
         }
 
-        Player caster = cap.getCaster();
+        Player caster = getCaster();
         if (caster == null) {
             return false;
         }
 
-        if (Math.abs((double)x - caster.getX()) < 2.0 && Math.abs((double)z - caster.getZ()) < 2.0) {
+        if (Math.abs((double)x - caster.getX()) < FamiliarAIConfig.MIN_TELEPORT_DISTANCE_FROM_CASTER && Math.abs((double)z - caster.getZ()) < FamiliarAIConfig.MIN_TELEPORT_DISTANCE_FROM_CASTER) {
             return false;
         }
         if (!isTeleportFriendlyBlock(new BlockPos(x, y, z))) {
             return false;
         }
 
-        familiar.moveTo((double)x + 0.5, (double)y, (double)z + 0.5, familiar.getYRot(), familiar.getXRot());
+        familiar.moveTo((double)x + FamiliarAIConfig.BLOCK_CENTER_OFFSET, (double)y, (double)z + FamiliarAIConfig.BLOCK_CENTER_OFFSET, familiar.getYRot(), familiar.getXRot());
         navigator.stop();
         return true;
     }
