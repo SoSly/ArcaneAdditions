@@ -9,6 +9,7 @@ import com.mna.capabilities.playerdata.magic.resources.Mana;
 import com.mna.capabilities.playerdata.progression.PlayerProgressionProvider;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerLevel;
@@ -51,6 +52,7 @@ public class FamiliarCapability implements IFamiliarCapability {
     private boolean orderedToStay = false;
     private LinkedHashSet<FamiliarSpell> spellsKnown = new LinkedHashSet<>();
     private EntityType<? extends Mob> type;
+    private ResourceKey<Level> lastKnownDimension;
 
     @Override
     public boolean isBapped() {
@@ -106,7 +108,7 @@ public class FamiliarCapability implements IFamiliarCapability {
 
     @Override
     public Mob getFamiliar() {
-        if (familiar != null) {
+        if (familiar != null && !familiar.isRemoved() && familiar.level().dimension().equals(caster.level().dimension())) {
             return familiar;
         }
 
@@ -115,25 +117,63 @@ public class FamiliarCapability implements IFamiliarCapability {
         }
 
         MinecraftServer server = getCaster().getServer();
-        for (ServerLevel level : server.getAllLevels()) {
-            Mob familiar = (Mob) level.getEntity(familiarUUID);
-            if (familiar != null) {
+        if (server == null) {
+            return null;
+        }
+        
+        if (lastKnownDimension != null) {
+            Mob found = searchDimension(server.getLevel(lastKnownDimension));
+            if (found != null) {
+                familiar = found;
                 return familiar;
             }
         }
 
+        for (ServerLevel level : server.getAllLevels()) {
+            if (lastKnownDimension != null && level.dimension().equals(lastKnownDimension)) {
+                continue;
+            }
+            
+            Mob found = searchDimension(level);
+            if (found == null) {
+                continue;
+            }
+            
+            familiar = found;
+            lastKnownDimension = level.dimension();
+            return familiar;
+        }
+
+        familiar = null;
+        lastKnownDimension = null;
         return null;
+    }
+
+    private Mob searchDimension(ServerLevel level) {
+        if (level == null) {
+            return null;
+        }
+        
+        Mob entity = (Mob) level.getEntity(familiarUUID);
+        if (entity == null || entity.isRemoved()) {
+            return null;
+        }
+        
+        return entity;
     }
 
     @Override
     public void setFamiliar(Mob value) {
         familiar = value;
         familiarUUID = (value != null) ? value.getUUID() : null;
+        lastKnownDimension = (value != null) ? value.level().dimension() : null;
     }
 
     @Override
     public void setFamiliarUUID(UUID value) {
         familiarUUID = value;
+        familiar = null;
+        lastKnownDimension = null;
     }
 
     @Override
@@ -194,6 +234,7 @@ public class FamiliarCapability implements IFamiliarCapability {
         this.castingResource.setAmount(0);
         this.familiar = null;
         this.familiarUUID = null;
+        this.lastKnownDimension = null;
         this.orderedToStay = false;
         this.spellsKnown = new LinkedHashSet<>();
     }
