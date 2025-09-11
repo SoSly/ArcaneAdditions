@@ -8,8 +8,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased](https://github.com/SoSly/ArcaneAdditions/tree/1.20.1)
 
 ### Added
-- Familiar AI behavior settings to server config for movement, spellcasting, and wandering
-- Familiar healing rate and interval settings to server config
+- Added familiar AI behavior settings to server config
 
 ### Fixed
 - Added a loot table to the scribe's bench so that it properly drops when broken

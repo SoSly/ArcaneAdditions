@@ -24,6 +24,7 @@ build
 /mcmodsrepo
 /repo
 /CLAUDE.md
+/.claude
 
 # Files from Forge MDK
 forge*changelog.txt
