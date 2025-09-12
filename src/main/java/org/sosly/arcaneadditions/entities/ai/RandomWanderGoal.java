@@ -4,18 +4,15 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.PathfinderMob;
 import net.minecraft.world.entity.ai.control.FlyingMoveControl;
-import net.minecraft.world.entity.ai.goal.Goal;
 import net.minecraft.world.entity.ai.util.RandomPos;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.pathfinder.WalkNodeEvaluator;
 import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.Nullable;
-import org.sosly.arcaneadditions.utils.FamiliarHelper;
 
 import java.util.EnumSet;
 
-public class RandomWanderGoal extends Goal {
-    private final Mob familiar;
+public class RandomWanderGoal extends AbstractFamiliarGoal {
     private final double speed;
     private final int interval;
 
@@ -24,11 +21,11 @@ public class RandomWanderGoal extends Goal {
     private double wantedZ;
 
     public RandomWanderGoal(Mob familiar, double speed, int interval) {
-        this.familiar = familiar;
+        super(familiar);
         this.speed = speed;
         this.interval = interval;
 
-        this.setFlags(EnumSet.of(Goal.Flag.MOVE));
+        this.setFlags(EnumSet.of(Flag.MOVE));
     }
 
     @Override
@@ -96,7 +93,7 @@ public class RandomWanderGoal extends Goal {
     @Nullable
     private BlockPos getWanderTarget(int radius, int verticalDistance) {
         BlockPos goal = RandomPos.generateRandomDirection(familiar.getRandom(), radius, verticalDistance);
-        Player caster = FamiliarHelper.getCaster(familiar);
+        Player caster = getCaster();
         BlockPos casterPos = caster != null ? caster.blockPosition() : null;
         int goalX = goal.getX();
         int goalZ = goal.getZ();

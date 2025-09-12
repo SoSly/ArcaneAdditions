@@ -25,7 +25,7 @@ import com.mna.factions.Factions;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.world.entity.LivingEntity;
-import org.sosly.arcaneadditions.entities.ai.config.FamiliarAIConfig;
+import org.sosly.arcaneadditions.entities.ai.Constants;
 
 public class TransfuseComponent extends SpellEffect implements IDamageComponent {
     public TransfuseComponent(ResourceLocation guiIcon) {
@@ -40,7 +40,7 @@ public class TransfuseComponent extends SpellEffect implements IDamageComponent 
         LivingEntity livingSource = null;
         float damage = mods.getValue(Attribute.DAMAGE) * GeneralConfig.getDamageMultiplier();
         float magnitude = mods.getValue(Attribute.MAGNITUDE);
-        float healing = damage * (magnitude / FamiliarAIConfig.TRANSFUSE_EFFICIENCY_DIVISOR);
+        float healing = damage * (magnitude / Constants.TRANSFUSE_EFFICIENCY_DIVISOR);
 
         if (target.isLivingEntity() && target.getLivingEntity() != null) {
             livingTarget = target.getLivingEntity();

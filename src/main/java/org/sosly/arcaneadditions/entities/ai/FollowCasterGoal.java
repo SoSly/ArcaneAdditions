@@ -13,7 +13,6 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.pathfinder.BlockPathTypes;
 import net.minecraft.world.level.pathfinder.WalkNodeEvaluator;
 import org.sosly.arcaneadditions.config.ServerConfig;
-import org.sosly.arcaneadditions.entities.ai.config.FamiliarAIConfig;
 
 import java.util.EnumSet;
 
@@ -75,7 +74,7 @@ public class FollowCasterGoal extends AbstractFamiliarGoal {
         super.start();
         timeToRecalcPath = 0;
         oldWaterCost = familiar.getPathfindingMalus(BlockPathTypes.WATER);
-        familiar.setPathfindingMalus(BlockPathTypes.WATER, FamiliarAIConfig.WATER_PATH_COST_FOLLOWING);
+        familiar.setPathfindingMalus(BlockPathTypes.WATER, Constants.WATER_PATH_COST_FOLLOWING);
     }
 
     public void stop() {
@@ -140,14 +139,14 @@ public class FollowCasterGoal extends AbstractFamiliarGoal {
             return false;
         }
 
-        if (Math.abs((double)x - caster.getX()) < FamiliarAIConfig.MIN_TELEPORT_DISTANCE_FROM_CASTER && Math.abs((double)z - caster.getZ()) < FamiliarAIConfig.MIN_TELEPORT_DISTANCE_FROM_CASTER) {
+        if (Math.abs((double)x - caster.getX()) < Constants.MIN_TELEPORT_DISTANCE_FROM_CASTER && Math.abs((double)z - caster.getZ()) < Constants.MIN_TELEPORT_DISTANCE_FROM_CASTER) {
             return false;
         }
         if (!isTeleportFriendlyBlock(new BlockPos(x, y, z))) {
             return false;
         }
 
-        familiar.moveTo((double)x + FamiliarAIConfig.BLOCK_CENTER_OFFSET, (double)y, (double)z + FamiliarAIConfig.BLOCK_CENTER_OFFSET, familiar.getYRot(), familiar.getXRot());
+        familiar.moveTo((double)x + Constants.BLOCK_CENTER_OFFSET, (double)y, (double)z + Constants.BLOCK_CENTER_OFFSET, familiar.getYRot(), familiar.getXRot());
         navigator.stop();
         return true;
     }

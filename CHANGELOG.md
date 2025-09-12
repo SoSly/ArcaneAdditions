@@ -8,13 +8,19 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased](https://github.com/SoSly/ArcaneAdditions/tree/1.20.1)
 
 ### Added
-- Added familiar AI behavior settings to server config
+- Added familiar AI behavior settings to the server config
+
+### Changed
+- Improved familiar spellcasting reliability; familiars will now more consistently cast offensive and utility spells when appropriate
+- Familiars now better respect their spell cooldowns when deciding whether to cast
 
 ### Fixed
 - Added a loot table to the scribe's bench so that it properly drops when broken
 - Fixed a typo in the Soul Searcher's Lens guidebook description
 - Fixed a bug preventing familiars from changing casting resource types
 - Improved familiar tracking performance when crossing dimensions or exploring distant areas
+- Fixed familiars attempting to cast spells they couldn't afford or were still on cooldown
+- Fixed familiars continuing to try casting spells after their target was defeated
 
 ## [1.20.1-forge-1.9.6](https://github.com/SoSly/ArcaneAdditions/releases/tag/1.20.1-forge-1.9.6)
 ### Changed

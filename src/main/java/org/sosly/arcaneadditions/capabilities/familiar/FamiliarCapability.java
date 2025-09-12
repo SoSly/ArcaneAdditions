@@ -27,7 +27,7 @@ import net.minecraft.world.level.Level;
 import org.sosly.arcaneadditions.ArcaneAdditions;
 import org.sosly.arcaneadditions.spells.FamiliarSpell;
 import org.sosly.arcaneadditions.config.ServerConfig;
-import org.sosly.arcaneadditions.entities.ai.config.FamiliarAIConfig;
+import org.sosly.arcaneadditions.entities.ai.Constants;
 import org.sosly.arcaneadditions.utils.FamiliarHelper;
 
 import java.util.Collection;
@@ -85,15 +85,15 @@ public class FamiliarCapability implements IFamiliarCapability {
         if (resourceLocation == null) {
             return;
         }
-        
+
         if (resourceLocation.getPath().isEmpty()) {
             return;
         }
-        
+
         if (this.getCastingResource().getRegistryName().equals(resourceLocation)) {
             return;
         }
-        
+
         Class<? extends ICastingResource> resource = CastingResourceRegistry.Instance.getRegisteredClass(resourceLocation);
         float amount = this.castingResource.getAmount();
 
@@ -121,7 +121,7 @@ public class FamiliarCapability implements IFamiliarCapability {
         if (server == null) {
             return null;
         }
-        
+
         if (lastKnownDimension != null) {
             Mob found = searchDimension(server.getLevel(lastKnownDimension));
             if (found != null) {
@@ -134,12 +134,12 @@ public class FamiliarCapability implements IFamiliarCapability {
             if (lastKnownDimension != null && level.dimension().equals(lastKnownDimension)) {
                 continue;
             }
-            
+
             Mob found = searchDimension(level);
             if (found == null) {
                 continue;
             }
-            
+
             familiar = found;
             lastKnownDimension = level.dimension();
             return familiar;
@@ -154,12 +154,12 @@ public class FamiliarCapability implements IFamiliarCapability {
         if (level == null) {
             return null;
         }
-        
+
         Mob entity = (Mob) level.getEntity(familiarUUID);
         if (entity == null || entity.isRemoved()) {
             return null;
         }
-        
+
         return entity;
     }
 
@@ -281,7 +281,7 @@ public class FamiliarCapability implements IFamiliarCapability {
         lastHealingTick = lastHealingTick > 0 ? lastHealingTick : caster.level().getGameTime();
         lastMaintenanceTick = lastMaintenanceTick > 0 ? lastMaintenanceTick : caster.level().getGameTime();
 
-        if (lastMaintenanceTick < (caster.level().getGameTime() - FamiliarAIConfig.MAINTENANCE_TICK_INTERVAL)) {
+        if (lastMaintenanceTick < (caster.level().getGameTime() - Constants.MAINTENANCE_TICK_INTERVAL)) {
             // check whether the familiar's max mana needs to be updated based on the caster's magic level
             castingResource.setMaxAmountByLevel(this.getMagicLevel());
             lastMaintenanceTick = caster.level().getGameTime();
@@ -337,6 +337,6 @@ public class FamiliarCapability implements IFamiliarCapability {
 
     private int getMagicLevel() {
         IPlayerMagic magic = caster.getCapability(PlayerMagicProvider.MAGIC).orElse(null);
-        return magic.getMagicLevel() / FamiliarAIConfig.MAGIC_LEVEL_DIVISOR;
+        return magic.getMagicLevel() / Constants.MAGIC_LEVEL_DIVISOR;
     }
 }

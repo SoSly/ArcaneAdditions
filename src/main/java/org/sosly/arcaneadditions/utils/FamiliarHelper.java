@@ -14,7 +14,7 @@ import net.minecraftforge.common.util.LazyOptional;
 import org.sosly.arcaneadditions.capabilities.familiar.FamiliarProvider;
 import org.sosly.arcaneadditions.capabilities.familiar.IFamiliarCapability;
 import org.sosly.arcaneadditions.entities.ai.*;
-import org.sosly.arcaneadditions.entities.ai.config.FamiliarAIConfig;
+import org.sosly.arcaneadditions.entities.ai.Constants;
 
 public class FamiliarHelper {
     private static final String CASTER = "arcaneadditions:familiar/caster";
@@ -51,7 +51,7 @@ public class FamiliarHelper {
         cap.setFamiliar(familiar);
         cap.setType(type);
         cap.setName(name.getString());
-        cap.getCastingResource().setMaxAmountByLevel(magic.getMagicLevel() / FamiliarAIConfig.MAGIC_LEVEL_DIVISOR);
+        cap.getCastingResource().setMaxAmountByLevel(magic.getMagicLevel() / Constants.MAGIC_LEVEL_DIVISOR);
         if (cap.getCastingResource().getMaxAmount() < cap.getCastingResource().getAmount()) {
             cap.getCastingResource().setAmount(cap.getCastingResource().getMaxAmount());
         }
@@ -162,9 +162,9 @@ public class FamiliarHelper {
 
         // Add new goals
         familiar.goalSelector.addGoal(2, new StayWhenOrderedToGoal(familiar));
-        familiar.goalSelector.addGoal(5, new CastOffensiveSpell(familiar, FamiliarAIConfig.CAST_DISTANCE_SQUARED));
+        familiar.goalSelector.addGoal(5, new CastOffensiveSpell(familiar, Constants.CAST_DISTANCE_SQUARED));
         familiar.goalSelector.addGoal(6, new FollowCasterGoal(familiar, 1.0D, 20, 2.0F, 16, false));
-        familiar.goalSelector.addGoal(7, new CastUtilitySpell(familiar, FamiliarAIConfig.CAST_DISTANCE_SQUARED));
+        familiar.goalSelector.addGoal(7, new CastUtilitySpell(familiar, Constants.CAST_DISTANCE_SQUARED));
         familiar.goalSelector.addGoal(10, new RandomWanderGoal(familiar, 1.0D, 20));
 
         familiar.targetSelector.addGoal(0, new NeverTargetCasterGoal(familiar));
