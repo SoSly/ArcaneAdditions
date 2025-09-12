@@ -28,6 +28,7 @@ import org.sosly.arcaneadditions.effects.EffectRegistry;
 import org.sosly.arcaneadditions.entities.EntityRegistry;
 import org.sosly.arcaneadditions.gui.MenuRegistry;
 import org.sosly.arcaneadditions.items.ItemRegistry;
+import org.sosly.arcaneadditions.recipes.RecipeRegistry;
 import org.sosly.arcaneadditions.utils.ClientProxy;
 import org.sosly.arcaneadditions.utils.ISidedProxy;
 import org.sosly.arcaneadditions.utils.RLoc;
@@ -52,6 +53,7 @@ public class ArcaneAdditions {
         TileEntityRegistry.TILE_ENTITIES.register(modbus);
         ItemRegistry.ITEMS.register(modbus);
         MenuRegistry.MENUS.register(modbus);
+        RecipeRegistry.register(modbus);
         MinecraftForge.EVENT_BUS.register(this);
         modbus.addListener(ArcaneAdditions::setupCommon);
 

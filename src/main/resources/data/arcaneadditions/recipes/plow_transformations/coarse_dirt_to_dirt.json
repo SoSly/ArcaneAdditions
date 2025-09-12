@@ -1,0 +1,6 @@
+{
+  "type": "arcaneadditions:plow_transformation",
+  "input": "minecraft:coarse_dirt",
+  "output": "minecraft:dirt",
+  "needs_air": true
+}

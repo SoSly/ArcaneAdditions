@@ -1,0 +1,6 @@
+{
+  "type": "arcaneadditions:plow_transformation",
+  "input": "minecraft:dirt",
+  "output": "minecraft:farmland",
+  "needs_air": true
+}

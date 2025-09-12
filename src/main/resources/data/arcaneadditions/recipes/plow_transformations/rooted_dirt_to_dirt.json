@@ -1,0 +1,12 @@
+{
+  "type": "arcaneadditions:plow_transformation",
+  "input": "minecraft:rooted_dirt",
+  "output": "minecraft:dirt",
+  "drops": [
+    {
+      "item": "minecraft:hanging_roots",
+      "count": 1
+    }
+  ],
+  "needs_air": false
+}

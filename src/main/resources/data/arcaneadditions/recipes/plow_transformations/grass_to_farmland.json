@@ -1,0 +1,6 @@
+{
+  "type": "arcaneadditions:plow_transformation",
+  "input": "minecraft:grass_block",
+  "output": "minecraft:farmland",
+  "needs_air": true
+}
