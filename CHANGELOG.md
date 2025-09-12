@@ -22,6 +22,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Fixed familiars attempting to cast spells they couldn't afford or were still on cooldown
 - Fixed familiars continuing to try casting spells after their target was defeated
 - Fixed entity-capability synchronization issues causing familiars to duplicate or become unresponsive during dimension travel
+- Fixed loot chest content voiding caused by familiar shapes being incorrectly included in random spell generation
 
 ## [1.20.1-forge-1.9.6](https://github.com/SoSly/ArcaneAdditions/releases/tag/1.20.1-forge-1.9.6)
 ### Changed

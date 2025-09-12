@@ -56,4 +56,9 @@ public class SharedShape extends Shape {
     public boolean affectsCaster() {
         return true;
     }
+
+    @Override
+    public boolean canBeOnRandomStaff() {
+        return false;
+    }
 }

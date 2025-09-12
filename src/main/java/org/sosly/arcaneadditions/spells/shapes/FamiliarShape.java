@@ -58,4 +58,9 @@ public class FamiliarShape extends Shape {
     public boolean affectsCaster() {
         return false;
     }
+
+    @Override
+    public boolean canBeOnRandomStaff() {
+        return false;
+    }
 }
