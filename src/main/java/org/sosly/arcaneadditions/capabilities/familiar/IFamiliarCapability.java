@@ -47,4 +47,5 @@ public interface IFamiliarCapability {
     void addSpellKnown(FamiliarSpell spell, boolean checkTiers);
     Collection<FamiliarSpell> getSpellsKnown();
     void tick();
+    boolean validateFamiliar();
 }

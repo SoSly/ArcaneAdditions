@@ -339,4 +339,31 @@ public class FamiliarCapability implements IFamiliarCapability {
         IPlayerMagic magic = caster.getCapability(PlayerMagicProvider.MAGIC).orElse(null);
         return magic.getMagicLevel() / Constants.MAGIC_LEVEL_DIVISOR;
     }
+
+    public boolean validateFamiliar() {
+        if (familiar == null && familiarUUID == null) {
+            return true;
+        }
+
+        if (familiar != null && familiar.isRemoved()) {
+            familiar = null;
+            familiarUUID = null;
+            lastKnownDimension = null;
+            return false;
+        }
+
+        if (familiarUUID != null && familiar == null && caster.getServer() != null) {
+            for (ServerLevel level : caster.getServer().getAllLevels()) {
+                Mob found = (Mob) level.getEntity(familiarUUID);
+                if (found != null && !found.isRemoved()) {
+                    return true;
+                }
+            }
+            familiarUUID = null;
+            lastKnownDimension = null;
+            return false;
+        }
+
+        return true;
+    }
 }
