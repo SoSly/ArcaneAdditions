@@ -32,7 +32,7 @@ import java.util.List;
 
 public class FamiliarScreen extends AbstractContainerScreen<FamiliarMenu> {
     private static final ResourceLocation TEXTURE = RLoc.create("textures/gui/familiar.png");
-    
+
     private static final int INFO_LABEL_X = 60;
     private static final int INFO_VALUE_X = 100;
     private static final int OWNER_Y = 17;
@@ -46,13 +46,13 @@ public class FamiliarScreen extends AbstractContainerScreen<FamiliarMenu> {
     private static final int SPELL_TEXT_X = 70;
     private static final int SPELL_INGOT_X = 165;
     private static final int SPELL_DELETE_X = 185;
-    
+
     private static final int ENTITY_DISPLAY_X = 30;
     private static final int ENTITY_DISPLAY_Y = 60;
     private static final int ENTITY_SCALE = 30;
     private static final int ENTITY_MOUSE_OFFSET_X = 20;
     private static final int UPDATE_INTERVAL_TICKS = 20;
-    
+
     private int tickCounter = 0;
     private final java.util.Map<String, SpellRemoveButton> spellButtons = new java.util.HashMap<>();
 
@@ -61,7 +61,7 @@ public class FamiliarScreen extends AbstractContainerScreen<FamiliarMenu> {
         this.leftPos = 0;
         this.topPos = 0;
         this.imageWidth = 199;
-        this.imageHeight = 119;
+        this.imageHeight = 101;
         this.titleLabelX = 8;
         this.titleLabelY = 5;
     }
@@ -70,15 +70,15 @@ public class FamiliarScreen extends AbstractContainerScreen<FamiliarMenu> {
     public void render(GuiGraphics pGuiGraphics, int pMouseX, int pMouseY, float pPartialTick) {
         super.render(pGuiGraphics, pMouseX, pMouseY, pPartialTick);
     }
-    
+
     @Override
     public void init() {
         super.init();
-        
+
         if (!menu.hasClientData()) {
             return;
         }
-        
+
         List<FamiliarMenu.SpellData> spells = menu.getSpellData();
         for (int i = 0; i < spells.size(); i++) {
             FamiliarMenu.SpellData spell = spells.get(i);
@@ -95,16 +95,16 @@ public class FamiliarScreen extends AbstractContainerScreen<FamiliarMenu> {
     @Override
     public void containerTick() {
         super.containerTick();
-        
+
         tickCounter++;
         if (tickCounter >= UPDATE_INTERVAL_TICKS) {
             tickCounter = 0;
-            
+
             if (!minecraft.player.level().isClientSide() && !menu.stillValid(minecraft.player)) {
                 this.onClose();
                 return;
             }
-            
+
             PacketHandler.network.sendToServer(new RequestFamiliarDataUpdate());
         }
     }
@@ -136,33 +136,33 @@ public class FamiliarScreen extends AbstractContainerScreen<FamiliarMenu> {
         if (familiarName != null && !familiarName.isEmpty()) {
             int nameWidth = this.font.width(familiarName);
             int centerX = (imageWidth - nameWidth) / 2;
-            pGuiGraphics.drawString(this.font, familiarName, centerX, 7, Color.DARK_GRAY.getRGB(), false);
+            pGuiGraphics.drawString(this.font, familiarName, centerX, 7, Color.WHITE.getRGB(), false);
         }
 
         String kOwner = Component.translatable("gui.arcaneadditions.familiar.owner").getString() + ":";
         String vOwner = minecraft.player.getDisplayName().getString();
-        pGuiGraphics.drawString(this.font, kOwner, INFO_LABEL_X, OWNER_Y, Color.DARK_GRAY.getRGB(), false);
-        pGuiGraphics.drawString(this.font, vOwner, INFO_VALUE_X, OWNER_Y, Color.DARK_GRAY.getRGB(), false);
+        pGuiGraphics.drawString(this.font, kOwner, INFO_LABEL_X, OWNER_Y, Color.WHITE.getRGB(), false);
+        pGuiGraphics.drawString(this.font, vOwner, INFO_VALUE_X, OWNER_Y, Color.WHITE.getRGB(), false);
 
         String kType = Component.translatable("gui.arcaneadditions.familiar.type").getString() + ":";
         String vType = Component.translatable(menu.getFamiliarType()).getString();
-        pGuiGraphics.drawString(this.font, kType, INFO_LABEL_X, TYPE_Y, Color.DARK_GRAY.getRGB(), false);
-        pGuiGraphics.drawString(this.font, vType, INFO_VALUE_X, TYPE_Y, Color.DARK_GRAY.getRGB(), false);
+        pGuiGraphics.drawString(this.font, kType, INFO_LABEL_X, TYPE_Y, Color.WHITE.getRGB(), false);
+        pGuiGraphics.drawString(this.font, vType, INFO_VALUE_X, TYPE_Y, Color.WHITE.getRGB(), false);
 
         String kHealth = Component.translatable("gui.arcaneadditions.familiar.health").getString() + ":";
         String vHealth = String.format("%.0f/%.0f", menu.getFamiliarHealth(), menu.getFamiliarMaxHealth());
-        pGuiGraphics.drawString(this.font, kHealth, INFO_LABEL_X, HEALTH_Y, Color.DARK_GRAY.getRGB(), false);
-        pGuiGraphics.drawString(this.font, vHealth, INFO_VALUE_X, HEALTH_Y, Color.DARK_GRAY.getRGB(), false);
+        pGuiGraphics.drawString(this.font, kHealth, INFO_LABEL_X, HEALTH_Y, Color.WHITE.getRGB(), false);
+        pGuiGraphics.drawString(this.font, vHealth, INFO_VALUE_X, HEALTH_Y, Color.WHITE.getRGB(), false);
 
         String kMana = Component.translatable("gui.arcaneadditions.familiar.mana").getString() + ":";
         String vMana = String.format("%.0f/%.0f", menu.getMana(), menu.getMaxMana());
-        pGuiGraphics.drawString(this.font, kMana, INFO_LABEL_X, MANA_Y, Color.DARK_GRAY.getRGB(), false);
-        pGuiGraphics.drawString(this.font, vMana, INFO_VALUE_X, MANA_Y, Color.DARK_GRAY.getRGB(), false);
+        pGuiGraphics.drawString(this.font, kMana, INFO_LABEL_X, MANA_Y, Color.WHITE.getRGB(), false);
+        pGuiGraphics.drawString(this.font, vMana, INFO_VALUE_X, MANA_Y, Color.WHITE.getRGB(), false);
 
         List<FamiliarMenu.SpellData> spells = menu.getSpellData();
 
         String kSpellsKnown = Component.translatable("gui.arcaneadditions.familiar.spells_known").getString();
-        pGuiGraphics.drawString(this.font, kSpellsKnown, INFO_LABEL_X, SPELLS_LABEL_Y, Color.DARK_GRAY.getRGB(), false);
+        pGuiGraphics.drawString(this.font, kSpellsKnown, INFO_LABEL_X, SPELLS_LABEL_Y, Color.WHITE.getRGB(), false);
 
         for (int i = 0; i < spells.size(); i++) {
             FamiliarMenu.SpellData spell = spells.get(i);
@@ -172,8 +172,10 @@ public class FamiliarScreen extends AbstractContainerScreen<FamiliarMenu> {
             int iconV = 0;
             pGuiGraphics.blit(TEXTURE, SPELL_ICON_X, yOffset, iconU, iconV, 7, 7, 256, 256);
 
-            String spellText = spell.name.getString() + " (" + (int)spell.manaCost + ")";
-            pGuiGraphics.drawString(this.font, spellText, SPELL_TEXT_X, yOffset, Color.DARK_GRAY.getRGB(), false);
+            String spellName = spell.name.getString();
+            String truncatedName = spellName.length() > 2 ? spellName.substring(1, spellName.length() - 1) : spellName;
+            String spellText = truncatedName + " (" + (int)spell.manaCost + ")";
+            pGuiGraphics.drawString(this.font, spellText, SPELL_TEXT_X, yOffset, Color.WHITE.getRGB(), false);
 
             ItemStack frequencyIngot = getFrequencyIngot(spell.frequency);
             if (!frequencyIngot.isEmpty()) {
@@ -225,7 +227,7 @@ public class FamiliarScreen extends AbstractContainerScreen<FamiliarMenu> {
     protected boolean hasClickedOutside(double pMouseX, double pMouseY, int pGuiLeft, int pGuiTop, int pMouseButton) {
         return pMouseX < pGuiLeft || pMouseY < pGuiTop || pMouseX >= pGuiLeft + this.imageWidth || pMouseY >= pGuiTop + this.imageHeight;
     }
-    
+
     public void updateFamiliarData(float health, float maxHealth, float mana, float maxMana) {
         menu.updateClientData(health, maxHealth, mana, maxMana);
     }
