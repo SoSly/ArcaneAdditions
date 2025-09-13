@@ -15,6 +15,9 @@ import net.minecraftforge.network.simple.SimpleChannel;
 import org.sosly.arcaneadditions.ArcaneAdditions;
 import org.sosly.arcaneadditions.networking.messages.clientbound.SyncPolymorphCapabilitiesToClient;
 import org.sosly.arcaneadditions.networking.messages.clientbound.SyncTreeStrideCapabilitiesToClient;
+import org.sosly.arcaneadditions.networking.messages.clientbound.UpdateFamiliarData;
+import org.sosly.arcaneadditions.networking.messages.serverbound.RemoveFamiliarSpell;
+import org.sosly.arcaneadditions.networking.messages.serverbound.RequestFamiliarDataUpdate;
 import org.sosly.arcaneadditions.networking.messages.serverbound.RemoveTreeStrideDestination;
 import org.sosly.arcaneadditions.networking.messages.serverbound.RequestSyncTreeStrideCapabilitiesFromServer;
 import org.sosly.arcaneadditions.networking.messages.serverbound.NewTreeStrideDestination;
@@ -38,6 +41,9 @@ public class PacketHandler {
         network.registerMessage(packet_id++, SyncPolymorphCapabilitiesToClient.class, SyncPolymorphCapabilitiesToClient::encode, SyncPolymorphCapabilitiesToClient::decode, SyncPolymorphCapabilitiesToClient::handlePolymorphCapabilitiesSync);
         network.registerMessage(packet_id++, SyncTreeStrideCapabilitiesToClient.class, SyncTreeStrideCapabilitiesToClient::encode, SyncTreeStrideCapabilitiesToClient::decode, SyncTreeStrideCapabilitiesToClient::handleTreeStrideCapabilitiesSync);
         network.registerMessage(packet_id++, TreeStridePlayer.class, TreeStridePlayer::encode, TreeStridePlayer::decode, TreeStridePlayer::handleTreeStridePlayer);
+        network.registerMessage(packet_id++, RemoveFamiliarSpell.class, RemoveFamiliarSpell::encode, RemoveFamiliarSpell::decode, RemoveFamiliarSpell::handleRemoveFamiliarSpell);
+        network.registerMessage(packet_id++, RequestFamiliarDataUpdate.class, RequestFamiliarDataUpdate::encode, RequestFamiliarDataUpdate::decode, RequestFamiliarDataUpdate::handleRequestFamiliarDataUpdate);
+        network.registerMessage(packet_id++, UpdateFamiliarData.class, UpdateFamiliarData::encode, UpdateFamiliarData::decode, UpdateFamiliarData::handleUpdateFamiliarData);
         ArcaneAdditions.LOGGER.info("Arcane Additions registered {} network messages", packet_id);
     }
 }

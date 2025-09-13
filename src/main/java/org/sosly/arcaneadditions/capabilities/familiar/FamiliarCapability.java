@@ -97,8 +97,8 @@ public class FamiliarCapability implements IFamiliarCapability {
             this.castingResource.setMaxAmountByLevel(this.getMagicLevel());
             this.castingResource.setAmount(amount);
         } catch (Exception err) {
-            ArcaneAdditions.LOGGER.error("Failed to set casting resource type from identifier " + resourceLocation);
-            ArcaneAdditions.LOGGER.error(err);
+            ArcaneAdditions.LOGGER.error("Failed to set casting resource type from identifier {}", resourceLocation);
+            ArcaneAdditions.LOGGER.error("Error setting casting resource type", err);
         }
     }
 
@@ -222,7 +222,7 @@ public class FamiliarCapability implements IFamiliarCapability {
             } catch (NoSuchMethodException ignored) {
                 // This method doesn't exist, try the next one
             } catch (Exception e) {
-                ArcaneAdditions.LOGGER.debug("Failed to invoke " + methodName + " on " + familiar.getType().getDescriptionId());
+                ArcaneAdditions.LOGGER.debug("Failed to invoke {} on {}", methodName, familiar.getType().getDescriptionId());
             }
         }
 

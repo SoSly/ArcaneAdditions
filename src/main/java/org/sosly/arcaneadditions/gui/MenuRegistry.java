@@ -22,8 +22,10 @@ import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
 import org.sosly.arcaneadditions.ArcaneAdditions;
 import org.sosly.arcaneadditions.blocks.BlockRegistry;
+import org.sosly.arcaneadditions.gui.menus.FamiliarMenu;
 import org.sosly.arcaneadditions.gui.menus.ScribesBenchMenu;
 import org.sosly.arcaneadditions.gui.menus.TreeStrideMenu;
+import org.sosly.arcaneadditions.gui.screens.FamiliarScreen;
 import org.sosly.arcaneadditions.gui.screens.ScribesBenchScreen;
 import org.sosly.arcaneadditions.gui.screens.TreeStrideScreen;
 
@@ -32,11 +34,13 @@ public class MenuRegistry {
     public static final DeferredRegister<MenuType<?>> MENUS = DeferredRegister.create(ForgeRegistries.MENU_TYPES, ArcaneAdditions.MOD_ID);
     public static final RegistryObject<MenuType<ScribesBenchMenu>> SCRIBES_BENCH = MENUS.register(of(BlockRegistry.SCRIBES_BENCH), () -> IForgeMenuType.create(ScribesBenchMenu::new));
     public static final RegistryObject<MenuType<TreeStrideMenu>> TREE_STRIDE = MENUS.register("tree_stride", () -> new MenuType<>(TreeStrideMenu::new, FeatureFlags.DEFAULT_FLAGS));
+    public static final RegistryObject<MenuType<FamiliarMenu>> FAMILIAR = MENUS.register("familiar", () -> IForgeMenuType.create((id, inv, data) -> new FamiliarMenu(id, inv, data)));
 
     @SubscribeEvent
     public static void clientSetup(FMLClientSetupEvent event) {
         MenuScreens.register(MenuRegistry.SCRIBES_BENCH.get(), ScribesBenchScreen::new);
         MenuScreens.register(MenuRegistry.TREE_STRIDE.get(), TreeStrideScreen::new);
+        MenuScreens.register(MenuRegistry.FAMILIAR.get(), FamiliarScreen::new);
         HUDOverlayRenderer.instance = new HUDOverlayRenderer();
     }
 

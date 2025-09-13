@@ -77,5 +77,11 @@
   "item.arcaneadditions.soulsearchers_lens.confusion": "You peer through the lens at the creature, but to no particular effect. You will need to learn more before you continue.",
   "item.arcaneadditions.soulsearchers_lens.distance": "I must stay near the creature if I intend to study it.",
   "item.arcaneadditions.soulsearchers_lens.experience": "I lack the required experience to study this creature.",
-  "item.arcaneadditions.soulsearchers_lens.nonphylactery": "I need an empty or partially filled relevant Crystal Phylactery in my other hand to study this creature."
+  "item.arcaneadditions.soulsearchers_lens.nonphylactery": "I need an empty or partially filled relevant Crystal Phylactery in my other hand to study this creature.",
+
+  "gui.arcaneadditions.familiar.owner": "Owner",
+  "gui.arcaneadditions.familiar.type": "Type",
+  "gui.arcaneadditions.familiar.health": "Health",
+  "gui.arcaneadditions.familiar.mana": "Mana",
+  "gui.arcaneadditions.familiar.spells_known": "Spells Known"
 }

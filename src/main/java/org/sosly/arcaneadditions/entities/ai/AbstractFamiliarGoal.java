@@ -20,16 +20,11 @@ public abstract class AbstractFamiliarGoal extends Goal {
     @Override
     public void start() {
         super.start();
-        System.out.println("[DEBUG] Starting goal: " + this.getClass().getSimpleName());
     }
 
     @Override
     public void stop() {
         super.stop();
-
-        if (!this.getClass().getSimpleName().equals("RandomWanderGoal")) {
-            System.out.println("[DEBUG] Stopping goal: " + this.getClass().getSimpleName());
-        }
     }
 
     @Nullable

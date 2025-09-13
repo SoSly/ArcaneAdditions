@@ -9,7 +9,7 @@ package org.sosly.arcaneadditions.networking.messages;
 
 import net.minecraftforge.fml.LogicalSide;
 import net.minecraftforge.network.NetworkEvent;
-import org.apache.logging.log4j.Logger;
+import org.slf4j.Logger;
 import org.sosly.arcaneadditions.ArcaneAdditions;
 import org.sosly.arcaneadditions.networking.BaseMessage;
 

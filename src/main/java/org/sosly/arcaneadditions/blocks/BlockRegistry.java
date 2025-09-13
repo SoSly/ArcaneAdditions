@@ -57,7 +57,7 @@ public class BlockRegistry {
                 if (!stack.isEmpty() && stack.getCount() == 1) {
                     event.accept(stack);
                 } else {
-                    ArcaneAdditions.LOGGER.warn("unable to put " + block + " in the creative tab");
+                    ArcaneAdditions.LOGGER.warn("unable to put {} in the creative tab", block);
                 }
             });
         }

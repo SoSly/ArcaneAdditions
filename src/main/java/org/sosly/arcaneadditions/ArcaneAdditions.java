@@ -8,6 +8,7 @@
 package org.sosly.arcaneadditions;
 
 import com.mna.api.guidebook.RegisterGuidebooksEvent;
+import com.mojang.logging.LogUtils;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -17,8 +18,7 @@ import net.minecraftforge.fml.config.ModConfig;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.fml.loading.FMLEnvironment;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import org.slf4j.Logger;
 import org.sosly.arcaneadditions.blocks.BlockRegistry;
 import org.sosly.arcaneadditions.blocks.TileEntityRegistry;
 import org.sosly.arcaneadditions.cantrips.Cantrips;
@@ -36,7 +36,7 @@ import org.sosly.arcaneadditions.utils.RLoc;
 @Mod(ArcaneAdditions.MOD_ID)
 public class ArcaneAdditions {
     public static final String MOD_ID = "arcaneadditions";
-    public static final Logger LOGGER = LogManager.getLogger(ArcaneAdditions.class);
+    public static final Logger LOGGER = LogUtils.getLogger();
     public static ArcaneAdditions instance;
     public ISidedProxy proxy;
     public IEventBus modbus;

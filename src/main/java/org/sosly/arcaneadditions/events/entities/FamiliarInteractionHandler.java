@@ -1,6 +1,7 @@
 package org.sosly.arcaneadditions.events.entities;
 
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.MenuProvider;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.item.ItemStack;
@@ -19,10 +20,7 @@ public class FamiliarInteractionHandler {
 
     @SubscribeEvent
     public static void onInteract(PlayerInteractEvent.EntityInteract event) {
-        if (event.getSide() == LogicalSide.CLIENT) {
-            return;
-        }
-
+        
         IFamiliarCapability cap = FamiliarHelper.getFamiliarCapability(event.getEntity());
         if (cap == null) {
             return;
@@ -33,8 +31,46 @@ public class FamiliarInteractionHandler {
             return;
         }
 
+        if (!cap.getCaster().equals(event.getEntity())) {
+            return;
+        }
+
         ServerPlayer player = (ServerPlayer) event.getEntity();
-        if (!cap.getCaster().equals(player)) {
+        
+        if (event.getEntity().isShiftKeyDown()) {
+            if (event.getSide() == LogicalSide.SERVER) {
+                MenuProvider menuProvider = new MenuProvider() {
+                    @Override
+                    public net.minecraft.network.chat.Component getDisplayName() {
+                        return net.minecraft.network.chat.Component.literal("Familiar");
+                    }
+
+                    @Override
+                    public net.minecraft.world.inventory.AbstractContainerMenu createMenu(int id, net.minecraft.world.entity.player.Inventory playerInv, net.minecraft.world.entity.player.Player player) {
+                        return new org.sosly.arcaneadditions.gui.menus.FamiliarMenu(id, playerInv, cap);
+                    }
+                };
+
+                net.minecraftforge.network.NetworkHooks.openScreen(player, menuProvider, buf -> {
+                    buf.writeUUID(familiar.getUUID());
+                    buf.writeUtf(cap.getName());
+                    buf.writeUtf(familiar.getType().getDescriptionId());
+                    buf.writeUtf(net.minecraftforge.registries.ForgeRegistries.ENTITY_TYPES.getKey(familiar.getType()).toString());
+                    buf.writeFloat(familiar.getHealth());
+                    buf.writeFloat(familiar.getMaxHealth());
+                    buf.writeFloat(cap.getCastingResource().getAmount());
+                    buf.writeFloat(cap.getCastingResource().getMaxAmount());
+                    buf.writeNbt(familiar.saveWithoutId(new net.minecraft.nbt.CompoundTag()));
+                    buf.writeInt(cap.getSpellsKnown().size());
+                    for (org.sosly.arcaneadditions.spells.FamiliarSpell spell : cap.getSpellsKnown()) {
+                        buf.writeComponent(spell.getName());
+                        buf.writeFloat(spell.getRecipe().getManaCost());
+                        buf.writeEnum(spell.getFrequency());
+                        buf.writeBoolean(spell.isOffensive());
+                    }
+                });
+            }
+            event.setCanceled(true);
             return;
         }
 

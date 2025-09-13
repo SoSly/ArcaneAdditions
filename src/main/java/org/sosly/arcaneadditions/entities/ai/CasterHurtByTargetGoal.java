@@ -18,23 +18,17 @@ public class CasterHurtByTargetGoal extends AbstractFamiliarTargetGoal {
 
     public boolean canUse() {
         if (!hasValidCapability() || isOrderedToStay()) {
-            System.out.println("[DEBUG] CasterHurtByTarget: No capability or ordered to stay");
             return false;
         }
 
         Player caster = getCaster();
         if (caster == null) {
-            System.out.println("[DEBUG] CasterHurtByTarget: No caster");
             return false;
         }
 
         casterLastHurtBy = caster.getLastHurtByMob();
         int i = caster.getLastHurtByMobTimestamp();
-        boolean result = i != timestamp && this.canAttack(casterLastHurtBy, TargetingConditions.DEFAULT);
-        if (result && casterLastHurtBy != null) {
-            System.out.println("[DEBUG] CasterHurtByTarget: Setting target to " + casterLastHurtBy.getName().getString());
-        }
-        return result;
+        return i != timestamp && this.canAttack(casterLastHurtBy, TargetingConditions.DEFAULT);
     }
 
     public void start() {

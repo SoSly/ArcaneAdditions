@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 - Added familiar AI behavior settings to the server config
+- Added familiar management GUI accessible via sneak + right-click on familiar
 
 ### Changed
 - Plow spell transformations are now data-driven through recipe JSONs, allowing datapack customization and mod compatibility
