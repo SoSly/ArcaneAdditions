@@ -10,8 +10,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 - Added familiar AI behavior settings to the server config
 - Added familiar management GUI accessible via sneak + right-click on familiar
+- Added MagiChem verdigris compatibility to Strip spell component
 
 ### Changed
+- Updated Mana and Artifice to version 3.1.11
 - Plow spell transformations are now data-driven through recipe JSONs, allowing datapack customization and mod compatibility
 - Improved familiar spellcasting reliability; familiars will now more consistently cast offensive and utility spells when appropriate
 - Familiars now better respect their spell cooldowns when deciding whether to cast

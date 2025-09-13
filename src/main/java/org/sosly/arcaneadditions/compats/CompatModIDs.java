@@ -9,6 +9,6 @@ package org.sosly.arcaneadditions.compats;
 
 public class CompatModIDs {
     public static final String GRASS_SLABS = "grassslabs";
-
+    public static final String MAGICHEM = "magichem";
     public static final String WOODWALKERS = "walkers";
 }

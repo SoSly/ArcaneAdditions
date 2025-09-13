@@ -25,6 +25,9 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.EntityBlock;
 import net.minecraft.world.level.block.WeatheringCopper;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.phys.BlockHitResult;
+import net.minecraft.world.phys.Vec3;
+import org.sosly.arcaneadditions.compats.magichem.MagiChemCompat;
 
 import java.util.Optional;
 
@@ -35,28 +38,36 @@ public class StripComponent extends SpellEffect {
 
     @Override
     public ComponentApplicationResult ApplyEffect(SpellSource caster, SpellTarget target, IModifiedSpellPart<SpellEffect> mods, SpellContext context) {
-        if (target.isBlock()) {
-            Level level = context.getLevel();
-            BlockPos pos = target.getBlock();
-            BlockState state = level.getBlockState(target.getBlock());
+        if (!target.isBlock()) {
+            return ComponentApplicationResult.FAIL;
+        }
 
-            if (!context.getLevel().isEmptyBlock(target.getBlock()) && context.getLevel().getFluidState(target.getBlock()).isEmpty() && !(state.getBlock() instanceof EntityBlock)) {
-                Optional<BlockState> strippable = Optional.ofNullable(AxeItem.getAxeStrippingState(state));
-                Optional<BlockState> scrapable = WeatheringCopper.getPrevious(state);
-                Optional<BlockState> waxed = Optional.ofNullable(HoneycombItem.WAX_OFF_BY_BLOCK.get().get(state.getBlock())).map((waxable) -> waxable.withPropertiesOf(state));
-                Optional<BlockState> result = Optional.empty();
+        Level level = context.getLevel();
+        BlockPos pos = target.getBlock();
+        BlockState state = level.getBlockState(pos);
 
-                if (strippable.isPresent()) {
-                    result = strippable;
-                } else if (scrapable.isPresent()) {
-                    result = scrapable;
-                } else if (waxed.isPresent()) {
-                    result = waxed;
-                }
+        if (level.isEmptyBlock(pos) || !level.getFluidState(pos).isEmpty() || state.getBlock() instanceof EntityBlock) {
+            return ComponentApplicationResult.FAIL;
+        }
 
-                result.ifPresent(blockState -> level.setBlock(pos, blockState, 11));
-                return ComponentApplicationResult.SUCCESS;
-            }
+        Optional<BlockState> strippable = Optional.ofNullable(AxeItem.getAxeStrippingState(state));
+        if (strippable.isPresent()) {
+            level.setBlock(pos, strippable.get(), 11);
+            return ComponentApplicationResult.SUCCESS;
+        }
+
+        Optional<BlockState> scrapable = WeatheringCopper.getPrevious(state);
+        if (scrapable.isPresent()) {
+            BlockHitResult hitResult = new BlockHitResult(Vec3.atCenterOf(pos), target.getBlockFace(this), pos, false);
+            MagiChemCompat.tryGenerateVerdigris(level, pos, state, hitResult);
+            level.setBlock(pos, scrapable.get(), 11);
+            return ComponentApplicationResult.SUCCESS;
+        }
+
+        Optional<BlockState> waxed = Optional.ofNullable(HoneycombItem.WAX_OFF_BY_BLOCK.get().get(state.getBlock())).map(waxable -> waxable.withPropertiesOf(state));
+        if (waxed.isPresent()) {
+            level.setBlock(pos, waxed.get(), 11);
+            return ComponentApplicationResult.SUCCESS;
         }
 
         return ComponentApplicationResult.FAIL;

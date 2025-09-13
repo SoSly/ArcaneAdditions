@@ -11,6 +11,7 @@ import net.minecraftforge.fml.ModList;
 import org.sosly.arcaneadditions.ArcaneAdditions;
 import org.sosly.arcaneadditions.api.spells.components.IPolymorphProvider;
 import org.sosly.arcaneadditions.compats.Grass_Slabs.GrassSlabCompat;
+import org.sosly.arcaneadditions.compats.magichem.MagiChemCompat;
 import org.sosly.arcaneadditions.compats.Woodwalkers.WoodwalkersCompat;
 
 import java.util.HashMap;
@@ -25,6 +26,7 @@ public class CompatRegistry {
     static {
         compatFactories.put(CompatModIDs.WOODWALKERS, () -> WoodwalkersCompat::new);
         compatFactories.put(CompatModIDs.GRASS_SLABS, () -> GrassSlabCompat::new);
+        compatFactories.put(CompatModIDs.MAGICHEM, () -> MagiChemCompat::new);
     }
 
     static IPolymorphProvider polymorphProvider;

@@ -4,7 +4,7 @@ import com.mna.api.capabilities.IPlayerProgression;
 import com.mna.api.rituals.IRitualContext;
 import com.mna.api.rituals.RitualEffect;
 import com.mna.capabilities.playerdata.progression.PlayerProgressionProvider;
-import com.mna.items.sorcery.ItemEntityCrystal;
+import com.mna.items.sorcery.EntityCrystal;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
@@ -58,7 +58,7 @@ public class BindFamiliarRitual extends RitualEffect {
         
         while (reagents.hasNext()) {
             ItemStack itemStack = reagents.next();
-            if (itemStack.getItem() instanceof ItemEntityCrystal) {
+            if (itemStack.getItem() instanceof EntityCrystal) {
                 stack = itemStack;
                 break;
             }
@@ -69,7 +69,7 @@ public class BindFamiliarRitual extends RitualEffect {
             return false;
         }
 
-        EntityType<?> type = ItemEntityCrystal.getEntityType(stack);
+        EntityType<?> type = EntityCrystal.getEntityType(stack);
         if (type == null) {
             player.sendSystemMessage(Component.translatable("arcaneadditions:rituals/bind_familiar.no_crystal"));
             return false;
@@ -84,7 +84,7 @@ public class BindFamiliarRitual extends RitualEffect {
             FamiliarHelper.removeFamiliar(player);
         }
         
-        Entity restoredEntity = ItemEntityCrystal.restoreEntity(level, stack);
+        Entity restoredEntity = EntityCrystal.restoreEntity(level, stack);
         if (!(restoredEntity instanceof Mob restoredMob)) {
             player.sendSystemMessage(Component.translatable("arcaneadditions:rituals/bind_familiar.invalid_familiar"));
             return false;

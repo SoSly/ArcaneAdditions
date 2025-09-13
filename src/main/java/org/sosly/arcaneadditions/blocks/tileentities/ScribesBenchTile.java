@@ -9,7 +9,7 @@ import com.mna.api.spells.base.ISpellDefinition;
 import com.mna.api.tools.MATags;
 import com.mna.blocks.tileentities.wizard_lab.WizardLabTile;
 import com.mna.items.ItemInit;
-import com.mna.items.artifice.charms.ItemContingencyCharm;
+import com.mna.items.artifice.charms.ContingencyCharm;
 import com.mna.items.sorcery.ItemSpell;
 import com.mna.spells.crafting.SpellRecipe;
 import net.minecraft.core.BlockPos;
@@ -130,7 +130,7 @@ public class ScribesBenchTile extends WizardLabTile {
     public int getLapisRequired(@Nullable Player player) {
         if (this.copyRecipe != null && this.hasStack(SLOT_VELLUM)) {
             ItemStack inputStack = this.getItem(SLOT_VELLUM);
-            if (inputStack.getItem() instanceof ItemContingencyCharm) {
+            if (inputStack.getItem() instanceof ContingencyCharm) {
                 ISpellDefinition spell = ((ICanContainSpell)inputStack.getItem()).getSpell(inputStack, player);
                 if (this.copyRecipe.isSame(spell, false, true, true)) {
                     return this.copyRecipe.getTier(this.level) * LAPIS_REQUIRED_PER_TIER_RECHARGE;

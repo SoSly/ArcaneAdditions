@@ -22,7 +22,7 @@ import com.mna.api.spells.targeting.SpellSource;
 import com.mna.api.spells.targeting.SpellTarget;
 import com.mna.capabilities.playerdata.progression.PlayerProgressionProvider;
 import com.mna.factions.Factions;
-import com.mna.items.sorcery.PhylacteryStaffItem;
+import com.mna.items.sorcery.PhylacteryStaff;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
@@ -94,12 +94,12 @@ public class PolymorphComponent extends SpellEffect {
             ItemStack phylactery = caster.getHand() == InteractionHand.MAIN_HAND ? targetEntity.getOffhandItem() : targetEntity.getMainHandItem();
             ServerPlayer casterPlayer = (ServerPlayer)Objects.requireNonNull(caster.getCaster());
 
-            if (!PhylacteryStaffItem.isFilled(phylactery)) {
+            if (!PhylacteryStaff.isFilled(phylactery)) {
                 casterPlayer.sendSystemMessage(Component.translatable("arcaneadditions:components/polymorph.nonphylactery"));
                 return ComponentApplicationResult.NOT_PRESENT;
             }
 
-            EntityType<? extends Mob> type = PhylacteryStaffItem.getEntityType(phylactery);
+            EntityType<? extends Mob> type = PhylacteryStaff.getEntityType(phylactery);
             if (type == null) {
                 casterPlayer.sendSystemMessage(Component.translatable("arcaneadditions:components/polymorph.nonphylactery"));
                 return ComponentApplicationResult.NOT_PRESENT;
