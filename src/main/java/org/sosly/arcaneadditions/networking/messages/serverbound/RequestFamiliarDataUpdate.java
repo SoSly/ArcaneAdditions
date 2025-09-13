@@ -29,23 +29,29 @@ public class RequestFamiliarDataUpdate extends BaseMessage {
 
     public static void handleRequestFamiliarDataUpdate(RequestFamiliarDataUpdate msg, Supplier<NetworkEvent.Context> contextSupplier) {
         NetworkEvent.Context ctx = contextSupplier.get();
-        if (ServerMessageHandler.validateBasics(msg, ctx)) {
-            ServerPlayer player = ctx.getSender();
-            if (player != null) {
-                IFamiliarCapability cap = FamiliarHelper.getFamiliarCapability(player);
-                if (cap != null && cap.getFamiliar() != null) {
-                    UpdateFamiliarData updatePacket = new UpdateFamiliarData(
-                        cap.getFamiliar().getHealth(),
-                        cap.getFamiliar().getMaxHealth(),
-                        cap.getCastingResource().getAmount(),
-                        cap.getCastingResource().getMaxAmount()
-                    );
-                    org.sosly.arcaneadditions.networking.PacketHandler.network.send(
-                        net.minecraftforge.network.PacketDistributor.PLAYER.with(() -> player), 
-                        updatePacket
-                    );
-                }
-            }
+        if (!ServerMessageHandler.validateBasics(msg, ctx)) {
+            return;
         }
+        
+        ServerPlayer player = ctx.getSender();
+        if (player == null) {
+            return;
+        }
+        
+        IFamiliarCapability cap = FamiliarHelper.getFamiliarCapability(player);
+        if (cap == null || cap.getFamiliar() == null) {
+            return;
+        }
+        
+        UpdateFamiliarData updatePacket = new UpdateFamiliarData(
+            cap.getFamiliar().getHealth(),
+            cap.getFamiliar().getMaxHealth(),
+            cap.getCastingResource().getAmount(),
+            cap.getCastingResource().getMaxAmount()
+        );
+        org.sosly.arcaneadditions.networking.PacketHandler.network.send(
+            net.minecraftforge.network.PacketDistributor.PLAYER.with(() -> player), 
+            updatePacket
+        );
     }
 }

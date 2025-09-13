@@ -36,7 +36,6 @@ public class SpellRemoveButton extends ExtendedButton {
             return;
         }
 
-        // Only change cursor when hover state changes
         boolean currentlyHovered = this.isHovered();
         if (currentlyHovered != wasHovered) {
             long window = Minecraft.getInstance().getWindow().getWindow();
@@ -44,7 +43,7 @@ public class SpellRemoveButton extends ExtendedButton {
             wasHovered = currentlyHovered;
         }
 
-        int u = 199 + 14; // imageWidth + 14 (dynamic calculation)
+        int u = 199 + 14;
         int v = 0;
 
         pGuiGraphics.blit(TEXTURE, this.getX(), this.getY(), u, v, this.width, this.height, 256, 256);

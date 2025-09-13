@@ -51,7 +51,7 @@ public class FamiliarScreen extends AbstractContainerScreen<FamiliarMenu> {
     private static final int ENTITY_DISPLAY_Y = 60;
     private static final int ENTITY_SCALE = 30;
     private static final int ENTITY_MOUSE_OFFSET_X = 20;
-    private static final int UPDATE_INTERVAL_TICKS = 20; // Update every second
+    private static final int UPDATE_INTERVAL_TICKS = 20;
     
     private int tickCounter = 0;
     private final java.util.Map<String, SpellRemoveButton> spellButtons = new java.util.HashMap<>();
@@ -75,19 +75,20 @@ public class FamiliarScreen extends AbstractContainerScreen<FamiliarMenu> {
     public void init() {
         super.init();
         
-        // Add spell remove buttons once
-        if (menu.hasClientData()) {
-            List<FamiliarMenu.SpellData> spells = menu.getSpellData();
-            for (int i = 0; i < spells.size(); i++) {
-                FamiliarMenu.SpellData spell = spells.get(i);
-                int yOffset = SPELLS_START_Y + (i * SPELL_LINE_HEIGHT);
+        if (!menu.hasClientData()) {
+            return;
+        }
+        
+        List<FamiliarMenu.SpellData> spells = menu.getSpellData();
+        for (int i = 0; i < spells.size(); i++) {
+            FamiliarMenu.SpellData spell = spells.get(i);
+            int yOffset = SPELLS_START_Y + (i * SPELL_LINE_HEIGHT);
 
-                SpellRemoveButton removeButton = new SpellRemoveButton(
-                        this.leftPos + SPELL_DELETE_X, this.topPos + yOffset,
-                        btn -> removeSpell(spell.name.getString())
-                );
-                addRenderableWidget(removeButton);
-            }
+            SpellRemoveButton removeButton = new SpellRemoveButton(
+                    this.leftPos + SPELL_DELETE_X, this.topPos + yOffset,
+                    btn -> removeSpell(spell.name.getString())
+            );
+            addRenderableWidget(removeButton);
         }
     }
 
@@ -99,13 +100,11 @@ public class FamiliarScreen extends AbstractContainerScreen<FamiliarMenu> {
         if (tickCounter >= UPDATE_INTERVAL_TICKS) {
             tickCounter = 0;
             
-            // Only do server-side validation if we're on server
             if (!minecraft.player.level().isClientSide() && !menu.stillValid(minecraft.player)) {
                 this.onClose();
                 return;
             }
             
-            // Request updated data from server
             PacketHandler.network.sendToServer(new RequestFamiliarDataUpdate());
         }
     }
@@ -169,7 +168,6 @@ public class FamiliarScreen extends AbstractContainerScreen<FamiliarMenu> {
             FamiliarMenu.SpellData spell = spells.get(i);
             int yOffset = SPELLS_START_Y + (i * SPELL_LINE_HEIGHT);
 
-            // Render spell type icon (Utility or Attack)
             int iconU = imageWidth + (spell.offensive ? 7 : 0);
             int iconV = 0;
             pGuiGraphics.blit(TEXTURE, SPELL_ICON_X, yOffset, iconU, iconV, 7, 7, 256, 256);
@@ -219,7 +217,6 @@ public class FamiliarScreen extends AbstractContainerScreen<FamiliarMenu> {
                 (float)(yPos + ENTITY_DISPLAY_Y) - mouse_y,
                 displayEntity);
         } catch (Exception e) {
-            // Entity rendering failed, continue without familiar display
         }
     }
 
