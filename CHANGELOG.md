@@ -14,6 +14,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Plow spell transformations are now data-driven through recipe JSONs, allowing datapack customization and mod compatibility
 - Improved familiar spellcasting reliability; familiars will now more consistently cast offensive and utility spells when appropriate
 - Familiars now better respect their spell cooldowns when deciding whether to cast
+- Familiars now preserve their entity data (health, names, attributes) when dismissed or traveling between dimensions
+- Stay command now works with any mob type through reflection-based method discovery
+- Bind familiar ritual now uses entrapment crystals instead of phylacteries
 
 ### Fixed
 - Added a loot table to the scribe's bench so that it properly drops when broken

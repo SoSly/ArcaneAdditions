@@ -31,7 +31,7 @@
       "consume": true
     },
     "P": {
-      "item": "mna:crystal_phylactery",
+      "item": "mna:entrapment_crystal",
       "optional": false,
       "consume": false
     },

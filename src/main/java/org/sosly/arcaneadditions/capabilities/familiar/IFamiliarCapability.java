@@ -43,6 +43,10 @@ public interface IFamiliarCapability {
     boolean isOrderedToStay();
     void setOrderedToStay(boolean value);
 
+    net.minecraft.nbt.CompoundTag getFamiliarNBT();
+    void setFamiliarNBT(net.minecraft.nbt.CompoundTag nbt);
+    void storeFamiliarData();
+
     void reset();
     void addSpellKnown(FamiliarSpell spell, boolean checkTiers);
     Collection<FamiliarSpell> getSpellsKnown();

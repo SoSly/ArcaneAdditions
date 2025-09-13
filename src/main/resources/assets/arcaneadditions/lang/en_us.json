@@ -47,7 +47,7 @@
   "arcaneadditions:rituals/bind_familiar": "Ritual of the Little Friend",
   "arcaneadditions:rituals/bind_familiar.already_bound": "Your previous familiar has been dismissed.",
   "arcaneadditions:rituals/bind_familiar.invalid_familiar": "You cannot bind a familiar of that type.",
-  "arcaneadditions:rituals/bind_familiar.no_phylactery": "This ritual will not work without a filled phylactery",
+  "arcaneadditions:rituals/bind_familiar.no_crystal": "This ritual will not work without a filled entrapment crystal",
   "arcaneadditions:rituals/bind_familiar.failed": "Your familiar could not be summoned into the world.",
   "arcaneadditions:rituals/bind_familiar.success": "You bind a %s familiar.",
 

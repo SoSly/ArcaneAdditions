@@ -20,11 +20,6 @@ public class FamiliarHelper {
     private static final String CASTER = "arcaneadditions:familiar/caster";
 
 
-    // creates a new familiar of the appropriate type and initializes its capability object
-    // this is used both when the familiar is first summoned and whenever they are re-summoned,
-    // including when a disconnected player reconnects
-    //
-    // returns true if the familiar was successfully created, otherwise false
     public static boolean createFamiliar(Player caster, EntityType<? extends Mob> type, Component name, Level level, BlockPos pos) {
         IFamiliarCapability cap = getFamiliarCapability(caster);
         IPlayerMagic magic = getMagicCapability(caster);
@@ -37,9 +32,22 @@ public class FamiliarHelper {
             return false;
         }
 
-        familiar.setPos(Vec3.atBottomCenterOf(pos.above()));
-        familiar.setCustomName(name);
-        familiar.setCustomNameVisible(true);
+        if (cap.getFamiliarNBT() != null) {
+            familiar.load(cap.getFamiliarNBT());
+            familiar.setPos(Vec3.atBottomCenterOf(pos.above()));
+            familiar.setDeltaMovement(Vec3.ZERO);
+            familiar.fallDistance = 0;
+            familiar.clearFire();
+            if (!familiar.hasCustomName()) {
+                familiar.setCustomName(name);
+                familiar.setCustomNameVisible(true);
+            }
+        } else {
+            familiar.setPos(Vec3.atBottomCenterOf(pos.above()));
+            familiar.setCustomName(name);
+            familiar.setCustomNameVisible(true);
+        }
+        
         familiar.getPersistentData().putUUID(CASTER, caster.getUUID());
         setupFamiliarAI(familiar);
 
@@ -50,7 +58,7 @@ public class FamiliarHelper {
         cap.setCaster(caster);
         cap.setFamiliar(familiar);
         cap.setType(type);
-        cap.setName(name.getString());
+        cap.setName(familiar.getCustomName() != null ? familiar.getCustomName().getString() : name.getString());
         cap.getCastingResource().setMaxAmountByLevel(magic.getMagicLevel() / Constants.MAGIC_LEVEL_DIVISOR);
         if (cap.getCastingResource().getMaxAmount() < cap.getCastingResource().getAmount()) {
             cap.getCastingResource().setAmount(cap.getCastingResource().getMaxAmount());
@@ -80,9 +88,6 @@ public class FamiliarHelper {
         return cap.getFamiliar();
     }
 
-    // attempts to fetch the familiar capability object for a mob
-    // it returns null if the capability cannot be found, which probably means the
-    // mob is not someone's familiar
     public static IFamiliarCapability getFamiliarCapability(Mob mob) {
         if (!mob.getPersistentData().hasUUID(CASTER)) {
             return null;
@@ -103,9 +108,6 @@ public class FamiliarHelper {
     }
 
 
-    // attempts to fetch the familiar capability object for a player
-    // it returns null if the capability cannot be found, which probably means the
-    // player does not have a familiar
     public static IFamiliarCapability getFamiliarCapability(Player caster) {
         LazyOptional<IFamiliarCapability> loCap = caster.getCapability(FamiliarProvider.FAMILIAR);
         if (!loCap.isPresent() || loCap.resolve().isEmpty()) {
@@ -142,7 +144,6 @@ public class FamiliarHelper {
         return caster == null;
     }
 
-    // removes the familiar entity from all levels and then reset the capability
     public static void removeFamiliar(Player caster) {
         IFamiliarCapability cap = getFamiliarCapability(caster);
         if (cap == null) {
@@ -150,6 +151,7 @@ public class FamiliarHelper {
         }
 
         if (cap.getFamiliar() != null) {
+            cap.storeFamiliarData();
             cap.getFamiliar().remove(Entity.RemovalReason.DISCARDED);
             caster.sendSystemMessage(Component.translatable("arcaneadditions:rituals/bind_familiar.already_bound"));
         }

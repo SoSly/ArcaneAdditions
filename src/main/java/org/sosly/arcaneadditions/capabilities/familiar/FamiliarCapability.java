@@ -8,26 +8,22 @@ import com.mna.capabilities.playerdata.magic.resources.CastingResourceRegistry;
 import com.mna.capabilities.playerdata.magic.resources.Mana;
 import com.mna.capabilities.playerdata.progression.PlayerProgressionProvider;
 import net.minecraft.core.BlockPos;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerLevel;
-import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.Mob;
-import net.minecraft.world.entity.TamableAnimal;
-import net.minecraft.world.entity.ambient.Bat;
-import net.minecraft.world.entity.animal.Fox;
-import net.minecraft.world.entity.animal.Parrot;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import org.sosly.arcaneadditions.ArcaneAdditions;
-import org.sosly.arcaneadditions.spells.FamiliarSpell;
 import org.sosly.arcaneadditions.config.ServerConfig;
 import org.sosly.arcaneadditions.entities.ai.Constants;
+import org.sosly.arcaneadditions.spells.FamiliarSpell;
 import org.sosly.arcaneadditions.utils.FamiliarHelper;
 
 import java.util.Collection;
@@ -36,13 +32,12 @@ import java.util.UUID;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class FamiliarCapability implements IFamiliarCapability {
-
-
     private boolean bapped = false;
     private Player caster;
     private ICastingResource castingResource = new Mana();
     private Mob familiar;
     private UUID familiarUUID;
+    private CompoundTag familiarNBT;
     private long lastInteract;
     private long lastResourceTick;
     private long lastMaintenanceTick;
@@ -212,20 +207,61 @@ public class FamiliarCapability implements IFamiliarCapability {
     public void setOrderedToStay(boolean value) {
         orderedToStay = value;
 
-        if (familiar instanceof TamableAnimal animal) {
-            if (animal instanceof Parrot parrot && parrot.canSitOnShoulder()) {
-                parrot.setEntityOnShoulder((ServerPlayer) caster);
+        if (familiar == null) {
+            return;
+        }
+
+        String[] methodNames = {"setInSittingPose", "setOrderedToSit", "setSitting", "setResting", "setInSitPose", "setEntityOnShoulder"};
+        Class<?> clazz = familiar.getClass();
+
+        for (String methodName : methodNames) {
+            try {
+                java.lang.reflect.Method method = clazz.getMethod(methodName, boolean.class);
+                method.invoke(familiar, value);
+                break;
+            } catch (NoSuchMethodException ignored) {
+                // This method doesn't exist, try the next one
+            } catch (Exception e) {
+                ArcaneAdditions.LOGGER.debug("Failed to invoke " + methodName + " on " + familiar.getType().getDescriptionId());
             }
-            animal.setOrderedToSit(value);
-        } else if (familiar instanceof Fox fox) {
-            fox.setSitting(value);
-        } else if (familiar instanceof Bat bat) {
-            bat.setResting(value);
         }
 
         if (caster != null) {
             lastInteract = caster.level().getGameTime();
         }
+    }
+
+    @Override
+    public CompoundTag getFamiliarNBT() {
+        return familiarNBT;
+    }
+
+    @Override
+    public void setFamiliarNBT(CompoundTag nbt) {
+        familiarNBT = nbt;
+    }
+
+    @Override
+    public void storeFamiliarData() {
+        if (familiar == null || familiar.isRemoved()) {
+            return;
+        }
+
+        CompoundTag nbt = new CompoundTag();
+        familiar.saveWithoutId(nbt);
+
+        nbt.remove("Pos");
+        nbt.remove("Motion");
+        nbt.remove("Rotation");
+        nbt.remove("FallDistance");
+        nbt.remove("Fire");
+        nbt.remove("Air");
+        nbt.remove("OnGround");
+        nbt.remove("Dimension");
+        nbt.remove("PortalCooldown");
+        nbt.remove("UUID");
+
+        familiarNBT = nbt;
     }
 
     @Override
@@ -235,6 +271,7 @@ public class FamiliarCapability implements IFamiliarCapability {
         this.castingResource.setAmount(0);
         this.familiar = null;
         this.familiarUUID = null;
+        this.familiarNBT = null;
         this.lastKnownDimension = null;
         this.orderedToStay = false;
         this.spellsKnown = new LinkedHashSet<>();
@@ -264,7 +301,6 @@ public class FamiliarCapability implements IFamiliarCapability {
 
     @Override
     public void tick() {
-        // if the familiar is scheduled to load, then we need to load it.
         if (loadLevel != null && loadPos != null) {
             if (FamiliarHelper.createFamiliar(caster, type, Component.literal(name), loadLevel, loadPos)) {
                 loadLevel = null;
@@ -282,22 +318,18 @@ public class FamiliarCapability implements IFamiliarCapability {
         lastMaintenanceTick = lastMaintenanceTick > 0 ? lastMaintenanceTick : caster.level().getGameTime();
 
         if (lastMaintenanceTick < (caster.level().getGameTime() - Constants.MAINTENANCE_TICK_INTERVAL)) {
-            // check whether the familiar's max mana needs to be updated based on the caster's magic level
             castingResource.setMaxAmountByLevel(this.getMagicLevel());
             lastMaintenanceTick = caster.level().getGameTime();
 
-            // update the name of the familiar
             if (!familiar.getCustomName().getString().equals(name)) {
                 name = familiar.getCustomName().getString();
             }
 
-            // apply resistance effect to familiar
             IPlayerMagic magic = caster.getCapability(PlayerMagicProvider.MAGIC).orElse(null);
             MobEffectInstance resistance = new MobEffectInstance(MobEffects.DAMAGE_RESISTANCE, 200, (magic.getMagicLevel()/15), true, false);
             familiar.addEffect(resistance, familiar);
         }
 
-        // regenerate the familiar's mana
         if (getCastingResource().getAmount() < getCastingResource().getMaxAmount() && lastResourceTick < caster.level().getGameTime()) {
             int ticks = (int) (caster.level().getGameTime() - lastResourceTick);
             float rate = castingResource.getRegenerationRate(familiar);
@@ -307,12 +339,10 @@ public class FamiliarCapability implements IFamiliarCapability {
             lastResourceTick = caster.level().getGameTime();
         }
 
-        // regenerate the familiar's health at the cost of mana
         if (familiar.getHealth() < familiar.getMaxHealth() && lastHealingTick < (caster.level().getGameTime() - ServerConfig.familiarHealingTickInterval)) {
             int toRestore = (int) (caster.level().getGameTime() - lastHealingTick) / ServerConfig.familiarHealingTickInterval;
             while (toRestore > 0) {
                 if (familiar.getHealth() >= familiar.getMaxHealth() || castingResource.getAmount() < ServerConfig.familiarHealingRate) {
-                    // no healing needed or not enough mana
                     break;
                 }
                 familiar.heal(1);

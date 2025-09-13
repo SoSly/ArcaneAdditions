@@ -56,6 +56,9 @@ public class FamiliarProvider implements ICapabilitySerializable<Tag> {
         if (instance.isOrderedToStay()) {
             nbt.putBoolean("orderedToStay", instance.isOrderedToStay());
         }
+        if (instance.getFamiliarNBT() != null) {
+            nbt.put("familiarNBT", instance.getFamiliarNBT());
+        }
         if (!instance.getSpellsKnown().isEmpty()) {
             CompoundTag spells = new CompoundTag();
             int i = 0;
@@ -104,6 +107,9 @@ public class FamiliarProvider implements ICapabilitySerializable<Tag> {
                     throw new RuntimeException("Could not get type for Familiar.");
                 }
                 instance.setType((EntityType<? extends Mob>) type);
+            }
+            if (cnbt.contains("familiarNBT")) {
+                instance.setFamiliarNBT(cnbt.getCompound("familiarNBT"));
             }
             if (cnbt.contains("spells")) {
                 CompoundTag spells = cnbt.getCompound("spells");

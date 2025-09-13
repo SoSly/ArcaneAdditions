@@ -92,6 +92,7 @@ public class FamiliarLifecycleHandler {
             return;
         }
 
+        cap.storeFamiliarData();
         familiar.remove(Entity.RemovalReason.DISCARDED);
         cap.setFamiliar(null);
         cap.setFamiliarUUID(null);
