@@ -23,22 +23,16 @@ import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.UseAnim;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import org.apache.commons.lang3.mutable.MutableBoolean;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 import org.sosly.arcaneadditions.config.ServerConfig;
 import org.sosly.arcaneadditions.entities.EntityRegistry;
 import org.sosly.arcaneadditions.entities.sorcery.SoulSearchersBeamEntity;
 import org.sosly.arcaneadditions.sounds.UseItemTickingSoundInstance;
-
-import java.util.concurrent.atomic.AtomicBoolean;
-import java.util.concurrent.atomic.AtomicReference;
 
 public class SoulsearchersLensItem extends TieredItem {
     private static final String TARGET_KEY = "soulsearcher-target";
@@ -58,45 +52,50 @@ public class SoulsearchersLensItem extends TieredItem {
 
     @Override
     public @NotNull InteractionResult interactLivingEntity(@NotNull ItemStack item, Player player, @NotNull LivingEntity target, @NotNull InteractionHand hand) {
-        if (target instanceof Mob && !(target instanceof IConstruct)) {
-            player.getPersistentData().putInt(TARGET_KEY, target.getId());
-            return InteractionResult.PASS;
+        if (!(target instanceof Mob) || target instanceof IConstruct) {
+            return InteractionResult.FAIL;
         }
-        return InteractionResult.FAIL;
+
+        player.getPersistentData().putInt(TARGET_KEY, target.getId());
+        return InteractionResult.SUCCESS;
     }
 
     @Override
     public void onUseTick(Level level, LivingEntity user, ItemStack lens, int ticks) {
-        if (ticks % 20 == 0 && user instanceof Player player) {
-            int beamID = lens.getOrCreateTag().getInt("beam");
-            SoulSearchersBeamEntity beam = (SoulSearchersBeamEntity) level.getEntity(beamID);
-            if (beam != null) {
-                beam.setPos(user.getEyePosition());
-            }
+        if (ticks % 20 != 0 || !(user instanceof Player player)) {
+            return;
+        }
 
-            MutableBoolean continueUsing = new MutableBoolean(true);
-            player.getCapability(ManaAndArtificeMod.getMagicCapability()).ifPresent((m) -> {
-                if (m.isMagicUnlocked()) {
-                    int targetId = player.getPersistentData().getInt(TARGET_KEY);
-                    Mob target = (Mob) level.getEntity(targetId);
-                    InteractionHand hand = player.getUsedItemHand();
-                    ItemStack phylactery = hand == InteractionHand.MAIN_HAND ? user.getOffhandItem() : user.getMainHandItem();
+        int beamID = lens.getOrCreateTag().getInt("beam");
+        SoulSearchersBeamEntity beam = (SoulSearchersBeamEntity) level.getEntity(beamID);
+        if (beam != null) {
+            beam.setPos(user.getEyePosition());
+        }
 
-                    if (target != null && phylactery.getCount() > 0) {
-                        if (!this.useOn(level, player, target, phylactery)) {
-                            continueUsing.setFalse();
-                        }
-                    } else {
-                        continueUsing.setFalse();
-                    }
-                } else {
-                    continueUsing.setFalse();
-                }
-            });
+        var magicCapability = player.getCapability(ManaAndArtificeMod.getMagicCapability()).resolve();
+        if (magicCapability.isEmpty()) {
+            player.releaseUsingItem();
+            return;
+        }
 
-            if (!continueUsing.getValue()) {
-                player.releaseUsingItem();
-            }
+        var magic = magicCapability.get();
+        if (!magic.isMagicUnlocked()) {
+            player.releaseUsingItem();
+            return;
+        }
+
+        int targetId = player.getPersistentData().getInt(TARGET_KEY);
+        Mob target = (Mob) level.getEntity(targetId);
+        InteractionHand hand = player.getUsedItemHand();
+        ItemStack phylactery = hand == InteractionHand.MAIN_HAND ? user.getOffhandItem() : user.getMainHandItem();
+
+        if (target == null || phylactery.getCount() == 0) {
+            player.releaseUsingItem();
+            return;
+        }
+
+        if (!this.useOn(level, player, target, phylactery)) {
+            player.releaseUsingItem();
         }
     }
 
@@ -104,44 +103,51 @@ public class SoulsearchersLensItem extends TieredItem {
     @NotNull
     public InteractionResultHolder<ItemStack> use(@NotNull Level level, @NotNull Player player, @NotNull InteractionHand hand) {
         final ItemStack lens = (hand == InteractionHand.MAIN_HAND) ? player.getMainHandItem() : player.getOffhandItem();
-        final ItemStack itemStack = (hand == InteractionHand.MAIN_HAND) ? player.getOffhandItem() : player.getMainHandItem();
-        AtomicBoolean result = new AtomicBoolean(false);
+        final ItemStack phylacteryStack = (hand == InteractionHand.MAIN_HAND) ? player.getOffhandItem() : player.getMainHandItem();
 
-            int targetID = player.getPersistentData().getInt(TARGET_KEY);
-            Mob target = (Mob) level.getEntity(targetID);
-            if (target != null) {
-                player.getCapability(ManaAndArtificeMod.getMagicCapability()).ifPresent((m) -> {
-                    if (m.isMagicUnlocked()) {
-                        Item item = itemStack.getItem();
-                        if (item instanceof IPhylacteryItem phylactery) {
-                            if (!phylactery.isFull(itemStack)) {
-                                if (level.isClientSide()) {
-                                    this.PlayLoopingSound(SFX.Loops.ARCANE, player);
-                                } else {
-                                    SoulSearchersBeamEntity beam = new SoulSearchersBeamEntity(EntityRegistry.SOUL_SEARCHERS_BEAM.get(), player.level());
-                                    beam.setSource(player);
-                                    beam.setTarget(target);
-                                    beam.setPos(player.getEyePosition());
-                                    lens.getOrCreateTag().putInt("beam", beam.getId());
-                                    level.addFreshEntity(beam);
-                                }
-                                player.startUsingItem(hand);
-                                result.set(true);
-                            } else {
-                                if (level.isClientSide()) {
-                                    player.sendSystemMessage(Component.translatable("item.arcaneadditions.soulsearchers_lens.nonphylactery"));
-                                }
-                            }
-                        }
-                    } else {
-                        if (level.isClientSide()) {
-                            player.sendSystemMessage(Component.translatable("item.arcaneadditions.soulsearchers_lens.confusion"));
-                        }
-                    }
-                });
+        int targetID = player.getPersistentData().getInt(TARGET_KEY);
+        Mob target = (Mob) level.getEntity(targetID);
+        if (target == null) {
+            return InteractionResultHolder.fail(lens);
+        }
+
+        var magicCapability = player.getCapability(ManaAndArtificeMod.getMagicCapability()).resolve();
+        if (magicCapability.isEmpty()) {
+            return InteractionResultHolder.fail(lens);
+        }
+
+        var magic = magicCapability.get();
+        if (!magic.isMagicUnlocked()) {
+            if (level.isClientSide()) {
+                player.sendSystemMessage(Component.translatable("item.arcaneadditions.soulsearchers_lens.confusion"));
             }
+            return InteractionResultHolder.fail(lens);
+        }
 
-        return result.get() ? InteractionResultHolder.pass(lens) : InteractionResultHolder.fail(lens);
+        if (!(phylacteryStack.getItem() instanceof IPhylacteryItem phylactery)) {
+            return InteractionResultHolder.fail(lens);
+        }
+
+        if (phylactery.isFull(phylacteryStack)) {
+            if (level.isClientSide()) {
+                player.sendSystemMessage(Component.translatable("item.arcaneadditions.soulsearchers_lens.nonphylactery"));
+            }
+            return InteractionResultHolder.fail(lens);
+        }
+
+        if (level.isClientSide()) {
+            this.PlayLoopingSound(SFX.Loops.ARCANE, player);
+        } else {
+            SoulSearchersBeamEntity beam = new SoulSearchersBeamEntity(EntityRegistry.SOUL_SEARCHERS_BEAM.get(), player.level());
+            beam.setSource(player);
+            beam.setTarget(target);
+            beam.setPos(player.getEyePosition());
+            lens.getOrCreateTag().putInt("beam", beam.getId());
+            level.addFreshEntity(beam);
+        }
+
+        player.startUsingItem(hand);
+        return InteractionResultHolder.pass(lens);
     }
 
     @Override
@@ -187,25 +193,30 @@ public class SoulsearchersLensItem extends TieredItem {
         boolean added = this.addToPhylactery(player, phylactery, type, amount, target.level());
 
         if (added) {
-            player.giveExperienceLevels(-1 * levelsRequired);
+            player.giveExperienceLevels(-levelsRequired);
         }
 
         return added;
     }
 
-    @Nullable
     private float getAdjustmentForType(EntityType entityType) {
         String type = entityType.getDescriptionId();
-        AtomicReference<Float> modifier = new AtomicReference<>(1.0f);
-        ServerConfig.soulSearchersLensCreatureModifiers.stream().forEach((mod) -> {
+
+        for (String mod : ServerConfig.soulSearchersLensCreatureModifiers) {
             String[] parts = mod.split(",");
+            if (parts.length != 2) {
+                continue;
+            }
+
             String registryName = parts[0];
             String stringModifier = parts[1];
+
             if (type.equals(registryName)) {
-                 modifier.set(Float.parseFloat(stringModifier));
+                return Float.parseFloat(stringModifier);
             }
-        });
-        return modifier.get();
+        }
+
+        return 1.0f;
     }
 
     private boolean addToPhylactery(Player player, @NotNull ItemStack phylactery, EntityType<? extends Mob> type, float amount, Level level) {

@@ -20,6 +20,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Bind familiar ritual now uses entrapment crystals instead of phylacteries
 
 ### Fixed
+- Soul Searcher's Lens now properly prevents rideable mob interactions (horses won't play mount animation, fixes phylactery desync with Mythic Mounts)
 - Added a loot table to the scribe's bench so that it properly drops when broken
 - Fixed a typo in the Soul Searcher's Lens guidebook description
 - Fixed a bug preventing familiars from changing casting resource types
