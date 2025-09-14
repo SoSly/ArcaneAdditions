@@ -14,6 +14,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 - Updated Mana and Artifice to version 3.1.11
+- Updated Woodwalkers to version 5.7
+- Updated Crafted Core to version 5.8
 - Plow spell transformations are now data-driven through recipe JSONs, allowing datapack customization and mod compatibility
 - Improved familiar spellcasting reliability; familiars will now more consistently cast offensive and utility spells when appropriate
 - Familiars now better respect their spell cooldowns when deciding whether to cast

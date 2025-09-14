@@ -108,7 +108,7 @@ dependencies {
     compileOnly fg.deobf("curse.maven:grassslab-${grassslab_projectId}:${grassslab_fileId}")
 
     // this optional dependency provides support for magichem
-    compileonly fg.deobf("curse.maven:magichem-${magichem_projectId}:${magichem_fileId}")
+    compileOnly fg.deobf("curse.maven:magichem-${magichem_projectId}:${magichem_fileId}")
 
     // polymorph support is provided by woodwalkers
     implementation fg.deobf("curse.maven:architectury-${architectury_projectId}:${architectury_fileId}")
