@@ -1,0 +1,525 @@
+{
+  "Component: Counterspell": {
+    "index": 2,
+    "category": "sorcery",
+    "sections": [
+      {
+        "type": "title",
+        "value": "Counterspell(카운터스펠)"
+      },
+      {
+        "type": "text",
+        "json": [
+          {
+            "text": "타이밍만 맞춘다면, 나를 향해 날아오는 마법을 받아쳐 흩어 버릴 수 있습니다!"
+          }
+        ]
+      }
+    ],
+    "related_recipes": [
+      {
+        "type": "spell_part",
+        "location": "arcaneadditions:components/counterspell"
+      }
+    ]
+  },
+  "Component: Enrage": {
+    "index": 2,
+    "category": "sorcery",
+    "sections": [
+      {
+        "type": "title",
+        "value": "Enrage(엔레이지)"
+      },
+      {
+        "type": "text",
+        "json": [
+          {
+            "text": "적들의 기본적인 투쟁-도피 반응을 건드리는 법을 익혔습니다. 격분한 적들은 나를 공격하도록 몰아붙여집니다. 안타깝게도 그만큼 훨씬 더 위협적으로 변한다는 부작용이 있지만, 그 정도는 감당할 수 있습니다. 아마도요."
+          }
+        ]
+      }
+    ],
+    "related_recipes": [
+      {
+        "type": "spell_part",
+        "location": "arcaneadditions:components/enrage"
+      }
+    ]
+  },
+  "Component: Ice Block": {
+    "index": 2,
+    "category": "sorcery",
+    "sections": [
+      {
+        "type": "title",
+        "value": "Ice Block(아이스 블록)"
+      },
+      {
+        "type": "text",
+        "json": [
+          {
+            "text": "얼음의 힘을 끌어내어 대상을 잠시 보호하고 생명력을 회복시킬 수 있습니다. 면역 상태가 되긴 하지만, 안타깝게도 그동안 아무 행동도 할 수 없게 됩니다."
+          }
+        ]
+      }
+    ],
+    "related_recipes": [
+      {
+        "type": "spell_part",
+        "location": "arcaneadditions:components/ice_block"
+      }
+    ]
+  },
+  "Component: Life Link": {
+    "index": 2,
+    "category": "sorcery",
+    "sections": [
+      {
+        "type": "title",
+        "value": "Life Link(라이프 링크)"
+      },
+      {
+        "type": "text",
+        "json": [
+          {
+            "text": "내 생명력을 다른 존재와 연결하여, 짧은 시간 동안 서로의 고통을 나누고 줄일 수 있습니다."
+          }
+        ]
+      }
+    ],
+    "related_recipes": [
+      {
+        "type": "spell_part",
+        "location": "arcaneadditions:components/life_link"
+      }
+    ]
+  },
+  "Component: Path": {
+    "index": 2,
+    "category": "sorcery",
+    "sections": [
+      {
+        "type": "title",
+        "value": "Path(패스)"
+      },
+      {
+        "type": "text",
+        "json": [
+          {
+            "text": "내가 걸어갈 때마다 대지가 내 앞에서 굽어지며, 가는 곳마다 길을 만들어 냅니다."
+          }
+        ]
+      }
+    ],
+    "related_recipes": [
+      {
+        "type": "spell_part",
+        "location": "arcaneadditions:components/path"
+      }
+    ]
+  },
+  "Component: Plow": {
+    "index": 2,
+    "category": "sorcery",
+    "sections": [
+      {
+        "type": "title",
+        "value": "Plow(플라우)"
+      },
+      {
+        "type": "text",
+        "json": [
+          {
+            "text": "흐르는 물의 힘을 불러내어 수확할 땅을 갈아엎을 수 있습니다."
+          }
+        ]
+      }
+    ],
+    "related_recipes": [
+      {
+        "type": "spell_part",
+        "location": "arcaneadditions:components/plow"
+      }
+    ]
+  },
+  "Component: Polymorph": {
+    "index": 2,
+    "category": "sorcery",
+    "sections": [
+      {
+        "type": "title",
+        "value": "Polymorph(폴리모프)"
+      },
+      {
+        "type": "text",
+        "json": [
+          {
+            "text": "물의 변화무쌍한 성질을 끌어내어 내 근본적인 형태를 바꿀 수 있습니다. 먼저 내가 변하고 싶은 생물의 정수를 크리스탈 성물함에 채워야 합니다. 그다음 한 손에는 주문을, 다른 손에는 성물함을 들면 됩니다. 이렇게 하면 내가 어떤 모습이 될지 정해집니다. 이 효과를 작동시키려면 애니머스 가루가 필요할 수도 있습니다.\n\n효과의 Magnitude(강도)가 높다면 더 강력한 형태를 취할 수도 있습니다.\n\n(참고: Budschie's Morph Mod가 설치되어 있지 않다면 이 컴포넌트는 사용할 수 없습니다.)"
+          }
+        ]
+      }
+    ],
+    "related_recipes": [
+      {
+        "type": "spell_part",
+        "location": "arcaneadditions:components/polymorph"
+      },
+      {
+        "type": "manaweaving_altar",
+        "location": "mna:manaweaving/crystal_phylactery"
+      }
+    ]
+  },
+  "Component: Strip": {
+    "index": 2,
+    "category": "sorcery",
+    "sections": [
+      {
+        "type": "title",
+        "value": "Strip(스트립)"
+      },
+      {
+        "type": "text",
+        "json": [
+          {
+            "text": "바람을 불러내어 나무와 원목의 껍질을 벗길 수 있습니다."
+          }
+        ]
+      }
+    ],
+    "related_recipes": [
+      {
+        "type": "spell_part",
+        "location": "arcaneadditions:components/strip"
+      }
+    ]
+  },
+  "Component: Tranfuse": {
+    "index": 2,
+    "category": "sorcery",
+    "sections": [
+      {
+        "type": "title",
+        "value": "Tranfuse(트랜퓨즈)"
+      },
+      {
+        "type": "text",
+        "json": [
+          {
+            "text": "주변 존재들의 생명력을 조작하여, 일종의 활력 이전처럼 내 생명력을 북돋울 수 있습니다. 반대로 내 체력을 대가로 대상의 생명을 회복시키는 일도 가능하지 않을까요? 아마 그런 실험은 하지 않는 편이 좋을 겁니다."
+          }
+        ]
+      }
+    ],
+    "related_recipes": [
+      {
+        "type": "spell_part",
+        "location": "arcaneadditions:components/tranfuse"
+      }
+    ]
+  },
+  "Component: Tree Stride": {
+    "index": 2,
+    "category": "sorcery",
+    "sections": [
+      {
+        "type": "title",
+        "value": "Tree Stride(트리 스트라이드)"
+      },
+      {
+        "type": "text",
+        "json": [
+          {
+            "text": "나무를 통해 빠르게 몸을 옮기고, 뿌리를 따라 이 세계의 다른 목적지까지 이동할 수 있습니다."
+          }
+        ]
+      }
+    ],
+    "related_recipes": [
+      {
+        "type": "spell_part",
+        "location": "arcaneadditions:components/tree_stride"
+      }
+    ]
+  },
+  "Component: Astral Projection": {
+    "index": "2",
+    "category": "sorcery",
+    "sections": [
+      {
+        "type": "title",
+        "value": "Astral Projection(아스트랄 프로젝션)"
+      },
+      {
+        "type": "text",
+        "value": "",
+        "json": [
+          {
+            "text": "내 의식을 몸 밖으로 투사하는 방법을 발견했습니다. 이를 통해 안전한 위치에서 앞으로 나아갈 길을 미리 살펴볼 수 있습니다.\n\n조금만 더 노력하면 투사된 상태에서 중력의 영향도 무시할 수 있을 것 같습니다. 어쩌면 물리 법칙 자체를 무시할 수도 있겠죠!"
+          }
+        ]
+      }
+    ],
+    "related_recipes": [
+      {
+        "type": "spell_part",
+        "location": "arcaneadditions:components/astral_projection"
+      }
+    ]
+  },
+  "Item: Soulsearcher's Lens": {
+    "index": 1,
+    "category": "artifice",
+    "sections": [
+      {
+        "type": "title",
+        "value": "영혼 탐색자의 렌즈"
+      },
+      {
+        "type": "text",
+        "json": [
+          {
+            "text": "대상에게 해를 끼치지 않고도 크리스탈 성물함을 채우는 데 필요한 에센스를 얻을 수 있을지도 모릅니다. 다만 그러려면 유난히 순도 높은 수정이 필요할 것입니다."
+          }
+        ]
+      }
+    ],
+    "related_recipes": [
+      {
+        "type": "manaweaving_altar",
+        "location": "mna:manaweaving/crystal_phylactery"
+      },
+      {
+        "type": "manaweaving_altar",
+        "location": "arcaneadditions:manaweaving/soulsearchers_lens"
+      }
+    ]
+  },
+  "Ritual: Little Friend": {
+    "index": 0,
+    "category": "rituals",
+    "sections": [
+      {
+        "type": "title",
+        "value": "작은 친구의 의식"
+      },
+      {
+        "type": "text",
+        "value": "",
+        "json": [
+          {
+            "text": "이 의식은 내가 제공한 "
+          },
+          {
+            "text": "성물함",
+            "color": "blue"
+          },
+          {
+            "text": "을 바탕으로 페이, 악마, 영혼, 정령을 불러내고 그 육체를 빚어냅니다."
+          },
+          {
+            "text": "\n\n"
+          },
+          {
+            "text": "이 생물은 나에게 귀속되며, 나는 어떤 거리에서든 "
+          },
+          {
+            "text": "Familiar(퍼밀리어)",
+            "color": "blue"
+          },
+          {
+            "text": " 또는"
+          },
+          {
+            "text": " Shared(셰어드)",
+            "color": "blue"
+          },
+          {
+            "text": " 형상을 사용한 소서리로 영향을 줄 수 있습니다. 이들은 애완동물처럼 나를 따라다니며, 너무 멀리 떨어지면 내 곁으로 돌아옵니다."
+          },
+          {
+            "text": "\n\n"
+          },
+          {
+            "text": "이런 사역마는 한 번에 하나만 둘 수 있는 것 같습니다. 하지만 사역마가 죽더라도 언제든 다른 사역마를 다시 부를 수 있습니다."
+          },
+          {
+            "text": "\n\n"
+          },
+          {
+            "text": "마나위버의 완드를 사용하면 사역마의 머리를 살짝 톡 쳐서 잠시 돌려보낼 수 있습니다."
+          },
+          {
+            "text": " 아마 이들을 돌려보낸 곳에서 다시 불러오는 캔트립도 배울 수 있을 겁니다."
+          },
+          {
+            "text": "\n\n"
+          },
+          {
+            "text": "내 사역마는 자신만의 마나를 지니고 있으며, 그 마나를 사용해 체력을 회복하고"
+          },
+          {
+            "text": " 피해로부터 자신을 방어하는 것 같습니다. 물론 그 저항에도 한계는 있을 것입니다. 조금"
+          },
+          {
+            "text": " 노력한다면, 그들이 마나를 사용해 주문을 시전하도록 가르칠 수도 있을 것입니다."
+          }
+        ]
+      }
+    ],
+    "related_recipes": [
+      {
+        "type": "ritual",
+        "location": "arcaneadditions:rituals/bind_familiar"
+      }
+    ]
+  },
+  "Ritual: Inculcation": {
+    "index": 0,
+    "category": "rituals",
+    "sections": [
+      {
+        "type": "title",
+        "value": "전수의 의식"
+      },
+      {
+          "type": "text",
+          "value": "",
+          "json": [
+            {
+              "text": "이 의식은 내 사역마에게 주문을 시전하는 법을 가르칠 수 있게 해 줍니다. "
+            },
+            {
+              "text": "사역마에게 주문 아이템을 제공해야 하며, 사역마 역시 그 주문을 시전할 만큼 충분한 마나를 가지고 있어야 합니다."
+            },
+            {
+              "text": "\n\n"
+            },
+            {
+              "text": "사용한 주괴의 종류에 따라 사역마가 주문을 시전하는 빈도가 달라집니다. 더 희귀한 "
+            },
+            {
+              "text": "주괴를 사용할수록 사역마는 주문을 더 자주 시전합니다."
+            },
+            {
+                "text": "\n\n"
+            },
+            {
+                "text": "만약 "
+            },
+            {
+              "text": "화약",
+              "color": "blue"
+            },
+            {
+              "text": "을 "
+            },
+            {
+                "text": "빈테움 가루",
+                "color": "blue"
+            },
+            {
+                "text": " 대신 사용한다면, 사역마는 전투 중 자신의 대상을 향해 주문을 시전하려 할 것입니다."
+            }
+          ]
+      }
+    ],
+    "related_recipes": [
+      {
+        "type": "ritual",
+        "location": "arcaneadditions:rituals/train_familiar"
+      }
+    ]
+  },
+  "Shape: Familiar": {
+    "index": 1,
+    "category": "sorcery",
+    "sections": [
+      {
+        "type": "title",
+        "value": "Shape: Familiar(퍼밀리어)"
+      },
+      {
+        "type": "text",
+        "value": "이 형상은 주문이 내 사역마에게 영향을 주게 합니다.",
+        "json": [
+          {
+            "text": "이 형상은 주문이 내 사역마에게 영향을 주게 합니다."
+          }
+        ]
+      }
+    ],
+    "related_recipes": [
+      {
+        "type": "spell_part",
+        "location": "arcaneadditions:shapes/familiar"
+      }
+    ]
+  },
+  "Shape: Shared": {
+    "index": 1,
+    "category": "sorcery",
+    "sections": [
+      {
+        "type": "title",
+        "value": "Shape: Shared(셰어드)"
+      },
+      {
+        "type": "text",
+        "value": "이 형상은 주문이 나와 내 사역마 모두에게 영향을 주게 합니다.",
+        "json": [
+          {
+            "text": "이 형상은 주문이 나와 내 사역마 모두에게 영향을 주게 합니다."
+          }
+        ]
+      }
+    ],
+    "related_recipes": [
+      {
+        "type": "spell_part",
+        "location": "arcaneadditions:shapes/shared"
+      }
+    ]
+  },
+  "Scribe's Bench": {
+    "index": 0,
+    "category": "artifice",
+    "sections": [
+      {
+        "type": "title",
+        "value": "필경사의 작업대"
+      },
+      {
+        "type": "text",
+        "value": "필경사의 작업대는 내가 이미 연구한 주문을 새 가죽 피지에 다시 기록해 복사할 수 있게 해 줍니다.",
+        "json": [
+          {
+            "text": ""
+          },
+          {
+            "text": "필경사의 작업대",
+            "color": "blue"
+          },
+          {
+            "text": "를 사용하면 내가 이미 연구한 주문을 새 "
+          },
+          {
+            "text": "가죽 피지",
+            "color": "blue"
+          },
+          {
+            "text": "에 다시 기록해 복사할 수 있습니다."
+          }
+        ]
+      }
+    ],
+    "related_recipes": [
+      {
+        "type": "manaweaving_altar",
+        "location": "arcaneadditions:manaweaving/artifice/scribes_bench"
+      }
+    ]
+  },
+  "version": "1.9"
+}
